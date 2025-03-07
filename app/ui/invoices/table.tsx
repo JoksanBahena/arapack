@@ -4,6 +4,54 @@ import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
 
+const invoices = [
+  {
+    id: "1",
+    name: "John Doe",
+    email: "john.doe@example.com",
+    image_url: "/customers/john-doe.png",
+    amount: 1000,
+    date: "2023-10-01",
+    status: "paid",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    image_url: "/customers/jane-smith.png",
+    amount: 1500,
+    date: "2023-10-02",
+    status: "pending",
+  },
+  {
+    id: "3",
+    name: "Alice Johnson",
+    email: "alice.johnson@example.com",
+    image_url: "/customers/alice-johnson.png",
+    amount: 2000,
+    date: "2023-10-03",
+    status: "paid",
+  },
+  {
+    id: "4",
+    name: "Bob Brown",
+    email: "bob.brown@example.com",
+    image_url: "/customers/bob-brown.png",
+    amount: 2500,
+    date: "2023-10-04",
+    status: "pending",
+  },
+  {
+    id: "5",
+    name: "Charlie Davis",
+    email: "charlie.davis@example.com",
+    image_url: "/customers/charlie-davis.png",
+    amount: 3000,
+    date: "2023-10-05",
+    status: "paid",
+  },
+];
+
 export default async function InvoicesTable({
   query,
   currentPage,
@@ -11,7 +59,7 @@ export default async function InvoicesTable({
   query: string;
   currentPage: number;
 }) {
-  const invoices = await fetchFilteredInvoices(query, currentPage);
+  // const invoices = await fetchFilteredInvoices(query, currentPage);
 
   return (
     <div className="mt-6 flow-root">
