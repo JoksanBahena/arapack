@@ -6,6 +6,7 @@ import Pagination from "../ui/invoices/pagination";
 import { InvoicesTableSkeleton } from "../ui/skeletons";
 import CancelOrderModal from "../ui/order/cancel-order-modal";
 import ChangeDateModal from "../ui/order/change-date-modal";
+import CorrugadoraTable from "../ui/dashboard/programacion-corrugadora-table";
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -19,17 +20,18 @@ export default async function Page(props: {
   const totalPages = 10;
   return (
     <div>
-      {/* <h1 className="mb-2">Cargar Archivo Excel</h1> */}
-      {/* <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      {/* <h1 className="mb-2">Cargar Archivo Excel</h1>
+      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <ExcelUploader />
-      </Suspense> */}
-      {/* <div className="mt-5 flex w-full justify-center">
+      </Suspense>
+      <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
-      </div> */}
-      {/* <LaminasTable />
-      <CajasTable /> */}
-      {/* <CancelOrderModal />
+      </div>
+      <LaminasTable />
+      <CajasTable />
+      <CancelOrderModal />
       <ChangeDateModal /> */}
+      <CorrugadoraTable />
     </div>
   );
 }

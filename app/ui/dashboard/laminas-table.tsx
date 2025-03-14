@@ -63,7 +63,7 @@ export default function LaminasTable() {
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
           {data.map((item) => (
-            <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+            <tr key={item.id} className="hover:bg-gray-100 transition-colors">
               <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
                 {item.asociadas}
               </td>

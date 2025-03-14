@@ -55,7 +55,7 @@ export default function ExcelUploader() {
               {data.slice(2).map((row, rowIndex) => (
                 <tr
                   key={rowIndex}
-                  className="hover:bg-gray-50 transition-colors"
+                  className="hover:bg-gray-100 transition-colors"
                 >
                   {row.map((cell, cellIndex) => (
                     <td
