@@ -6,7 +6,7 @@ import Pagination from "../ui/invoices/pagination";
 import { InvoicesTableSkeleton } from "../ui/skeletons";
 import CancelOrderModal from "../ui/order/cancel-order-modal";
 import ChangeDateModal from "../ui/order/change-date-modal";
-import CorrugadoraTable from "../ui/dashboard/programacion-corrugadora-table";
+import CorrugadoraTable from "../ui/dashboard/programacion-corrugadora";
 
 export default async function Page(props: {
   searchParams?: Promise<{
