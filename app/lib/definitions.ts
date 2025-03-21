@@ -86,3 +86,50 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type Box = {
+  _id: string;
+  symbol: string;
+  ect: number;
+  liner: string;
+  width: number;
+  length: number;
+  flute: string;
+  treatment: number;
+  client: string;
+  creases: {
+    r1: number;
+    r2: number;
+    r3: number;
+  };
+  status: 'approved' | 'pending';
+  type: string;
+  pdf_link: string;
+};
+
+export type BoxesTable = {
+  _id: string;
+  symbol: string;
+  client: string;
+  length: number;
+  width: number;
+  liner: string;
+  ect: number;
+  creases: {
+    r1: number;
+    r2: number;
+    r3: number;
+  };
+  status: 'approved' | 'pending';
+};
+
+export type Sheet = {
+  boxes: Box[];
+  description: string;
+  ect: number[];
+  grams: number;
+  p1: number;
+  p2: number;
+  p3: number;
+  roll_width: number;
+};

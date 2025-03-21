@@ -1,9 +1,10 @@
 "use client";
 
 import {
-  UserGroupIcon,
   HomeIcon,
-  DocumentDuplicateIcon,
+  ArchiveBoxIcon,
+  ClockIcon,
+  Square3Stack3DIcon
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,9 +17,18 @@ const links = [
   {
     name: "Progamacíon Corrugadora",
     href: "/dashboard/corrugadora",
-    icon: DocumentDuplicateIcon,
+    icon: ClockIcon,
   },
-  // { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
+  {
+    name: "Cajas",
+    href: "/dashboard/cajas",
+    icon: ArchiveBoxIcon,
+  },
+  {
+    name: "Laminas",
+    href: "/dashboard/laminas",
+    icon: Square3Stack3DIcon,
+  }
 ];
 
 export default function NavLinks() {
