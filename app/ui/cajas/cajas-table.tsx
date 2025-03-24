@@ -1,5 +1,4 @@
 import { fetchFilteredBoxes } from "@/app/lib/data";
-import { BoxesTable } from "@/app/lib/definitions";
 
 export default async function CajasTable({
   query,
@@ -43,7 +42,7 @@ export default async function CajasTable({
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
-          {data.map((box: BoxesTable) => (
+          {data.map((box) => (
             <tr key={box._id} className="hover:bg-gray-100 transition-colors">
               <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
                 {box.symbol}

@@ -123,6 +123,25 @@ export type BoxesTable = {
   status: 'approved' | 'pending';
 };
 
+export type BoxForm = {
+  symbol: string;
+  ect: number;
+  liner: string;
+  width: number;
+  length: number;
+  flute: string;
+  treatment: number;
+  client: string;
+  creases: {
+    r1: number;
+    r2: number;
+    r3: number;
+  };
+  status: 'approved' | 'pending';
+  type: string;
+  pdf_link: string;
+};
+
 export type Sheet = {
   boxes: Box[];
   description: string;
@@ -132,4 +151,15 @@ export type Sheet = {
   p2: number;
   p3: number;
   roll_width: number;
+};
+
+export type SheetsTable = {
+  _id: string;
+  roll_width: number;
+  grams: number;
+  p1: number;
+  p2: number;
+  p3: number;
+  ect: number[];
+  boxes: Box[];
 };

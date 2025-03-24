@@ -1,17 +1,17 @@
 import { fetchBoxesPages } from "@/app/lib/data";
 import CajasTable from "@/app/ui/cajas/cajas-table";
+import { CreateBox } from "@/app/ui/invoices/buttons";
 import Pagination from "@/app/ui/invoices/pagination";
 import Search from "@/app/ui/search";
 import { BoxesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 
 export default async function Page(props: {
-    searchParams?: Promise<{
-        query?: string;
-        page?: string;
-    }>;
-    }
-) {
+  searchParams?: Promise<{
+    query?: string;
+    page?: string;
+  }>;
+}) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
@@ -21,6 +21,7 @@ export default async function Page(props: {
     <div>
       <div className="mt-4 mb-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Buscar cajas..." />
+        <CreateBox />
       </div>
       <Suspense key={query + currentPage} fallback={<BoxesTableSkeleton />}>
         <CajasTable query={query} currentPage={currentPage} />

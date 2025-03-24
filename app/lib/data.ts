@@ -1,12 +1,14 @@
 import postgres from "postgres";
 import {
   Box,
+  BoxesTable,
   CustomerField,
   CustomersTableType,
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
+  SheetsTable,
 } from "./definitions";
 import { formatCurrency } from "./utils";
 
@@ -240,7 +242,7 @@ export async function fetchBoxes(): Promise<Box[]> {
   }
 }
 
-export async function fetchFilteredBoxes(query: string, currentPage: number) {
+export async function fetchFilteredBoxes(query: string, currentPage: number): Promise<BoxesTable[]> {
   try {
     const response = await fetch(`${URL_BASE}/boxes/getFilteredBoxes?query=${query}&page=${currentPage}`, {
       method: "GET",
@@ -249,9 +251,7 @@ export async function fetchFilteredBoxes(query: string, currentPage: number) {
       }
     });
 
-    const data = await response.json();
-    
-    return data;
+    return await response.json();
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch boxes.");
@@ -267,10 +267,41 @@ export async function fetchBoxesPages(query: string) {
       }
     });
 
-    const totalPages = await response.json();
-    return totalPages.total_pages;
+    return await response.json();
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch total number of boxes.");
+  }
+}
+
+export async function fetchFilteredSheets(query: string, currentPage: number): Promise<SheetsTable[]> {
+  try {
+    const response = await fetch(`${URL_BASE}/sheets/getFilteredSheets?query=${query}&page=${currentPage}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch sheets.");
+  }
+}
+
+export async function fetchSheetsPages(query: string) {
+  try {
+    const response = await fetch(`${URL_BASE}/sheets/getPages?query=${query}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch total number of sheets.");
   }
 }
