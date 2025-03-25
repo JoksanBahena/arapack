@@ -1,5 +1,6 @@
 import { fetchBoxesPages } from "@/app/lib/data";
 import CajasTable from "@/app/ui/cajas/cajas-table";
+import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { CreateBox } from "@/app/ui/invoices/buttons";
 import Pagination from "@/app/ui/invoices/pagination";
 import Search from "@/app/ui/search";
@@ -19,6 +20,11 @@ export default async function Page(props: {
 
   return (
     <div>
+      <Breadcrumbs
+        breadcrumbs={[
+          { href: "/dashboard/cajas", label: "Cajas", active: true },
+        ]}
+      />
       <div className="mt-4 mb-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Buscar cajas..." />
         <CreateBox />
