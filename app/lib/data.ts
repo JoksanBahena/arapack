@@ -243,14 +243,20 @@ export async function fetchBoxes(): Promise<Box[]> {
   }
 }
 
-export async function fetchFilteredBoxes(query: string, currentPage: number): Promise<BoxesTable[]> {
+export async function fetchFilteredBoxes(
+  query: string,
+  currentPage: number
+): Promise<BoxesTable[]> {
   try {
-    const response = await fetch(`${URL_BASE}/boxes/getFilteredBoxes?query=${query}&page=${currentPage}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${URL_BASE}/boxes/getFilteredBoxes?query=${query}&page=${currentPage}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
 
     return await response.json();
   } catch (err) {
@@ -265,7 +271,7 @@ export async function fetchBoxesPages(query: string) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
     });
 
     return await response.json();
@@ -277,31 +283,54 @@ export async function fetchBoxesPages(query: string) {
 
 export async function createBox(data: BoxForm) {
   try {
-    const response = await fetch(`${URL_BASE}/boxes/create`, {
+    const formData = new FormData();
+
+    formData.append("symbol", data.symbol);
+    formData.append("ect", data.ect.toString());
+    formData.append("liner", data.liner);
+    formData.append("width", data.width.toString());
+    formData.append("length", data.length.toString());
+    formData.append("flute", data.flute);
+    formData.append("treatment", data.treatment.toString());
+    formData.append("client", data.client);
+    formData.append("status", data.status);
+    formData.append("box_type", data.type);
+
+    formData.append("crease1", data.creases.r1.toString());
+    formData.append("crease2", data.creases.r2.toString());
+    formData.append("crease3", data.creases.r3.toString());
+
+    if (data.pdf_link.length > 0) {
+      formData.append("file", data.pdf_link[0]);
+    }
+
+    const response = await fetch(`http://localhost:8000/boxes/create`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      body: formData,
     });
 
     if (!response.ok) throw new Error("Failed to create box.");
-
-    return await response.json();
+    return await response;
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to create box.");
   }
 }
 
-export async function fetchFilteredSheets(query: string, currentPage: number): Promise<SheetsTable[]> {
+export async function fetchFilteredSheets(
+  query: string,
+  currentPage: number
+): Promise<SheetsTable[]> {
   try {
-    const response = await fetch(`${URL_BASE}/sheets/getFilteredSheets?query=${query}&page=${currentPage}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${URL_BASE}/sheets/getFilteredSheets?query=${query}&page=${currentPage}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
 
     return await response.json();
   } catch (err) {
@@ -316,7 +345,7 @@ export async function fetchSheetsPages(query: string) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
     });
 
     return await response.json();

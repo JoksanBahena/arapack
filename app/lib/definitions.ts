@@ -137,9 +137,9 @@ export type BoxForm = {
     r2: number;
     r3: number;
   };
-  status: 'approved' | 'pending';
+  status: string;
   type: string;
-  pdf_link: string;
+  pdf_link: File[];
 };
 
 export type Sheet = {

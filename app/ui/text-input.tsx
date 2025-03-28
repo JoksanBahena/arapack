@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { forwardRef } from "react";
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -40,7 +41,16 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>((props, ref) => {
           type={type}
           placeholder={placeholder}
           maxLength={255}
-          className="w-full py-2 px-10 rounded-lg border"
+          className={
+            clsx(
+              "w-full py-2 px-10 rounded-lg border transition duration-200 ease-in-out",
+              {
+                "border-red-500": error,
+                "border-gray-300 focus:border-primary focus:ring-primary":
+                  !error,
+              }
+            ) + " focus:outline-none"
+          }
         />
         {iconRight && (
           <div className="absolute right-3 cursor-pointer text-primary">

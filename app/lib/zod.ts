@@ -3,7 +3,7 @@ import { object, string, z } from "zod";
 export const createBoxSchema = object({
   client: string({
     required_error: "El cliente es requerido",
-  }).min(1, "El cliente es requerido"), // Verifica que no esté vacío
+  }).min(1, "El cliente es requerido"),
 
   creases: object({
     r1: z
@@ -47,7 +47,7 @@ export const createBoxSchema = object({
 
   flute: string({
     required_error: "El valor es requerido",
-  }).min(1, "El valor es requerido"),
+  }).min(1, "Seleccione el tipo de flauta"),
 
   length: z
     .number()
@@ -61,16 +61,18 @@ export const createBoxSchema = object({
 
   liner: string({
     required_error: "El valor es requerido",
-  }).min(1, "El valor es requerido"),
+  }).min(1, "Seleccione el tipo de liner"),
 
+  // En createBoxSchema
   pdf_link: z
     .array(z.instanceof(File), {
       invalid_type_error: "Debe ser un archivo válido",
+      required_error: "El archivo es requerido",
     })
-    .default([]),
+    .nonempty({ message: "Seleccione el archivo PDF" }),
 
-  status: z.enum(["pending", "completed"], {
-    invalid_type_error: "El estado debe ser 'pending' o 'completed'",
+  status: z.enum(["pending", "approved"], {
+    invalid_type_error: "El estado debe ser 'Pendiente' o 'Aprobado'",
   }),
 
   symbol: string({
@@ -84,9 +86,11 @@ export const createBoxSchema = object({
       message: "El tratamiento debe ser un número válido mayor o igual a 0",
     }),
 
-  type: z.string({
-    required_error: "El tipo es requerido",
-  }).min(1, "El tipo es requerido"),
+  type: z
+    .string({
+      required_error: "El tipo es requerido",
+    })
+    .min(1, "El tipo es requerido"),
 
   width: z
     .number()

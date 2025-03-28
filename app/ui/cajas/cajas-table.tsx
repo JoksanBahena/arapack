@@ -1,4 +1,5 @@
 import { fetchFilteredBoxes } from "@/app/lib/data";
+import clsx from "clsx";
 
 export default async function CajasTable({
   query,
@@ -12,7 +13,7 @@ export default async function CajasTable({
   if (!data) {
     return <p>No se encontraron cajas.</p>;
   }
-  
+
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-md">
       <table className="min-w-full divide-y divide-gray-200">
@@ -58,12 +59,16 @@ export default async function CajasTable({
               </td>
               <td className="px-4 py-3">
                 <span
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                    ${
-                      box.status === "approved"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
+                  className={
+                    clsx(
+                      "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium",
+                      {
+                        "bg-green-100 text-green-800":
+                          box.status === "approved",
+                        "bg-red-100 text-red-800": box.status === "pending",
+                      }
+                    ) + " whitespace-nowrap"
+                  }
                 >
                   {box.status}
                 </span>

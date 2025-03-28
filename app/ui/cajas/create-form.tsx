@@ -14,11 +14,12 @@ import {
   LooksTwoOutlined,
   Looks3Outlined,
   TypeSpecimenOutlined,
-  PowerInputOutlined,
   RadioButtonCheckedOutlined,
   AttachFileOutlined,
-  HorizontalSplitOutlined,
 } from "@mui/icons-material";
+import { createBox } from "@/app/lib/data";
+import { Toast } from "@/app/lib/alerts";
+import clsx from "clsx";
 
 export default function BoxForm() {
   const form = useForm<z.infer<typeof createBoxSchema>>({
@@ -32,7 +33,7 @@ export default function BoxForm() {
       width: 0,
       liner: "",
       pdf_link: [] as File[],
-      status: "pending",
+      status: "approved",
       creases: {
         r1: 0,
         r2: 0,
@@ -43,22 +44,25 @@ export default function BoxForm() {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof createBoxSchema>) => {
-    console.log("Datos enviados:", values);
+  const handleSubmit = async (values: z.infer<typeof createBoxSchema>) => {
+    const response = await createBox(values);
+
+    if (response.status === 201) {
+      form.reset();
+      Toast.fire({
+        icon: "success",
+        title: "Caja creada correctamente",
+      });
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "Error al crear la caja",
+      });
+    }
   };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <div className="space-y-12">
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base/7 font-semibold text-gray-900">
-            Crear caja
-          </h2>
-          <p className="mt-1 text-sm/6 text-gray-600">
-            Llena el formulario para crear una nueva caja.
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
           <TextInput
             label="Cliente"
@@ -90,15 +94,6 @@ export default function BoxForm() {
           />
 
           <TextInput
-            label="Flauta"
-            iconLeft={<PowerInputOutlined className="size-5 text-black" />}
-            placeholder="Ingresa el tipo de flauta"
-            type="text"
-            {...form.register("flute")}
-            error={form.formState.errors.flute?.message}
-          />
-
-          <TextInput
             label="Largo (cm)"
             iconLeft={<StraightenOutlined className="size-5 text-black" />}
             placeholder="Ingresa el largo"
@@ -117,15 +112,14 @@ export default function BoxForm() {
           />
 
           <TextInput
-            label="Liner"
-            iconLeft={<HorizontalSplitOutlined className="size-5 text-black" />}
-            placeholder="Ingresa el tipo de liner"
+            label="Tipo"
+            iconLeft={<TypeSpecimenOutlined className="size-5 text-black" />}
+            placeholder="Ingresa el tipo de caja"
             type="text"
-            {...form.register("liner")}
-            error={form.formState.errors.liner?.message}
+            {...form.register("type")}
+            error={form.formState.errors.type?.message}
           />
 
-          {/* Campos para Creases */}
           <TextInput
             label="R1"
             iconLeft={<LooksOneOutlined className="size-5 text-black" />}
@@ -153,27 +147,74 @@ export default function BoxForm() {
             error={form.formState.errors.creases?.r3?.message}
           />
 
-          {/* Tipo */}
-          <TextInput
-            label="Tipo"
-            iconLeft={<TypeSpecimenOutlined className="size-5 text-black" />}
-            placeholder="Ingresa el tipo de caja"
-            type="text"
-            {...form.register("type")}
-            error={form.formState.errors.type?.message}
-          />
+          <div>
+            <label htmlFor="flute" className="block text-sm font-medium">
+              Flauta
+            </label>
+            <select
+              id="flute"
+              {...form.register("flute")}
+              className={
+                clsx("block w-full rounded-md border-gray-300 px-3 py-2", {
+                  "border-red-500":
+                    form.formState.errors.flute?.message !== undefined,
+                  "border-gray-300 focus:border-primary focus:ring-primary":
+                    form.formState.errors.flute?.message === undefined,
+                }) + " focus:outline-none"
+              }
+            >
+              <option value="">Selecciona una opción</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+            </select>
+            {form.formState.errors.flute && (
+              <p className="text-red-500 text-sm mt-1">
+                {form.formState.errors.flute.message}
+              </p>
+            )}
+          </div>
 
-          {/* PDF Link */}
+          <div>
+            <label htmlFor="liner" className="block text-sm font-medium">
+              Liner
+            </label>
+            <select
+              id="liner"
+              {...form.register("liner")}
+              className={
+                clsx("block w-full rounded-md border-gray-300 px-3 py-2", {
+                  "border-red-500":
+                    form.formState.errors.liner?.message !== undefined,
+                  "border-gray-300 focus:border-primary focus:ring-primary":
+                    form.formState.errors.liner?.message === undefined,
+                }) + " focus:outline-none"
+              }
+            >
+              <option value="">Selecciona una opción</option>
+              <option value="KRAFT">Kraft</option>
+              <option value="BLANCO">Blanco</option>
+            </select>
+            {form.formState.errors.liner && (
+              <p className="text-red-500 text-sm mt-1">
+                {form.formState.errors.liner.message}
+              </p>
+            )}
+          </div>
+
           <div className="col-span-full">
             <FileInput
               label="Adjuntar PDF"
               placeholder="Selecciona un archivo..."
+              {...form.register("pdf_link")}
               icon={<AttachFileOutlined className="size-5 text-black" />}
               onChange={(newFiles: File[]) => {
                 // Solo permite un archivo
                 if (newFiles.length > 0) {
                   form.clearErrors("pdf_link");
-                  form.setValue("pdf_link", [newFiles[0]]); // Solo el primer archivo
+                  form.setValue("pdf_link", [newFiles[0]]);
                 }
               }}
               error={form.formState.errors.pdf_link?.message}
@@ -191,7 +232,7 @@ export default function BoxForm() {
                   <button
                     type="button"
                     className="text-red-500 hover:text-red-700 text-sm ml-4"
-                    onClick={() => form.setValue("pdf_link", [])} // Elimina el archivo
+                    onClick={() => form.setValue("pdf_link", [])}
                   >
                     Quitar
                   </button>
@@ -200,7 +241,6 @@ export default function BoxForm() {
             </div>
           </div>
 
-          {/* Tratamiento (como Select) */}
           <div>
             <label htmlFor="treatment" className="block text-sm font-medium">
               Tratamiento
@@ -220,7 +260,6 @@ export default function BoxForm() {
             )}
           </div>
 
-          {/* Status */}
           <div>
             <label htmlFor="status" className="block text-sm font-medium">
               Estado
@@ -230,8 +269,8 @@ export default function BoxForm() {
               {...form.register("status")}
               className="block w-full rounded-md border-gray-300 px-3 py-2"
             >
+              <option value="approved">Aprobada</option>
               <option value="pending">Pendiente</option>
-              <option value="completed">Completado</option>
             </select>
             {form.formState.errors.status && (
               <p className="text-red-500 text-sm mt-1">
@@ -241,7 +280,7 @@ export default function BoxForm() {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-end">
+        <div className="mt-12 flex items-center justify-end border-t border-gray-900/10 pt-12">
           <Link href="/dashboard/cajas" className="text-sm font-semibold">
             Cancelar
           </Link>
@@ -253,7 +292,6 @@ export default function BoxForm() {
             {form.formState.isSubmitting ? "Creando..." : "Guardar"}
           </button>
         </div>
-      </div>
     </form>
   );
 }

@@ -251,6 +251,10 @@ export function BoxesTableSkeleton() {
           <TableRowSkeleton />
           <TableRowSkeleton />
           <TableRowSkeleton />
+          <TableRowSkeleton />
+          <TableRowSkeleton />
+          <TableRowSkeleton />
+          <TableRowSkeleton />
         </tbody>
       </table>
     </div>
