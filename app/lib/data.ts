@@ -14,7 +14,8 @@ import {
 import { formatCurrency } from "./utils";
 
 // const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
-const URL_BASE = process.env.URL_BASE;
+// const URL_BASE = process.env.URL_BASE;
+const URL_BASE = "http://localhost:8000";
 
 // export async function fetchRevenue() {
 //   try {
@@ -281,6 +282,24 @@ export async function fetchBoxesPages(query: string) {
   }
 }
 
+export async function fetchBoxBySymbol(symbol: string) {
+  try {
+    const response = await fetch(`${URL_BASE}/boxes/getBySymbol/${symbol}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    
+    if (!response.ok) throw new Error("Failed to fetch box.");
+    const data: Box = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch box.");
+  }
+}
+
 export async function createBox(data: BoxForm) {
   try {
     const formData = new FormData();
@@ -304,7 +323,7 @@ export async function createBox(data: BoxForm) {
       formData.append("file", data.pdf_link[0]);
     }
 
-    const response = await fetch(`http://localhost:8000/boxes/create`, {
+    const response = await fetch(`${URL_BASE}/boxes/create`, {
       method: "POST",
       body: formData,
     });

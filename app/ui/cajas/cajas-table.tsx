@@ -1,5 +1,7 @@
+// app/components/cajas-table.tsx
 import { fetchFilteredBoxes } from "@/app/lib/data";
 import clsx from "clsx";
+import TableRow from "./table-row";
 
 export default async function CajasTable({
   query,
@@ -44,36 +46,7 @@ export default async function CajasTable({
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
           {data.map((box) => (
-            <tr key={box._id} className="hover:bg-gray-100 transition-colors">
-              <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
-                {box.symbol}
-              </td>
-              <td className="px-4 py-3 text-xs text-gray-900">{box.client}</td>
-              <td className="px-4 py-3 text-xs text-gray-900">
-                {box.length}cm x {box.width}cm
-              </td>
-              <td className="px-4 py-3 text-xs text-gray-900">{box.liner}</td>
-              <td className="px-4 py-3 text-xs text-gray-900">{box.ect}</td>
-              <td className="px-4 py-3 text-xs text-gray-900">
-                {box.creases.r1} - {box.creases.r2} - {box.creases.r3}
-              </td>
-              <td className="px-4 py-3">
-                <span
-                  className={
-                    clsx(
-                      "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium",
-                      {
-                        "bg-green-100 text-green-800":
-                          box.status === "approved",
-                        "bg-red-100 text-red-800": box.status === "pending",
-                      }
-                    ) + " whitespace-nowrap"
-                  }
-                >
-                  {box.status}
-                </span>
-              </td>
-            </tr>
+            <TableRow key={box._id} box={box} />
           ))}
         </tbody>
       </table>
