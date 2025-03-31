@@ -66,7 +66,7 @@ export default function BoxForm() {
         <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
           <TextInput
             label="Cliente"
-            iconLeft={<PersonOutlined className="size-5 text-black" />}
+            iconLeft={<PersonOutlined />}
             placeholder="Ingresa el nombre del cliente"
             type="text"
             {...form.register("client")}
@@ -75,7 +75,7 @@ export default function BoxForm() {
 
           <TextInput
             label="Símbolo"
-            iconLeft={<BadgeOutlined className="size-5 text-black" />}
+            iconLeft={<BadgeOutlined />}
             placeholder="Ingresa el símbolo"
             type="text"
             {...form.register("symbol")}
@@ -85,7 +85,7 @@ export default function BoxForm() {
           <TextInput
             label="ECT"
             iconLeft={
-              <RadioButtonCheckedOutlined className="size-5 text-black" />
+              <RadioButtonCheckedOutlined />
             }
             placeholder="Ingresa el ECT"
             type="number"
@@ -95,7 +95,7 @@ export default function BoxForm() {
 
           <TextInput
             label="Largo (cm)"
-            iconLeft={<StraightenOutlined className="size-5 text-black" />}
+            iconLeft={<StraightenOutlined />}
             placeholder="Ingresa el largo"
             type="number"
             {...form.register("length", { valueAsNumber: true })}
@@ -104,7 +104,7 @@ export default function BoxForm() {
 
           <TextInput
             label="Ancho (cm)"
-            iconLeft={<StraightenOutlined className="size-5 text-black" />}
+            iconLeft={<StraightenOutlined />}
             placeholder="Ingresa el ancho"
             type="number"
             {...form.register("width", { valueAsNumber: true })}
@@ -113,7 +113,7 @@ export default function BoxForm() {
 
           <TextInput
             label="Tipo"
-            iconLeft={<TypeSpecimenOutlined className="size-5 text-black" />}
+            iconLeft={<TypeSpecimenOutlined />}
             placeholder="Ingresa el tipo de caja"
             type="text"
             {...form.register("type")}
@@ -122,7 +122,7 @@ export default function BoxForm() {
 
           <TextInput
             label="R1"
-            iconLeft={<LooksOneOutlined className="size-5 text-black" />}
+            iconLeft={<LooksOneOutlined />}
             placeholder="Valor R1"
             type="number"
             {...form.register("creases.r1", { valueAsNumber: true })}
@@ -131,7 +131,7 @@ export default function BoxForm() {
 
           <TextInput
             label="R2"
-            iconLeft={<LooksTwoOutlined className="size-5 text-black" />}
+            iconLeft={<LooksTwoOutlined />}
             placeholder="Valor R2"
             type="number"
             {...form.register("creases.r2", { valueAsNumber: true })}
@@ -140,7 +140,7 @@ export default function BoxForm() {
 
           <TextInput
             label="R3"
-            iconLeft={<Looks3Outlined className="size-5 text-black" />}
+            iconLeft={<Looks3Outlined />}
             placeholder="Valor R3"
             type="number"
             {...form.register("creases.r3", { valueAsNumber: true })}
@@ -209,7 +209,7 @@ export default function BoxForm() {
               label="Adjuntar PDF"
               placeholder="Selecciona un archivo..."
               {...form.register("pdf_link")}
-              icon={<AttachFileOutlined className="size-5 text-black" />}
+              icon={<AttachFileOutlined />}
               onChange={(newFiles: File[]) => {
                 // Solo permite un archivo
                 if (newFiles.length > 0) {

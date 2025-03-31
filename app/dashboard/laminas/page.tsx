@@ -1,4 +1,6 @@
 import { fetchSheetsPages } from "@/app/lib/data";
+import Breadcrumbs from "@/app/ui/breadcrumbs";
+import { CreateSheet } from "@/app/ui/invoices/buttons";
 import Pagination from "@/app/ui/invoices/pagination";
 import LaminasTable from "@/app/ui/laminas/laminas-table";
 import Search from "@/app/ui/search";
@@ -18,8 +20,14 @@ export default async function Page(props: {
 
   return (
     <div>
+      <Breadcrumbs
+        breadcrumbs={[
+          { href: "/dashboard/laminas", label: "Láminas", active: true },
+        ]}
+      />
       <div className="mt-4 mb-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Buscar laminas..." />
+        <Search placeholder="Buscar láminas..." />
+        <CreateSheet />
       </div>
       <Suspense key={query + currentPage} fallback={<SheetsTableSkeleton />}>
         <LaminasTable query={query} currentPage={currentPage} />

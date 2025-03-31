@@ -1,4 +1,4 @@
-import { object, string, z } from "zod";
+import { object, string, symbol, z } from "zod";
 
 export const createBoxSchema = object({
   client: string({
@@ -100,5 +100,62 @@ export const createBoxSchema = object({
     .transform((val) => Number(val))
     .refine((val) => !isNaN(val) && val >= 0, {
       message: "El ancho debe ser un número válido mayor o igual a 0",
+    }),
+});
+
+export const createSheetSchema = object({
+  boxes: z.array(z.string()).min(1, {
+    message: "Al menos una caja es requerida",
+  }),
+  description: string({
+    required_error: "La descripción es requerida",
+  }).min(1, "La descripción es requerida"),
+  ect: z.array(z.string()).min(1, {
+    message: "Ingrese al menos un valor",
+  }),
+  grams: z
+    .number()
+    .min(1, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "El valor debe ser un número mayor o igual a 0",
+    }),
+  p1: z
+    .number()
+    .min(1, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "El valor debe ser un número mayor o igual a 0",
+    }),
+  p2: z
+    .number()
+    .min(1, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "El valor debe ser un número mayor o igual a 0",
+    }),
+  p3: z
+    .number()
+    .min(1, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "El valor debe ser un número mayor o igual a 0",
+    }),
+  roll_width: z
+    .number()
+    .min(1, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "El valor debe ser un número mayor o igual a 0",
     }),
 });

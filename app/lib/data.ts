@@ -2,6 +2,7 @@
 import {
   Box,
   BoxesTable,
+  BoxField,
   BoxForm,
   CustomerField,
   CustomersTableType,
@@ -9,6 +10,7 @@ import {
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
+  Sheet,
   SheetsTable,
 } from "./definitions";
 import { formatCurrency } from "./utils";
@@ -290,13 +292,32 @@ export async function fetchBoxBySymbol(symbol: string) {
         "Content-Type": "application/json",
       },
     });
-    
+
     if (!response.ok) throw new Error("Failed to fetch box.");
     const data: Box = await response.json();
     return data;
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch box.");
+  }
+}
+
+export async function fetchBoxesSymbols() {
+  try {
+    const response = await fetch(`${URL_BASE}/boxes/getSymbols`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch boxes.");
+
+    const data: BoxField[] = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch boxes.");
   }
 }
 
@@ -371,5 +392,40 @@ export async function fetchSheetsPages(query: string) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch total number of sheets.");
+  }
+}
+
+export async function fetchSheetById(id: string) {
+  try {
+    const response = await fetch(`${URL_BASE}/sheets/getById/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) throw new Error("Failed to fetch sheet.");
+    const data: Sheet = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch sheet.");
+  }
+}
+
+export async function createSheet(data: Sheet) {
+  try {
+    const response = await fetch(`${URL_BASE}/sheets/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Failed to create sheet.");
+    return await response;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to create sheet.");
   }
 }

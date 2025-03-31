@@ -1,13 +1,13 @@
-import { fetchBoxBySymbol } from "@/app/lib/data";
+import { fetchSheetById } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 
 export default async function Page(props: {
   params: Promise<{
-    symbol: string;
+    id: string;
   }>;
 }) {
   const params = await props.params;
-  const data = await fetchBoxBySymbol(params.symbol);
+  const data = await fetchSheetById(params.id);
 
   if (!data) {
     return <p>No se encontró la caja.</p>;
@@ -19,10 +19,10 @@ export default async function Page(props: {
       <Breadcrumbs
         breadcrumbs={[
           { href: "/dashboard/cajas", label: "Cajas" },
-          { label: "Detalles de la caja", href: "" },
+          { label: "Detalles de lámina", href: "" },
           {
-            label: `${data.symbol}`,
-            href: `/dashboard/cajas/detalles-caja/${data.symbol}`,
+            label: `${data.description}`,
+            href: `/dashboard/cajas/detalles-caja/${data.description}`,
             active: true,
           },
         ]}
@@ -34,12 +34,12 @@ export default async function Page(props: {
           <h2 className="text-2xl font-semibold mb-4">Detalles de la caja</h2>
           <div className="space-y-4">
             <p className="text-gray-700">
-              <strong className="font-medium">Símbolo:</strong> {data.symbol}
+              <strong className="font-medium">Símbolo:</strong> {data.ect}
             </p>
             <p className="text-gray-700">
-              <strong className="font-medium">Cliente:</strong> {data.client}
+              <strong className="font-medium">Cliente:</strong> {data.grams}
             </p>
-            <p className="text-gray-700">
+            {/* <p className="text-gray-700">
               <strong className="font-medium">Liner:</strong> {data.liner}
             </p>
             <p className="text-gray-700">
@@ -59,12 +59,12 @@ export default async function Page(props: {
             <p className="text-gray-700">
               <strong className="font-medium">Rayados:</strong>{" "}
               {data.creases.r1} - {data.creases.r2} - {data.creases.r3}
-            </p>
+            </p> */}
           </div>
         </div>
 
         {/* Columna derecha: PDF */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        {/* <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-2xl font-semibold mb-4">Visualización del PDF</h2>
 
           {data.pdf_link ? (
@@ -80,7 +80,7 @@ export default async function Page(props: {
               No hay PDF disponible para esta caja.
             </p>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const links = [
     icon: ArchiveBoxIcon,
   },
   {
-    name: "Laminas",
+    name: "Láminas",
     href: "/dashboard/laminas",
     icon: Square3Stack3DIcon,
   }

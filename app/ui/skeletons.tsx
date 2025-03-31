@@ -294,6 +294,10 @@ export function SheetsTableSkeleton() {
           <TableRowSkeleton />
           <TableRowSkeleton />
           <TableRowSkeleton />
+          <TableRowSkeleton />
+          <TableRowSkeleton />
+          <TableRowSkeleton />
+          <TableRowSkeleton />
         </tbody>
       </table>
     </div>
