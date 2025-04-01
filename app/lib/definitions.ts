@@ -167,3 +167,49 @@ export type SheetsTable = {
   ect: number[];
   boxes: string[];
 };
+
+export type Purchase = {
+  _id: string;
+  receipt_date: string;
+  order_number: string;
+  client: string;
+  symbol: string;
+  repetition_new: string;
+  type: string;
+  flute: string;
+  liner: string;
+  ect: number;
+  number_of_inks: number;
+  quantity: number;
+  estimated_delivery_date: string;
+  unit_cost: number;
+  arapack_lot: string;
+  subtotal: number;
+  total_invoice: number;
+  weight: number;
+  total_kilograms: number;
+  delivered_quantity: number;
+  initial_shipping_date: string;
+  final_shipping_date: string;
+  delivery_dates: string[];
+  missing_quantity: number;
+  status: string;
+  comments: string;
+  pending_kilograms: number;
+  delivery_delay_days: number;
+  real_delivery_period: number;
+  created_at: string;
+};
+
+export type PurchasesTable = {
+  _id: string;
+  receipt_date: string;
+  order_number: string;
+  client: string;
+  symbol: string;
+  repetition_new: string;
+  quantity: number;
+  estimated_delivery_date: string;
+  arapack_lot: string;
+  subtotal: number;
+}

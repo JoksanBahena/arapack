@@ -1,18 +1,17 @@
-// app/components/cajas-table.tsx
-import { fetchFilteredBoxes } from "@/app/lib/data";
+import { fetchFilteredPurchases } from "@/app/lib/data";
 import TableRow from "./table-row";
 
-export default async function CajasTable({
+export default async function OrdenesTable({
   query,
   currentPage,
 }: {
   query: string;
   currentPage: number;
 }) {
-  const data = await fetchFilteredBoxes(query, currentPage);
+  const data = await fetchFilteredPurchases(query, currentPage);
 
   if (!data) {
-    return <p>No se encontraron cajas.</p>;
+    return <p>No se encontraron órdenes.</p>;
   }
 
   return (
@@ -21,31 +20,37 @@ export default async function CajasTable({
         <thead className="bg-gray-50">
           <tr>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Símbolo
+              Fecha de Recepción
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              Número de Orden
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
               Cliente
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Medidas
+              Símbolo
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Liner
+              Repetición Nueva
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              ECT
+              Cantidad
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Rayados
+              Fecha de Entrega Estimada
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Status
+              Lote de Arapack
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              Subtotal
             </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
-          {data.map((box) => (
-            <TableRow key={box._id} box={box} />
+          {data.map((purchase) => (
+            <TableRow key={purchase._id} purchase={purchase} />
           ))}
         </tbody>
       </table>
