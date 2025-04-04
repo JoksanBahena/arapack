@@ -98,6 +98,7 @@ export default function BoxForm() {
             iconLeft={<StraightenOutlined />}
             placeholder="Ingresa el largo"
             type="number"
+            step={0.01}
             {...form.register("length", { valueAsNumber: true })}
             error={form.formState.errors.length?.message}
           />
@@ -107,6 +108,7 @@ export default function BoxForm() {
             iconLeft={<StraightenOutlined />}
             placeholder="Ingresa el ancho"
             type="number"
+            step={0.01}
             {...form.register("width", { valueAsNumber: true })}
             error={form.formState.errors.width?.message}
           />
@@ -125,6 +127,7 @@ export default function BoxForm() {
             iconLeft={<LooksOneOutlined />}
             placeholder="Valor R1"
             type="number"
+            step={0.01}
             {...form.register("creases.r1", { valueAsNumber: true })}
             error={form.formState.errors.creases?.r1?.message}
           />
@@ -134,6 +137,7 @@ export default function BoxForm() {
             iconLeft={<LooksTwoOutlined />}
             placeholder="Valor R2"
             type="number"
+            step={0.01}
             {...form.register("creases.r2", { valueAsNumber: true })}
             error={form.formState.errors.creases?.r2?.message}
           />
@@ -143,6 +147,7 @@ export default function BoxForm() {
             iconLeft={<Looks3Outlined />}
             placeholder="Valor R3"
             type="number"
+            step={0.01}
             {...form.register("creases.r3", { valueAsNumber: true })}
             error={form.formState.errors.creases?.r3?.message}
           />

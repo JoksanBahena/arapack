@@ -245,7 +245,7 @@ export async function fetchBoxes(): Promise<Box[]> {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch boxes.");
   }
-}
+} n
 
 export async function fetchFilteredBoxes(
   query: string,
@@ -334,7 +334,7 @@ export async function createBox(data: BoxForm) {
     formData.append("flute", data.flute);
     formData.append("treatment", data.treatment.toString());
     formData.append("client", data.client);
-    formData.append("status", data.status);
+    formData.append("box_status", data.status);
     formData.append("box_type", data.type);
 
     formData.append("crease1", data.creases.r1.toString());
