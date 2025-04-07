@@ -17,22 +17,19 @@ import Link from "next/link";
 import { createSheet } from "@/app/lib/data";
 import { Toast } from "@/app/lib/alerts";
 
-interface SheetFormProps {
-  boxes: BoxField[];
-}
 
-export default function SheetForm({ boxes }: SheetFormProps) {
+export default function SheetForm({ boxes }: { boxes: BoxField[] }) {
   const form = useForm<z.infer<typeof createSheetSchema>>({
     resolver: zodResolver(createSheetSchema),
     defaultValues: {
       boxes: [],
       description: "",
       ect: [],
-      grams: 0,
-      p1: 0,
-      p2: 0,
-      p3: 0,
-      roll_width: 0,
+      grams: undefined,
+      p1: undefined,
+      p2: undefined,
+      p3: undefined,
+      roll_width: undefined,
     },
   });
 
@@ -56,7 +53,7 @@ export default function SheetForm({ boxes }: SheetFormProps) {
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-2">
+        <label className="block text-primary mb-1 font-medium">
           Cajas relacionadas
         </label>
 
@@ -94,11 +91,11 @@ export default function SheetForm({ boxes }: SheetFormProps) {
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 mb-6">
         <div>
-          <label className="block text-sm font-medium mb-2">Descripción</label>
+          <label className="block text-primary mb-1 font-medium">Descripción</label>
           <textarea
             rows={4}
             {...form.register("description")}
-            placeholder="Descripción"
+            placeholder="Ingrese una descripción"
             className={clsx(
               "block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary",
               {
@@ -114,7 +111,7 @@ export default function SheetForm({ boxes }: SheetFormProps) {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2">ECT</label>
+          <label className="block text-primary mb-1 font-medium">ECT</label>
 
           <div
             className={clsx(
@@ -182,6 +179,9 @@ export default function SheetForm({ boxes }: SheetFormProps) {
           placeholder="Gramaje"
           {...form.register("grams", { valueAsNumber: true })}
           error={form.formState.errors.grams?.message}
+          iconRight={
+            <span className="text-sm text-gray-500">g</span>
+          }
         />
         <TextInput
           label="Ancho de rollo"
@@ -190,6 +190,9 @@ export default function SheetForm({ boxes }: SheetFormProps) {
           placeholder="Ancho de rollo"
           {...form.register("roll_width", { valueAsNumber: true })}
           error={form.formState.errors.roll_width?.message}
+          iconRight={
+            <span className="text-sm text-gray-500">cm</span>
+          }
         />
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">

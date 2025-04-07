@@ -245,7 +245,7 @@ export async function fetchBoxes(): Promise<Box[]> {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch boxes.");
   }
-} n
+}
 
 export async function fetchFilteredBoxes(
   query: string,

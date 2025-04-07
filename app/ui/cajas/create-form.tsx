@@ -27,19 +27,19 @@ export default function BoxForm() {
     defaultValues: {
       client: "",
       symbol: "",
-      ect: 0,
+      ect: undefined,
       flute: "",
-      length: 0,
-      width: 0,
+      length: undefined,
+      width: undefined,
       liner: "",
       pdf_link: [] as File[],
       status: "approved",
       creases: {
-        r1: 0,
-        r2: 0,
-        r3: 0,
+        r1: undefined,
+        r2: undefined,
+        r3: undefined,
       },
-      treatment: 0,
+      treatment: undefined,
       type: "",
     },
   });
@@ -101,6 +101,9 @@ export default function BoxForm() {
             step={0.01}
             {...form.register("length", { valueAsNumber: true })}
             error={form.formState.errors.length?.message}
+            iconRight={
+              <span className="text-gray-500 text-sm">cm</span>
+            }
           />
 
           <TextInput
@@ -111,6 +114,9 @@ export default function BoxForm() {
             step={0.01}
             {...form.register("width", { valueAsNumber: true })}
             error={form.formState.errors.width?.message}
+            iconRight={
+              <span className="text-gray-500 text-sm">cm</span>
+            }
           />
 
           <TextInput
@@ -153,7 +159,7 @@ export default function BoxForm() {
           />
 
           <div>
-            <label htmlFor="flute" className="block text-sm font-medium">
+            <label htmlFor="flute" className="block text-primary mb-1 font-medium">
               Flauta
             </label>
             <select
@@ -168,7 +174,7 @@ export default function BoxForm() {
                 }) + " focus:outline-none"
               }
             >
-              <option value="">Selecciona una opción</option>
+              <option value="" disabled>Selecciona una opción</option>
               <option value="A">A</option>
               <option value="B">B</option>
               <option value="C">C</option>
@@ -183,7 +189,7 @@ export default function BoxForm() {
           </div>
 
           <div>
-            <label htmlFor="liner" className="block text-sm font-medium">
+            <label htmlFor="liner" className="block text-primary mb-1 font-medium">
               Liner
             </label>
             <select
@@ -198,7 +204,7 @@ export default function BoxForm() {
                 }) + " focus:outline-none"
               }
             >
-              <option value="">Selecciona una opción</option>
+              <option value="" disabled>Selecciona una opción</option>
               <option value="KRAFT">Kraft</option>
               <option value="BLANCO">Blanco</option>
             </select>
@@ -247,7 +253,7 @@ export default function BoxForm() {
           </div>
 
           <div>
-            <label htmlFor="treatment" className="block text-sm font-medium">
+            <label htmlFor="treatment" className="block text-primary mb-1 font-medium">
               Tratamiento
             </label>
             <select
@@ -266,7 +272,7 @@ export default function BoxForm() {
           </div>
 
           <div>
-            <label htmlFor="status" className="block text-sm font-medium">
+            <label htmlFor="status" className="block text-primary mb-1 font-medium">
               Estado
             </label>
             <select

@@ -169,7 +169,6 @@ export type SheetsTable = {
 };
 
 export type Purchase = {
-  _id: string;
   receipt_date: string;
   order_number: string;
   client: string;

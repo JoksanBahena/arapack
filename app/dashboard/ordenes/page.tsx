@@ -1,5 +1,6 @@
 import { fetchPurchasesPages } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
+import { CreatePurchase } from "@/app/ui/invoices/buttons";
 import Pagination from "@/app/ui/invoices/pagination";
 import OrdenesTable from "@/app/ui/ordenes/ordenes-table";
 import Search from "@/app/ui/search";
@@ -26,7 +27,7 @@ export default async function Page(props: {
       />
       <div className="mt-4 mb-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Buscar órdenes..." />
-        {/* <CreateBox /> */}
+        <CreatePurchase />
       </div>
       <Suspense key={query + currentPage} fallback={<PurchasesTableSkeleton />}>
         <OrdenesTable query={query} currentPage={currentPage} />
