@@ -250,7 +250,7 @@ export const createPurchaseSchema = object({
   ),
   unit_cost: z
     .number()
-    .min(1, {
+    .min(0.01, {
       message: "El valor debe ser mayor a 0",
     })
     .transform((val) => Number(val))
@@ -262,7 +262,7 @@ export const createPurchaseSchema = object({
   }).min(1, "El lote Arapack es requerido"),
   subtotal: z
     .number()
-    .min(1, {
+    .min(0.01, {
       message: "El valor debe ser mayor a 0",
     })
     .transform((val) => Number(val))
@@ -271,7 +271,7 @@ export const createPurchaseSchema = object({
     }),
   total_invoice: z
     .number()
-    .min(1, {
+    .min(0.01, {
       message: "El valor debe ser mayor a 0",
     })
     .transform((val) => Number(val))
@@ -281,7 +281,7 @@ export const createPurchaseSchema = object({
     }),
   weight: z
     .number()
-    .min(1, {
+    .min(0.01, {
       message: "El valor debe ser mayor a 0",
     })
     .transform((val) => Number(val))
@@ -290,7 +290,7 @@ export const createPurchaseSchema = object({
     }),
   total_kilograms: z
     .number()
-    .min(1, {
+    .min(0.01, {
       message: "El valor debe ser mayor a 0",
     })
     .transform((val) => Number(val))
@@ -298,42 +298,42 @@ export const createPurchaseSchema = object({
       message:
         "El total de kilogramos debe ser un número válido mayor o igual a 0",
     }),
-  delivered_quantity: z
-    .number()
-    .min(1, {
-      message: "El valor debe ser mayor a 0",
-    })
-    .transform((val) => Number(val))
-    .refine((val) => !isNaN(val) && val >= 0, {
-      message:
-        "La cantidad entregada debe ser un número válido mayor o igual a 0",
-    }),
-  initial_shipping_date: string({
-    required_error: "La fecha inicial de envío es requerida",
-  }).min(1, "La fecha inicial de envío es requerida")
-  .refine(
-    (value) => {
-      const date = new Date(value);
-      const today = new Date();
-      return date >= today;
-    },
-    {
-      message: "La fecha inicial de envío no puede ser menor a hoy",
-    }
-  ),
-  final_shipping_date: string({
-    required_error: "La fecha final de envío es requerida",
-  }).min(1, "La fecha final de envío es requerida")
-  .refine(
-    (value) => {
-      const date = new Date(value);
-      const today = new Date();
-      return date >= today;
-    },
-    {
-      message: "La fecha estimada de entrega no puede ser menor a hoy",
-    }
-  ),
+  // delivered_quantity: z
+  //   .number()
+  //   .min(1, {
+  //     message: "El valor debe ser mayor a 0",
+  //   })
+  //   .transform((val) => Number(val))
+  //   .refine((val) => !isNaN(val) && val >= 0, {
+  //     message:
+  //       "La cantidad entregada debe ser un número válido mayor o igual a 0",
+  //   }),
+  // initial_shipping_date: string({
+  //   required_error: "La fecha inicial de envío es requerida",
+  // }).min(1, "La fecha inicial de envío es requerida")
+  // .refine(
+  //   (value) => {
+  //     const date = new Date(value);
+  //     const today = new Date();
+  //     return date >= today;
+  //   },
+  //   {
+  //     message: "La fecha inicial de envío no puede ser menor a hoy",
+  //   }
+  // ),
+  // final_shipping_date: string({
+  //   required_error: "La fecha final de envío es requerida",
+  // }).min(1, "La fecha final de envío es requerida")
+  // .refine(
+  //   (value) => {
+  //     const date = new Date(value);
+  //     const today = new Date();
+  //     return date >= today;
+  //   },
+  //   {
+  //     message: "La fecha estimada de entrega no puede ser menor a hoy",
+  //   }
+  // ),
   // delivery_dates: z.array(z.string()).min(1, {
   //   message: "Ingrese al menos una fecha de entrega",
   // }),
@@ -361,16 +361,16 @@ export const createPurchaseSchema = object({
   //   .refine((val) => !isNaN(val) && val >= 0, {
   //     message: "Los kilogramos pendientes deben ser un número válido mayor o igual a 0",
   //   }),
-  delivery_delay_days: z
-    .number()
-    .min(1, {
-      message: "El valor debe ser mayor a 0",
-    })
-    .transform((val) => Number(val))
-    .refine((val) => !isNaN(val) && val >= 0, {
-      message:
-        "Los días de retraso deben ser un número válido mayor o igual a 0",
-    }),
+  // delivery_delay_days: z
+  //   .number()
+  //   .min(1, {
+  //     message: "El valor debe ser mayor a 0",
+  //   })
+  //   .transform((val) => Number(val))
+  //   .refine((val) => !isNaN(val) && val >= 0, {
+  //     message:
+  //       "Los días de retraso deben ser un número válido mayor o igual a 0",
+  //   }),
   // real_delivery_period: z
   //   .number()
   //   .min(1, {
@@ -380,7 +380,4 @@ export const createPurchaseSchema = object({
   //   .refine((val) => !isNaN(val) && val >= 0, {
   //     message: "El periodo de entrega real debe ser un número válido mayor o igual a 0",
   //   }),
-  created_at: string({
-    required_error: "La fecha de creación es requerida",
-  }).min(1, "La fecha de creación es requerida"),
 });

@@ -22,6 +22,8 @@ import {
 } from "@mui/icons-material";
 import clsx from "clsx";
 import Link from "next/link";
+import { createPurchase } from "@/app/lib/data";
+import { Toast } from "@/app/lib/alerts";
 
 const steps = [
   "Detalles de orden",
@@ -48,23 +50,22 @@ export default function PurchaseStepperForm() {
       number_of_inks: undefined,
       quantity: undefined,
       estimated_delivery_date: undefined,
-      initial_shipping_date: undefined,
-      final_shipping_date: undefined,
+      // initial_shipping_date: undefined,
+      // final_shipping_date: undefined,
       unit_cost: undefined,
       arapack_lot: "",
-      subtotal: undefined,
-      total_invoice: undefined,
+      subtotal: 0,
+      total_invoice: 0,
       weight: undefined,
-      total_kilograms: undefined,
-      delivered_quantity: undefined,
-      delivery_delay_days: undefined,
+      total_kilograms: 0,
+      // delivered_quantity: undefined,
+      // delivery_delay_days: undefined,
       status: "",
       comments: "",
-      created_at: new Date().toISOString().split("T")[0],
     },
   });
 
-  const { handleSubmit, trigger } = methods;
+  const { handleSubmit, trigger, watch, setValue } = methods;
 
   // Define the fields for each step
   const stepFields = [
@@ -72,20 +73,44 @@ export default function PurchaseStepperForm() {
     ["type", "flute", "liner", "ect", "number_of_inks"], // Step 1
     [
       "quantity",
-      "estimated_delivery_date",
-      "initial_shipping_date",
-      "final_shipping_date",
+      // "estimated_delivery_date",
+      // "initial_shipping_date",
+      // "final_shipping_date",
     ], // Step 2
     ["unit_cost", "arapack_lot", "subtotal", "total_invoice"], // Step 3
     [
       "weight",
       "total_kilograms",
-      "delivered_quantity",
-      "delivery_delay_days",
+      // "delivered_quantity",
+      // "delivery_delay_days",
       "status",
       "comments",
     ], // Step 4
   ];
+
+  const unit_cost = watch("unit_cost");
+  const quantity = watch("quantity");
+  const weight = watch("weight");
+
+  useEffect(() => {
+    const currentUnitCost = Number(unit_cost || 0);
+    const currentQuantity = Number(quantity || 0);
+    const currentWeight = Number(weight || 0);
+  
+    if (currentUnitCost > 0 && currentQuantity > 0) {
+      const subtotal = currentUnitCost * currentQuantity;
+      const totalInvoice = subtotal * 1.16;
+      
+      setValue("subtotal", subtotal);
+      setValue("total_invoice", totalInvoice);
+    }
+  
+    if (currentWeight > 0 && currentQuantity > 0) {
+      const totalKg = currentWeight * currentQuantity;
+      setValue("total_kilograms", totalKg);
+    }
+  }, [unit_cost, quantity, weight, setValue]);
+  
 
   const handleNext = async () => {
     const fields = stepFields[activeStep];
@@ -101,8 +126,21 @@ export default function PurchaseStepperForm() {
   };
 
   const onSubmit = async (values: z.infer<typeof createPurchaseSchema>) => {
-    console.log("Form values:", values);
-    // await axios.post('/api/purchases', values)
+    const response = await createPurchase(values);
+
+    if (response.status === 201) {
+      methods.reset();
+      setActiveStep(0);
+      Toast.fire({
+        icon: "success",
+        title: "Caja creada correctamente",
+      });
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "Error al crear la caja",
+      });
+    }
   };
 
   return (
@@ -257,7 +295,7 @@ const ProductionShippingStep = () => (
       type="date"
       iconLeft={<CalendarMonthOutlined />}
     />
-    <InputField
+    {/* <InputField
       name="initial_shipping_date"
       label="Fecha inicial de envío"
       type="date"
@@ -268,7 +306,7 @@ const ProductionShippingStep = () => (
       label="Fecha final de envío"
       type="date"
       iconLeft={<CalendarMonthOutlined />}
-    />
+    /> */}
   </div>
 );
 
@@ -295,8 +333,9 @@ const FinancialInfoStep = () => (
       type="number"
       iconLeft={<AttachMoneyOutlined />}
       iconRight={<span className="text-sm text-gray-500">MXN</span>}
-      placeholder="Ingresa el subtotal"
+      placeholder="El subtotal se calcula automáticamente"
       isNumber
+      readonly
     />
     <InputField
       name="total_invoice"
@@ -304,8 +343,9 @@ const FinancialInfoStep = () => (
       type="number"
       iconLeft={<RequestQuoteOutlined />}
       iconRight={<span className="text-sm text-gray-500">MXN</span>}
-      placeholder="Ingresa el total de la factura"
+      placeholder="El total de la factura se calcula automáticamente"
       isNumber
+      readonly
     />
   </div>
 );
@@ -329,8 +369,9 @@ const TrackingStep = () => (
       iconRight={<span className="text-sm text-gray-500">kg</span>}
       placeholder="Ingresa el total de kilogramos"
       isNumber
+      readonly
     />
-    <InputField
+    {/* <InputField
       name="delivered_quantity"
       label="Cantidad entregada"
       type="number"
@@ -345,7 +386,7 @@ const TrackingStep = () => (
       iconLeft={<DateRangeOutlined />}
       placeholder="Ingresa los días de retraso"
       isNumber
-    />
+    /> */}
     <InputField
       name="status"
       label="Estado"
@@ -379,6 +420,7 @@ interface InputFieldProps {
   options?: string[];
   multiline?: boolean;
   isNumber?: boolean;
+  readonly?: boolean;
 }
 
 const InputField = ({
@@ -391,6 +433,7 @@ const InputField = ({
   options,
   multiline = false,
   isNumber = false,
+  readonly = false,
 }: InputFieldProps) => {
   const {
     register,
@@ -462,7 +505,14 @@ const InputField = ({
                   ? errors[name]?.message
                   : undefined
               }
-              min={type === "date" ? new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0] : undefined}
+              min={
+                type === "date"
+                  ? new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+                      .toISOString()
+                      .split("T")[0]
+                  : undefined
+              }
+              readOnly={readonly}
             />
           )}
         </>

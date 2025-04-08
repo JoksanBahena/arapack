@@ -9,6 +9,7 @@ import {
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
+  PurchaseForm,
   PurchasesTable,
   Revenue,
   Sheet,
@@ -469,5 +470,23 @@ export async function fetchPurchasesPages(query: string) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch total number of purchases.");
+  }
+}
+
+export async function createPurchase(data: PurchaseForm) {
+  try {
+    const response = await fetch(`${URL_BASE}/purchases/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Failed to create purchase.");
+    return await response;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to create purchase.");
   }
 }
