@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import CajasTable from "../ui/cajas/cajas-table";
+import CajasTable from "../ui/cajas/table";
 import ExcelUploader from "../ui/dashboard/excel-uploader";
-import LaminasTable from "../ui/laminas/laminas-table";
+import LaminasTable from "../ui/laminas/table";
 import Pagination from "../ui/invoices/pagination";
 import { BoxesTableSkeleton, InvoicesTableSkeleton } from "../ui/skeletons";
 import CancelOrderModal from "../ui/order/cancel-order-modal";

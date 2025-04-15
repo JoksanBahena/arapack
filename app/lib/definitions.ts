@@ -88,7 +88,6 @@ export type InvoiceForm = {
 };
 
 export type Box = {
-  _id: string;
   symbol: string;
   ect: number;
   liner: string;
@@ -104,7 +103,7 @@ export type Box = {
   };
   status: "approved" | "pending";
   type: string;
-  pdf_link: string;
+  pdf_link: string | File[];
 };
 
 export type BoxesTable = {

@@ -1,8 +1,8 @@
 import { fetchPurchasesPages } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import { CreatePurchase } from "@/app/ui/invoices/buttons";
 import Pagination from "@/app/ui/invoices/pagination";
-import OrdenesTable from "@/app/ui/ordenes/ordenes-table";
+import { CreatePurchase } from "@/app/ui/ordenes/buttons";
+import OrdenesTable from "@/app/ui/ordenes/table";
 import Search from "@/app/ui/search";
 import { PurchasesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";

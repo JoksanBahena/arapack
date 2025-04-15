@@ -9,6 +9,7 @@ import {
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
+  Purchase,
   PurchaseForm,
   PurchasesTable,
   Revenue,
@@ -296,7 +297,7 @@ export async function fetchBoxBySymbol(symbol: string) {
     });
 
     if (!response.ok) throw new Error("Failed to fetch box.");
-    const data: Box = await response.json();
+    const data = await response.json();
     return data;
   } catch (err) {
     console.error("Database Error:", err);
@@ -323,7 +324,7 @@ export async function fetchBoxesSymbols() {
   }
 }
 
-export async function createBox(data: BoxForm) {
+export async function createBox(data: Box) {
   try {
     const formData = new FormData();
 
@@ -356,6 +357,42 @@ export async function createBox(data: BoxForm) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to create box.");
+  }
+}
+
+export async function editBox(data: Box, id: string) {
+  try {
+    const formData = new FormData();
+
+    formData.append("symbol", data.symbol);
+    formData.append("ect", data.ect.toString());
+    formData.append("liner", data.liner);
+    formData.append("width", data.width.toString());
+    formData.append("length", data.length.toString());
+    formData.append("flute", data.flute);
+    formData.append("treatment", data.treatment.toString());
+    formData.append("client", data.client);
+    formData.append("box_status", data.status);
+    formData.append("box_type", data.type);
+
+    formData.append("crease1", data.creases.r1.toString());
+    formData.append("crease2", data.creases.r2.toString());
+    formData.append("crease3", data.creases.r3.toString());
+
+    if (data.pdf_link.length > 0) {
+      formData.append("pdf_file", data.pdf_link[0]);
+    }
+
+    const response = await fetch(`${URL_BASE}/boxes/update/${id}`, {
+      method: "PUT",
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error("Failed to edit box.");
+    return await response;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to edit box.");
   }
 }
 
@@ -470,6 +507,24 @@ export async function fetchPurchasesPages(query: string) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch total number of purchases.");
+  }
+}
+
+export async function fetchPurchaseById(arapack_lot: string) {
+  try {
+    const response = await fetch(`${URL_BASE}/purchases/getByArapackLot/${arapack_lot}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch purchase.");
+    const data: Purchase = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch purchase.");
   }
 }
 

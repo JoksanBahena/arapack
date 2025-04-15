@@ -8,7 +8,7 @@ export default function TableRow({ box }: { box: BoxesTable }) {
 
   return (
     <tr
-      onClick={() => router.push(`/dashboard/cajas/detalles-caja/${box.symbol}`)}
+      onClick={() => router.push(`/dashboard/cajas/${box.symbol}`)}
       className="hover:bg-gray-100 transition-colors cursor-pointer"
     >
       <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">

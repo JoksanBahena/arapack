@@ -1,8 +1,8 @@
 import { fetchSheetsPages } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import { CreateSheet } from "@/app/ui/invoices/buttons";
 import Pagination from "@/app/ui/invoices/pagination";
-import LaminasTable from "@/app/ui/laminas/laminas-table";
+import { CreateSheet } from "@/app/ui/laminas/buttons";
+import LaminasTable from "@/app/ui/laminas/table";
 import Search from "@/app/ui/search";
 import { SheetsTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";

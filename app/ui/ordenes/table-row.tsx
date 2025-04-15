@@ -8,9 +8,9 @@ export default function TableRow({ purchase }: { purchase: PurchasesTable }) {
 
   return (
     <tr
-    //   onClick={() =>
-    //     router.push(`/dashboard/cajas/detalles-caja/${purchase._id}`)
-    //   }
+      onClick={() =>
+        router.push(`/dashboard/ordenes/detalles-orden/${purchase.arapack_lot}`)
+      }
       className="hover:bg-gray-100 transition-colors cursor-pointer"
     >
       <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">

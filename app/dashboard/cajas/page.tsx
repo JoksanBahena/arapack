@@ -1,11 +1,11 @@
 import { fetchBoxesPages } from "@/app/lib/data";
-import CajasTable from "@/app/ui/cajas/cajas-table";
+import CajasTable from "@/app/ui/cajas/table";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import { CreateBox } from "@/app/ui/invoices/buttons";
 import Pagination from "@/app/ui/invoices/pagination";
 import Search from "@/app/ui/search";
 import { BoxesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
+import { CreateBox } from "@/app/ui/cajas/buttons";
 
 export default async function Page(props: {
   searchParams?: Promise<{

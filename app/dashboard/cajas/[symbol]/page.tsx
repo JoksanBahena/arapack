@@ -1,5 +1,6 @@
 import { fetchBoxBySymbol } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
+import { UpdateBox } from "@/app/ui/cajas/buttons";
 
 export default async function Page(props: {
   params: Promise<{
@@ -19,14 +20,14 @@ export default async function Page(props: {
       <Breadcrumbs
         breadcrumbs={[
           { href: "/dashboard/cajas", label: "Cajas" },
-          { label: "Detalles de la caja", href: "" },
           {
             label: `${data.symbol}`,
-            href: `/dashboard/cajas/detalles-caja/${data.symbol}`,
+            href: `/dashboard/cajas/${data.symbol}`,
             active: true,
           },
         ]}
       />
+      <UpdateBox symbol={data.symbol} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
         {/* Columna izquierda: Detalles */}
@@ -59,6 +60,9 @@ export default async function Page(props: {
             <p className="text-gray-700">
               <strong className="font-medium">Rayados:</strong>{" "}
               {data.creases.r1} - {data.creases.r2} - {data.creases.r3}
+            </p>
+            <p className="text-gray-700">
+              <strong className="font-medium">Estado:</strong> {data.status}
             </p>
           </div>
         </div>
