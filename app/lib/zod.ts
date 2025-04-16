@@ -68,8 +68,7 @@ export const createBoxSchema = object({
     .array(z.instanceof(File), {
       invalid_type_error: "Debe ser un archivo válido",
       required_error: "El archivo es requerido",
-    })
-    .nonempty({ message: "Seleccione el archivo PDF" }),
+    }),
 
   status: z.enum(["pending", "approved"], {
     invalid_type_error: "El estado debe ser 'Pendiente' o 'Aprobado'",

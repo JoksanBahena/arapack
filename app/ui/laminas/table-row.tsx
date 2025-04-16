@@ -12,7 +12,7 @@ export default function TableRow({ sheet }: { sheet: SheetsTable }) {
       className="hover:bg-gray-100 transition-colors cursor-pointer"
     >
       <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
-        {sheet.boxes.map((box) => box).join(", ")}
+        {sheet.boxes.length > 0 ? sheet.boxes.join(", ") : "No hay cajas asociadas"}
       </td>
       <td className="px-4 py-3 text-xs text-gray-900">{sheet.roll_width} cm</td>
       <td className="px-4 py-3 text-xs text-gray-900">{sheet.p1}</td>

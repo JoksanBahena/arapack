@@ -19,7 +19,6 @@ export default async function Page(props: {
       <Breadcrumbs
         breadcrumbs={[
           { href: "/dashboard/laminas", label: "Láminas" },
-          { label: "Detalles de lámina", href: "" },
           {
             label: `${data.description}`,
             href: `/dashboard/cajas/detalles-caja/${data.description}`,
