@@ -8,39 +8,26 @@ export const createBoxSchema = object({
   creases: object({
     r1: z
       .number()
-      .min(1, {
-        message: "El valor debe ser mayor a 0",
-      })
       .transform((val) => Number(val))
       .refine((val) => !isNaN(val) && val >= 0, {
         message: "Debe ser un número válido mayor o igual a 0",
-      }),
+      }).optional(),
     r2: z
       .number()
-      .min(1, {
-        message: "El valor debe ser mayor a 0",
-      })
       .transform((val) => Number(val))
       .refine((val) => !isNaN(val) && val >= 0, {
         message: "Debe ser un número válido mayor o igual a 0",
-      }),
+      }).optional(),
     r3: z
       .number()
-      .min(1, {
-        message: "El valor debe ser mayor a 0",
-      })
       .transform((val) => Number(val))
       .refine((val) => !isNaN(val) && val >= 0, {
         message: "Debe ser un número válido mayor o igual a 0",
-      }),
+      }).optional(),
   }),
 
   inks: object({
-    gcmi_1: z
-      .string({
-        required_error: "El valor es requerido",
-      })
-      .min(1, "El valor es requerido"),
+    gcmi_1: z.string().optional(),
     gcmi_2: z.string().optional(),
     gcmi_3: z.string().optional(),
     gcmi_4: z.string().optional(),

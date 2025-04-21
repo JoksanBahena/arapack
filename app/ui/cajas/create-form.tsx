@@ -39,9 +39,9 @@ export default function BoxForm() {
       pdf_link: [] as File[],
       status: "approved",
       creases: {
-        r1: undefined,
-        r2: undefined,
-        r3: undefined,
+        r1: 0,
+        r2: 0,
+        r3: 0,
       },
       inks: {
         gcmi_1: "",
