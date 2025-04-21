@@ -208,8 +208,7 @@ export default function BoxForm() {
                   Selecciona una opción
                 </option>
                 <option value="">Ninguno</option>
-                <option value="AMBAR">Ámbar</option>
-                <option value="AZUL">Azul</option>
+                <option value="Negro 90">Negro 90</option>
                 {/* Agrega más opciones según necesites */}
               </select>
               {error && (
