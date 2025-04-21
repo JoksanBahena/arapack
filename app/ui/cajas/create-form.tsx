@@ -96,7 +96,7 @@ export default function BoxForm() {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 mb-5">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 xl:grid-cols-6 mb-5">
         <TextInput
           label="Largo (cm)"
           iconLeft={<StraightenOutlined />}
@@ -124,7 +124,7 @@ export default function BoxForm() {
           iconLeft={<ScaleOutlined />}
           placeholder="Ingresa el peso"
           type="number"
-          step={0.01}
+          step={0.001}
           {...form.register("weight", { valueAsNumber: true })}
           error={form.formState.errors.weight?.message}
           iconRight={<span className="text-gray-500 text-sm">kg</span>}
@@ -234,7 +234,7 @@ export default function BoxForm() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mb-5">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 mb-5">
         <div>
           <label
             htmlFor="flute"
@@ -303,7 +303,7 @@ export default function BoxForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 mb-5">
         <div className="col-span-full">
           <FileInput
             label="Adjuntar PDF"

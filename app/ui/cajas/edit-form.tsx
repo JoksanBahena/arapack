@@ -101,7 +101,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 mb-5">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 xl:grid-cols-6 mb-5">
         <TextInput
           label="Largo (cm)"
           iconLeft={<StraightenOutlined />}
@@ -187,11 +187,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
           const inkNumber = index + 1;
           const key =
             `gcmi_${inkNumber}` as keyof typeof form.formState.errors.inks;
-          const error = (
-            form.formState.errors.inks as
-              | Record<string, { message?: string }>
-              | undefined
-          )?.[key]?.message;
+          const error = (form.formState.errors.inks as Record<string, { message?: string }> | undefined)?.[key]?.message;
 
           return (
             <div key={key}>
@@ -206,7 +202,8 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
                 {...form.register(`inks.${key}` as const)}
                 className={
                   clsx("block w-full rounded-md border-gray-300 px-3 py-2", {
-                    "border-red-500": error !== undefined,
+                    "border-red-500":
+                      error !== undefined,
                     "border-gray-300 focus:border-primary focus:ring-primary":
                       error === undefined,
                   }) + " focus:outline-none"
@@ -216,11 +213,14 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
                   Selecciona una opción
                 </option>
                 <option value="">Ninguno</option>
-                <option value="AMBAR">Ámbar</option>
-                <option value="AZUL">Azul</option>
+                <option value="Negro 90">Negro 90</option>
                 {/* Agrega más opciones según necesites */}
               </select>
-              {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+              {error && (
+                <p className="text-red-500 text-sm mt-1">
+                  {error}
+                </p>
+              )}
             </div>
           );
         })}
@@ -239,7 +239,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mb-5">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 mb-5">
         <div>
           <label
             htmlFor="flute"
@@ -308,7 +308,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 mb-5">
         <div className="col-span-full">
           <FileInput
             label="Adjuntar PDF"
