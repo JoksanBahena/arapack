@@ -1,4 +1,4 @@
-import { object, string, symbol, z } from "zod";
+import { object, string, z } from "zod";
 
 export const createBoxSchema = object({
   client: string({

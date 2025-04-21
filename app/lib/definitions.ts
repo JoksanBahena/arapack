@@ -97,12 +97,12 @@ export type Box = {
   treatment: number;
   client: string;
   creases: {
-    r1: number;
-    r2: number;
-    r3: number;
+    r1?: number;
+    r2?: number;
+    r3?: number;
   };
   inks: {
-    gcmi_1: string;
+    gcmi_1?: string;
     gcmi_2?: string;
     gcmi_3?: string;
     gcmi_4?: string;

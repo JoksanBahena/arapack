@@ -339,11 +339,11 @@ export async function createBox(data: Box) {
     formData.append("box_status", data.status);
     formData.append("box_type", data.type);
 
-    formData.append("crease1", data.creases.r1.toString());
-    formData.append("crease2", data.creases.r2.toString());
-    formData.append("crease3", data.creases.r3.toString());
+    formData.append("crease1", (data.creases.r1 ?? 0).toString());
+    formData.append("crease2", (data.creases.r2 ?? 0).toString());
+    formData.append("crease3", (data.creases.r3 ?? 0).toString());
 
-    formData.append("gcmi_1", data.inks.gcmi_1.toString());
+    formData.append("gcmi_1", (data.inks.gcmi_1 ?? "").toString());
     formData.append("gcmi_2", (data.inks.gcmi_2 ?? "").toString());
     formData.append("gcmi_3", (data.inks.gcmi_3 ?? "").toString());
     formData.append("gcmi_4", (data.inks.gcmi_4 ?? "").toString());
@@ -383,11 +383,11 @@ export async function editBox(data: Box, id: string) {
     formData.append("box_status", data.status);
     formData.append("box_type", data.type);
 
-    formData.append("crease1", data.creases.r1.toString());
-    formData.append("crease2", data.creases.r2.toString());
-    formData.append("crease3", data.creases.r3.toString());
+    formData.append("crease1", (data.creases.r1 ?? 0).toString());
+    formData.append("crease2", (data.creases.r2 ?? 0).toString());
+    formData.append("crease3", (data.creases.r3 ?? 0).toString());
 
-    formData.append("gcmi_1", data.inks.gcmi_1.toString());
+    formData.append("gcmi_1", (data.inks.gcmi_1 ?? "").toString());
     formData.append("gcmi_2", (data.inks.gcmi_2 ?? "").toString());
     formData.append("gcmi_3", (data.inks.gcmi_3 ?? "").toString());
     formData.append("gcmi_4", (data.inks.gcmi_4 ?? "").toString());
