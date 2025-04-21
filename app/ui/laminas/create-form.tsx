@@ -18,7 +18,7 @@ import { createSheet } from "@/app/lib/data";
 import { Toast } from "@/app/lib/alerts";
 
 
-export default function SheetForm({ boxes }: { boxes: BoxField[] }) {
+export default function SheetForm({ boxes }: { boxes: string[] }) {
   const form = useForm<z.infer<typeof createSheetSchema>>({
     resolver: zodResolver(createSheetSchema),
     defaultValues: {

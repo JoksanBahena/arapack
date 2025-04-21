@@ -101,6 +101,13 @@ export type Box = {
     r2: number;
     r3: number;
   };
+  inks: {
+    gcmi_1: string;
+    gcmi_2?: string;
+    gcmi_3?: string;
+    gcmi_4?: string;
+  }
+  weight: number;
   status: "approved" | "pending";
   type: string;
   pdf_link: string | File[];

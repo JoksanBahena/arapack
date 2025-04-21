@@ -9,7 +9,7 @@ export default function TableRow({ purchase }: { purchase: PurchasesTable }) {
   return (
     <tr
       onClick={() =>
-        router.push(`/dashboard/ordenes/detalles-orden/${purchase.arapack_lot}`)
+        router.push(`/dashboard/ordenes/${purchase.arapack_lot}`)
       }
       className="hover:bg-gray-100 transition-colors cursor-pointer"
     >

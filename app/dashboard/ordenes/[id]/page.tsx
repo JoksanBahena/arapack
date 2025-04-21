@@ -13,10 +13,9 @@ export default async function Page(props: {
       <Breadcrumbs
         breadcrumbs={[
           { href: "/dashboard/ordenes", label: "Órdenes" },
-          { label: "Detalles de órden", href: "" },
           {
             label: `${data.arapack_lot}`,
-            href: `/dashboard/ordenes/detalles-orden/${data.arapack_lot}`,
+            href: `/dashboard/ordenes/${data.arapack_lot}`,
             active: true,
           },
         ]}

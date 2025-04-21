@@ -35,6 +35,27 @@ export const createBoxSchema = object({
       }),
   }),
 
+  inks: object({
+    gcmi_1: z
+      .string({
+        required_error: "El valor es requerido",
+      })
+      .min(1, "El valor es requerido"),
+    gcmi_2: z.string().optional(),
+    gcmi_3: z.string().optional(),
+    gcmi_4: z.string().optional(),
+  }),
+
+  weight: z
+    .number()
+    .min(0.01, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "El peso debe ser un número válido mayor o igual a 0",
+    }),
+
   ect: z
     .number()
     .min(1, {
@@ -64,11 +85,10 @@ export const createBoxSchema = object({
   }).min(1, "Seleccione el tipo de liner"),
 
   // En createBoxSchema
-  pdf_link: z
-    .array(z.instanceof(File), {
-      invalid_type_error: "Debe ser un archivo válido",
-      required_error: "El archivo es requerido",
-    }),
+  pdf_link: z.array(z.instanceof(File), {
+    invalid_type_error: "Debe ser un archivo válido",
+    required_error: "El archivo es requerido",
+  }).nonempty("El archivo es requerido"),
 
   status: z.enum(["pending", "approved"], {
     invalid_type_error: "El estado debe ser 'Pendiente' o 'Aprobado'",
@@ -136,6 +156,27 @@ export const updateBoxSchema = object({
         message: "Debe ser un número válido mayor o igual a 0",
       }),
   }),
+
+  inks: object({
+    gcmi_1: z
+      .string({
+        required_error: "El valor es requerido",
+      })
+      .min(1, "El valor es requerido"),
+    gcmi_2: z.string().optional(),
+    gcmi_3: z.string().optional(),
+    gcmi_4: z.string().optional(),
+  }),
+
+  weight: z
+    .number()
+    .min(0.01, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "El peso debe ser un número válido mayor o igual a 0",
+    }),
 
   ect: z
     .number()

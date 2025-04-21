@@ -316,7 +316,7 @@ export async function fetchBoxesSymbols() {
 
     if (!response.ok) throw new Error("Failed to fetch boxes.");
 
-    const data: BoxField[] = await response.json();
+    const data: string[] = await response.json();
     return data;
   } catch (err) {
     console.error("Database Error:", err);
@@ -343,6 +343,12 @@ export async function createBox(data: Box) {
     formData.append("crease2", data.creases.r2.toString());
     formData.append("crease3", data.creases.r3.toString());
 
+    formData.append("gcmi_1", data.inks.gcmi_1.toString());
+    formData.append("gcmi_2", (data.inks.gcmi_2 ?? "").toString());
+    formData.append("gcmi_3", (data.inks.gcmi_3 ?? "").toString());
+    formData.append("gcmi_4", (data.inks.gcmi_4 ?? "").toString());
+    formData.append("weight", data.weight.toString());
+
     if (data.pdf_link.length > 0) {
       formData.append("file", data.pdf_link[0]);
     }
@@ -351,6 +357,8 @@ export async function createBox(data: Box) {
       method: "POST",
       body: formData,
     });
+    console.log("Response:", response);
+    
 
     if (!response.ok) throw new Error("Failed to create box.");
     return await response;
@@ -378,6 +386,12 @@ export async function editBox(data: Box, id: string) {
     formData.append("crease1", data.creases.r1.toString());
     formData.append("crease2", data.creases.r2.toString());
     formData.append("crease3", data.creases.r3.toString());
+
+    formData.append("gcmi_1", data.inks.gcmi_1.toString());
+    formData.append("gcmi_2", (data.inks.gcmi_2 ?? "").toString());
+    formData.append("gcmi_3", (data.inks.gcmi_3 ?? "").toString());
+    formData.append("gcmi_4", (data.inks.gcmi_4 ?? "").toString());
+    formData.append("weight", data.weight.toString());
 
     if (data.pdf_link.length > 0) {
       formData.append("pdf_file", data.pdf_link[0]);

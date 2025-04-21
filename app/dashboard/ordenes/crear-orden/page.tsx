@@ -1,7 +1,9 @@
+import { fetchBoxesSymbols } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import PurchaseStepperForm from "@/app/ui/ordenes/create-form";
 
-export default function Page() {
+export default async function Page() {
+  const symbols = await fetchBoxesSymbols();
   return (
     <div>
       <Breadcrumbs
@@ -21,7 +23,7 @@ export default function Page() {
             ingresar todos los datos correctamente.
           </p>
         </div>
-        <PurchaseStepperForm />
+        <PurchaseStepperForm symbols={symbols}/>
       </div>
     </div>
   );

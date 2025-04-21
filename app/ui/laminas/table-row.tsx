@@ -7,7 +7,7 @@ export default function TableRow({ sheet }: { sheet: SheetsTable }) {
   return (
     <tr
       onClick={() =>
-        router.push(`/dashboard/laminas/detalles-lamina/${sheet._id}`)
+        router.push(`/dashboard/laminas/${sheet._id}`)
       }
       className="hover:bg-gray-100 transition-colors cursor-pointer"
     >

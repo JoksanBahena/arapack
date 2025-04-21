@@ -13,6 +13,7 @@ import {
   LooksTwoOutlined,
   PersonOutlined,
   RadioButtonCheckedOutlined,
+  ScaleOutlined,
   StraightenOutlined,
   TypeSpecimenOutlined,
 } from "@mui/icons-material";
@@ -22,8 +23,12 @@ import Link from "next/link";
 import { Toast } from "@/app/lib/alerts";
 import { editBox } from "@/app/lib/data";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
+  const [numberOfInks, setNumberOfInks] = useState(
+    Object.values(box.inks).filter((ink) => ink !== "").length
+  );
   const router = useRouter();
   const form = useForm<z.infer<typeof updateBoxSchema>>({
     resolver: zodResolver(updateBoxSchema),
@@ -42,6 +47,13 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
         r2: box.creases.r2,
         r3: box.creases.r3,
       },
+      inks: {
+        gcmi_1: box.inks.gcmi_1,
+        gcmi_2: box.inks.gcmi_2,
+        gcmi_3: box.inks.gcmi_3,
+        gcmi_4: box.inks.gcmi_4,
+      },
+      weight: box.weight,
       treatment: box.treatment,
       type: box.type,
     },
@@ -69,7 +81,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 mb-3">
         <TextInput
           label="Cliente"
           iconLeft={<PersonOutlined />}
@@ -87,16 +99,9 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
           {...form.register("symbol")}
           error={form.formState.errors.symbol?.message}
         />
+      </div>
 
-        <TextInput
-          label="ECT"
-          iconLeft={<RadioButtonCheckedOutlined />}
-          placeholder="Ingresa el ECT"
-          type="number"
-          {...form.register("ect", { valueAsNumber: true })}
-          error={form.formState.errors.ect?.message}
-        />
-
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 mb-5">
         <TextInput
           label="Largo (cm)"
           iconLeft={<StraightenOutlined />}
@@ -120,12 +125,14 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
         />
 
         <TextInput
-          label="Tipo"
-          iconLeft={<TypeSpecimenOutlined />}
-          placeholder="Ingresa el tipo de caja"
-          type="text"
-          {...form.register("type")}
-          error={form.formState.errors.type?.message}
+          label="Peso (kg)"
+          iconLeft={<ScaleOutlined />}
+          placeholder="Ingresa el peso"
+          type="number"
+          step={0.01}
+          {...form.register("weight", { valueAsNumber: true })}
+          error={form.formState.errors.weight?.message}
+          iconRight={<span className="text-gray-500 text-sm">kg</span>}
         />
 
         <TextInput
@@ -158,6 +165,81 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
           error={form.formState.errors.creases?.r3?.message}
         />
 
+        <TextInput
+          label="ECT"
+          iconLeft={<RadioButtonCheckedOutlined />}
+          placeholder="Ingresa el ECT"
+          type="number"
+          {...form.register("ect", { valueAsNumber: true })}
+          error={form.formState.errors.ect?.message}
+        />
+
+        <TextInput
+          label="Tipo"
+          iconLeft={<TypeSpecimenOutlined />}
+          placeholder="Ingresa el tipo de caja"
+          type="text"
+          {...form.register("type")}
+          error={form.formState.errors.type?.message}
+        />
+
+        {Array.from({ length: numberOfInks }).map((_, index) => {
+          const inkNumber = index + 1;
+          const key =
+            `gcmi_${inkNumber}` as keyof typeof form.formState.errors.inks;
+          const error = (
+            form.formState.errors.inks as
+              | Record<string, { message?: string }>
+              | undefined
+          )?.[key]?.message;
+
+          return (
+            <div key={key}>
+              <label
+                htmlFor={key}
+                className="block text-primary mb-1 font-medium"
+              >
+                GCMI {inkNumber}
+              </label>
+              <select
+                id={key}
+                {...form.register(`inks.${key}` as const)}
+                className={
+                  clsx("block w-full rounded-md border-gray-300 px-3 py-2", {
+                    "border-red-500": error !== undefined,
+                    "border-gray-300 focus:border-primary focus:ring-primary":
+                      error === undefined,
+                  }) + " focus:outline-none"
+                }
+              >
+                <option value="" disabled>
+                  Selecciona una opción
+                </option>
+                <option value="">Ninguno</option>
+                <option value="AMBAR">Ámbar</option>
+                <option value="AZUL">Azul</option>
+                {/* Agrega más opciones según necesites */}
+              </select>
+              {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+            </div>
+          );
+        })}
+
+        {/* Botón para agregar más tintas */}
+        {numberOfInks < 4 && (
+          <div className="flex items-center">
+            <button
+              type="button"
+              onClick={() => setNumberOfInks((prev) => Math.min(prev + 1, 4))}
+              className="text-sm text-indigo-600 hover:text-indigo-500"
+            >
+              + Agregar otro color
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mb-5">
         <div>
           <label
             htmlFor="flute"
@@ -224,7 +306,9 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
             </p>
           )}
         </div>
+      </div>
 
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
         <div className="col-span-full">
           <FileInput
             label="Adjuntar PDF"
@@ -250,13 +334,6 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
                 <div className="text-sm text-gray-600">
                   📄 {file.name} - {(file.size / 1024).toFixed(1)}KB
                 </div>
-                <button
-                  type="button"
-                  className="text-red-500 hover:text-red-700 text-sm ml-4"
-                  onClick={() => form.setValue("pdf_link", [])}
-                >
-                  Quitar
-                </button>
               </div>
             ))}
           </div>
@@ -308,10 +385,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
       </div>
 
       <div className="mt-12 flex items-center justify-end border-t border-gray-900/10 pt-12">
-        <Link
-          href={`/dashboard/cajas/${box.symbol}`}
-          className="text-sm font-semibold text-gray-900"
-        >
+        <Link href="/dashboard/cajas" className="text-sm font-semibold">
           Cancelar
         </Link>
         <button
@@ -319,7 +393,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
           disabled={form.formState.isSubmitting}
           className="ml-4 rounded-md bg-indigo-600 px-4 py-2 text-white"
         >
-          {form.formState.isSubmitting ? "Editando..." : "Guardar"}
+          {form.formState.isSubmitting ? "Creando..." : "Guardar"}
         </button>
       </div>
     </form>

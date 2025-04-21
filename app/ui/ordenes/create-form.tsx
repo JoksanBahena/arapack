@@ -8,11 +8,8 @@ import { z } from "zod";
 import TextInput from "../text-input";
 import {
   AttachMoneyOutlined,
-  BadgeOutlined,
   BallotOutlined,
   CalendarMonthOutlined,
-  DateRangeOutlined,
-  LocalShippingOutlined,
   NumbersOutlined,
   PersonOutline,
   RadioButtonCheckedOutlined,
@@ -22,7 +19,7 @@ import {
 } from "@mui/icons-material";
 import clsx from "clsx";
 import Link from "next/link";
-import { createPurchase } from "@/app/lib/data";
+import { createPurchase, fetchBoxBySymbol } from "@/app/lib/data";
 import { Toast } from "@/app/lib/alerts";
 
 const steps = [
@@ -33,7 +30,11 @@ const steps = [
   "Seguimiento",
 ];
 
-export default function PurchaseStepperForm() {
+export default function PurchaseStepperForm({
+  symbols,
+}: {
+  symbols: string[];
+}) {
   const [activeStep, setActiveStep] = useState(0);
   const methods = useForm<z.infer<typeof createPurchaseSchema>>({
     resolver: zodResolver(createPurchaseSchema),
@@ -50,16 +51,12 @@ export default function PurchaseStepperForm() {
       number_of_inks: undefined,
       quantity: undefined,
       estimated_delivery_date: undefined,
-      // initial_shipping_date: undefined,
-      // final_shipping_date: undefined,
       unit_cost: undefined,
       arapack_lot: "",
       subtotal: 0,
       total_invoice: 0,
       weight: undefined,
       total_kilograms: 0,
-      // delivered_quantity: undefined,
-      // delivery_delay_days: undefined,
       status: "",
       comments: "",
     },
@@ -67,50 +64,59 @@ export default function PurchaseStepperForm() {
 
   const { handleSubmit, trigger, watch, setValue } = methods;
 
-  // Define the fields for each step
   const stepFields = [
-    ["receipt_date", "order_number", "client", "symbol", "repetition_new"], // Step 0
-    ["type", "flute", "liner", "ect", "number_of_inks"], // Step 1
-    [
-      "quantity",
-      // "estimated_delivery_date",
-      // "initial_shipping_date",
-      // "final_shipping_date",
-    ], // Step 2
-    ["unit_cost", "arapack_lot", "subtotal", "total_invoice"], // Step 3
-    [
-      "weight",
-      "total_kilograms",
-      // "delivered_quantity",
-      // "delivery_delay_days",
-      "status",
-      "comments",
-    ], // Step 4
+    ["receipt_date", "order_number", "client", "symbol", "repetition_new"],
+    ["type", "flute", "liner", "ect", "number_of_inks"],
+    ["quantity", "estimated_delivery_date"],
+    ["unit_cost", "arapack_lot", "subtotal", "total_invoice"],
+    ["weight", "total_kilograms", "status", "comments"],
   ];
 
   const unit_cost = watch("unit_cost");
   const quantity = watch("quantity");
   const weight = watch("weight");
+  const symbol = watch("symbol");
 
   useEffect(() => {
     const currentUnitCost = Number(unit_cost || 0);
     const currentQuantity = Number(quantity || 0);
     const currentWeight = Number(weight || 0);
-  
+
     if (currentUnitCost > 0 && currentQuantity > 0) {
       const subtotal = currentUnitCost * currentQuantity;
       const totalInvoice = subtotal * 1.16;
-      
-      setValue("subtotal", subtotal);
-      setValue("total_invoice", totalInvoice);
+
+      setValue("subtotal", parseFloat(subtotal.toFixed(2)));
+      setValue("total_invoice", parseFloat(totalInvoice.toFixed(2)));
     }
-  
+
     if (currentWeight > 0 && currentQuantity > 0) {
       const totalKg = currentWeight * currentQuantity;
-      setValue("total_kilograms", totalKg);
+      setValue("total_kilograms", parseFloat(totalKg.toFixed(2)));
     }
   }, [unit_cost, quantity, weight, setValue]);
-  
+
+  useEffect(() => {
+    if (symbol) {
+      const fecthBox = async () => {
+        const box = await fetchBoxBySymbol(symbol);
+
+        if (box) {
+          setValue("type", box.type);
+          setValue("flute", box.flute);
+          setValue("liner", box.liner);
+          setValue("ect", box.ect);
+          const inkCount = Object.values(box.inks).filter(
+            (ink) => ink !== ""
+          ).length;
+          setValue("number_of_inks", inkCount);
+          setValue("client", box.client);
+          setValue("weight", box.weight);
+        }
+      };
+      fecthBox();
+    }
+  }, [symbol, setValue]);
 
   const handleNext = async () => {
     const fields = stepFields[activeStep];
@@ -155,7 +161,7 @@ export default function PurchaseStepperForm() {
         </Stepper>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
-          {activeStep === 0 && <OrderDetailsStep />}
+          {activeStep === 0 && <OrderDetailsStep symbols={symbols} />}
           {activeStep === 1 && <TechnicalSpecsStep />}
           {activeStep === 2 && <ProductionShippingStep />}
           {activeStep === 3 && <FinancialInfoStep />}
@@ -202,13 +208,20 @@ export default function PurchaseStepperForm() {
 }
 
 // Componentes para cada paso
-const OrderDetailsStep = () => (
+const OrderDetailsStep = ({ symbols }: { symbols: string[] }) => (
   <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
     <InputField
       name="receipt_date"
       label="Fecha de recibo"
       type="date"
       iconLeft={<CalendarMonthOutlined />}
+    />
+    <InputField
+      name="symbol"
+      label="Símbolo"
+      type="select"
+      placeholder="Ingresa el símbolo"
+      options={symbols.map((symbol) => symbol)}
     />
     <InputField
       name="order_number"
@@ -222,12 +235,12 @@ const OrderDetailsStep = () => (
       iconLeft={<PersonOutline />}
       placeholder="Ingresa el nombre del cliente"
     />
-    <InputField
+    {/* <InputField
       name="symbol"
       label="Símbolo"
       iconLeft={<BadgeOutlined />}
       placeholder="Ingresa el símbolo"
-    />
+    /> */}
     <InputField
       name="repetition_new"
       label="Repetición/Nuevo"
@@ -295,18 +308,6 @@ const ProductionShippingStep = () => (
       type="date"
       iconLeft={<CalendarMonthOutlined />}
     />
-    {/* <InputField
-      name="initial_shipping_date"
-      label="Fecha inicial de envío"
-      type="date"
-      iconLeft={<CalendarMonthOutlined />}
-    />
-    <InputField
-      name="final_shipping_date"
-      label="Fecha final de envío"
-      type="date"
-      iconLeft={<CalendarMonthOutlined />}
-    /> */}
   </div>
 );
 
@@ -371,35 +372,12 @@ const TrackingStep = () => (
       isNumber
       readonly
     />
-    {/* <InputField
-      name="delivered_quantity"
-      label="Cantidad entregada"
-      type="number"
-      iconLeft={<LocalShippingOutlined />}
-      placeholder="Ingresa la cantidad entregada"
-      isNumber
-    />
-    <InputField
-      name="delivery_delay_days"
-      label="Días de retraso"
-      type="number"
-      iconLeft={<DateRangeOutlined />}
-      placeholder="Ingresa los días de retraso"
-      isNumber
-    /> */}
     <InputField
       name="status"
       label="Estado"
       type="select"
       options={["Aprobado", "Pendiente", "Cancelada"]}
     />
-    {/* <InputField
-      name="flute"
-      label="Flauta"
-      type="select"
-      placeholder="Selecciona la flauta"
-      options={["A", "B", "C", "E", "F"]}
-    /> */}
     <InputField
       name="comments"
       label="Comentarios"

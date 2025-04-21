@@ -21,7 +21,7 @@ export default async function Page(props: {
           { href: "/dashboard/laminas", label: "Láminas" },
           {
             label: `${data.description}`,
-            href: `/dashboard/cajas/detalles-caja/${data.description}`,
+            href: `/dashboard/laminas/${params.id}`,
             active: true,
           },
         ]}
