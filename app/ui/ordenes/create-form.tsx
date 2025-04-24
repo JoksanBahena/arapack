@@ -139,12 +139,12 @@ export default function PurchaseStepperForm({
       setActiveStep(0);
       Toast.fire({
         icon: "success",
-        title: "Caja creada correctamente",
+        title: "Órden creada correctamente",
       });
     } else {
       Toast.fire({
         icon: "error",
-        title: "Error al crear la caja",
+        title: "Error al crear la órden",
       });
     }
   };
@@ -476,7 +476,7 @@ const InputField = ({
               iconRight={iconRight}
               placeholder={placeholder}
               type={type}
-              step={isNumber ? 0.01 : undefined}
+              step={isNumber ? 0.001 : undefined}
               {...register(name, isNumber ? { valueAsNumber: true } : {})}
               error={
                 typeof errors[name]?.message === "string"

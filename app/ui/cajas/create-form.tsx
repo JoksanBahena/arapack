@@ -56,8 +56,6 @@ export default function BoxForm() {
   });
 
   const handleSubmit = async (values: z.infer<typeof createBoxSchema>) => {
-    console.log("values", values);
-
     const response = await createBox(values);
 
     if (response.status === 201) {
