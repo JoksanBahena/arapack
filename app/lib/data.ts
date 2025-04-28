@@ -526,7 +526,7 @@ export async function fetchPurchasesPages(query: string) {
 
 export async function fetchPurchaseById(arapack_lot: string) {
   try {
-    const response = await fetch(`${URL_BASE}/purchases/getByArapackLot/${arapack_lot}`, {
+    const response = await fetch(`${URL_BASE}/purchases/getByArapackLot?arapack_lot=${arapack_lot}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
