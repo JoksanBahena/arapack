@@ -7,6 +7,10 @@ export default async function CorrugadoraTable() {
 
   const data = await fetchProgramPlaning(20);
 
+  if (!data) {
+    return <p>No se encontraron cajas.</p>;
+  }
+
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-md">
       <table className="min-w-full divide-y divide-gray-200">
