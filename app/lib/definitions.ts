@@ -245,3 +245,30 @@ export type PurchasesTable = {
   arapack_lot: string;
   subtotal: number;
 }
+
+export type ProgramPlaningTable = {
+  _id: string;
+  production_runs: {
+    machine: string;
+    processed_boxes: {
+      symbol: string;
+      quantity: number;
+      output: number;
+    }[];
+    refile: number;
+    linear_meters: number;
+    speed: number;
+    treatment: number;
+    scheduled_date: string;
+    start_time: string;
+    end_time: string;
+    sheet: {
+      id: string;
+      ect: number;
+      roll_width: number;
+      p1: number;
+      p2: number;
+      p3: number;
+    }
+  }[];
+}

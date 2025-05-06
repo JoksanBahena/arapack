@@ -9,6 +9,7 @@ import {
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
+  ProgramPlaningTable,
   Purchase,
   PurchaseForm,
   PurchasesTable,
@@ -557,5 +558,24 @@ export async function createPurchase(data: PurchaseForm) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to create purchase.");
+  }
+}
+
+export async function fetchProgramPlaning(week: number): Promise<ProgramPlaningTable> {
+  try {
+    const response = await fetch(`${URL_BASE}/program/getByWeek/${week}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch program planing.");
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch program planing.");
   }
 }

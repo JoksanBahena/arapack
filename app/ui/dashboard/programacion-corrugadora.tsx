@@ -1,106 +1,11 @@
-"use client";
-import { useRouter } from "next/navigation";
+import { fetchProgramPlaning } from "@/app/lib/data";
 import { Fragment } from "react";
 
-export default function CorrugadoraTable() {
-  const data = [
-    {
-      idCorrida: "1",
-      tipo: "pedido",
-      maquina: "FLEXO",
-      cliente: "DEGASA",
-      simbolo: "DEG CR CE-10",
-      medidas: { largo: 150.3, ancho: 55.8 },
-      rayados: "16.4-23-16.4",
-      salen: 2,
-      cantidad: 1500,
-      pesoUnitario: 0.242,
-      horaInicio: "08:10:00",
-      horaFin: "08:24:00",
-      // ... otros campos
-    },
-    {
-      tipo: "cambio-rollos",
-      motivo: "CAMBIO DE ROLLOS",
-      materiales: "115 | 110 | 110 | 110",
-      horaInicio: "09:40:00",
-      horaFin: "09:55:00",
-    },
-    {
-      idCorrida: "2",
-      tipo: "pedido",
-      maquina: "FLEXO",
-      cliente: "DEGASA",
-      simbolo: "DEG CR CE-10",
-      medidas: { largo: 150.3, ancho: 55.8 },
-      rayados: "16.4-23-16.4",
-      salen: 2,
-      cantidad: 1500,
-      pesoUnitario: 0.242,
-      horaInicio: "08:10:00",
-      horaFin: "08:24:00",
-      // ... otros campos
-    },
-    {
-      idCorrida: "2",
-      tipo: "pedido",
-      maquina: "FLEXO",
-      cliente: "DEGASA",
-      simbolo: "DEG CR CE-10",
-      medidas: { largo: 150.3, ancho: 55.8 },
-      rayados: "16.4-23-16.4",
-      salen: 2,
-      cantidad: 1500,
-      pesoUnitario: 0.242,
-      horaInicio: "08:10:00",
-      horaFin: "08:24:00",
-      // ... otros campos
-    },
-    {
-      idCorrida: "3",
-      tipo: "pedido",
-      maquina: "FLEXO",
-      cliente: "DEGASA",
-      simbolo: "DEG CR CE-10",
-      medidas: { largo: 150.3, ancho: 55.8 },
-      rayados: "16.4-23-16.4",
-      salen: 2,
-      cantidad: 1500,
-      pesoUnitario: 0.242,
-      horaInicio: "08:10:00",
-      horaFin: "08:24:00",
-      // ... otros campos
-    },
-    {
-      idCorrida: "3",
-      tipo: "pedido",
-      maquina: "FLEXO",
-      cliente: "DEGASA",
-      simbolo: "DEG CR CE-10",
-      medidas: { largo: 150.3, ancho: 55.8 },
-      rayados: "16.4-23-16.4",
-      salen: 2,
-      cantidad: 1500,
-      pesoUnitario: 0.242,
-      horaInicio: "08:10:00",
-      horaFin: "08:24:00",
-      // ... otros campos
-    },
-    {
-      tipo: "cambio-rollos",
-      motivo: "CAMBIO DE ROLLOS",
-      materiales: "115 | 110 | 110 | 110",
-      horaInicio: "09:40:00",
-      horaFin: "09:55:00",
-    },
-  ];
-
+export default async function CorrugadoraTable() {
   let currentCorrida = 0;
-  const router = useRouter();
+  let currentSheet: string | null = null;
 
-  const handleDetails = (idCorrida: string) => {
-    router.push(`/dashboard/corrugadora/${idCorrida}`);
-  };
+  const data = await fetchProgramPlaning(20);
 
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-md">
@@ -112,26 +17,28 @@ export default function CorrugadoraTable() {
               Máquina
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Cliente
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
               Símbolo
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Medidas
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Rayados
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
               Salen
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              Refil
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
               Cantidad
             </th>
-            {/* Agrega más encabezados según necesidad */}
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-              Hora proceso
+              Metros lineales
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              Velocidad
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              Tratamiento
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              Fecha programada
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
               Hora programada
@@ -139,71 +46,81 @@ export default function CorrugadoraTable() {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
-          {data.map((item, idx) => {
-            const showSeparator =
-              item.idCorrida && Number(item.idCorrida) !== currentCorrida;
-            currentCorrida = Number(item.idCorrida) || currentCorrida;
+          {data.production_runs.map((item, idx) => {
+            const showSeparator = idx !== 0 && idx !== currentCorrida;
+            if (showSeparator) {
+              currentCorrida = idx;
+            }
+            
+            const showChangeRolls = item.sheet.id !== currentSheet;
+            if (showChangeRolls) {
+              currentSheet = item.sheet.id;
+            }
             return (
               <Fragment key={idx}>
-                {showSeparator && (
-                  <tr className="h-4 bg-gray-100">
-                    <td colSpan={10} className="p-0"></td>
-                  </tr>
-                )}
-                {item.tipo === "cambio-rollos" ? (
-                  // Fila de cambio de rollos
-                  <tr className="bg-blue-300">
-                    <td
-                      colSpan={10}
-                      className="px-4 py-3 text-xs text-gray-900 text-center"
+                <>
+                  {showChangeRolls ? (
+                    <tr className="bg-blue-300">
+                      <td
+                        colSpan={10}
+                        className="px-4 py-3 text-xs text-gray-900 text-center"
+                      >
+                        <div className="flex items-center justify-center">
+                          <span className="mr-2">🔄</span>
+                          Cambio de rollo -
+                          <span className="ml-2">
+                            ECT: {item.sheet.ect} |{" "}
+                            Largo: {item.sheet.roll_width} |{" "}
+                            P1: {item.sheet.p1} | P2: {item.sheet.p2} | P3:{" "}
+                            {item.sheet.p3}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : showSeparator && (
+                    <tr className="h-4 bg-gray-100">
+                      <td colSpan={10} className="p-0"></td>
+                    </tr>
+                  )}
+                  {item.processed_boxes.map((box, boxIdx) => (
+                    <tr
+                      key={boxIdx}
+                      className="hover:bg-gray-100 transition-colors"
                     >
-                      <div className="flex items-center justify-center">
-                        <span className="mr-2">🔄</span>
-                        {item.motivo} - {item.materiales}
-                        <span className="ml-4">
-                          <time>{item.horaInicio}</time> -{" "}
-                          <time>{item.horaFin}</time>
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                ) : (
-                  // Fila normal de pedido
-                  <tr
-                    className="hover:bg-gray-100 transition-colors"
-                    onClick={() => handleDetails(item.idCorrida || "")}
-                  >
-                    <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
-                      {item.maquina}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-900">
-                      {item.cliente}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-900">
-                      {item.simbolo}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-900">
-                      {item.medidas?.largo} x {item.medidas?.ancho}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-900">
-                      {item.rayados}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-900">
-                      {item.salen}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-900">
-                      {item.cantidad}
-                    </td>
-                    {/* Agrega más celdas según necesidad */}
-                    <td className="px-4 py-3 text-xs text-gray-900">
-                      <time>{item.horaInicio}</time> -{" "}
-                      <time>{item.horaFin}</time>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-900">
-                      {/* Aquí iría la hora programada */}
-                    </td>
-                  </tr>
-                )}
+                      <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
+                        {item.machine}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        {box.symbol}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        {box.output}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        {item.refile}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        {box.quantity}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        {item.linear_meters}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        {item.speed}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        {item.treatment}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        {item.scheduled_date}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-900">
+                        <time>{item.start_time}</time> -{" "}
+                        <time>{item.end_time}</time>
+                      </td>
+                    </tr>
+                  ))}
+                </>
               </Fragment>
             );
           })}
