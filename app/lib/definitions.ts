@@ -106,7 +106,7 @@ export type Box = {
     gcmi_2?: string;
     gcmi_3?: string;
     gcmi_4?: string;
-  }
+  };
   weight: number;
   status: "approved" | "pending";
   type: string;
@@ -148,9 +148,7 @@ export type BoxForm = {
   pdf_link: File[];
 };
 
-export type BoxField = [
-  symbol: string,
-]
+export type BoxField = [symbol: string];
 
 export type Sheet = {
   boxes: string[];
@@ -231,7 +229,7 @@ export type PurchaseForm = {
   status: string;
   comments?: string | "";
   // delivery_delay_days: number;
-}
+};
 
 export type PurchasesTable = {
   _id: string;
@@ -244,31 +242,34 @@ export type PurchasesTable = {
   estimated_delivery_date: string;
   arapack_lot: string;
   subtotal: number;
-}
+};
 
 export type ProgramPlaningTable = {
   _id: string;
-  production_runs: {
-    machine: string;
-    processed_boxes: {
-      symbol: string;
-      quantity: number;
-      output: number;
-    }[];
-    refile: number;
-    linear_meters: number;
-    speed: number;
-    treatment: number;
-    scheduled_date: string;
-    start_time: string;
-    end_time: string;
-    sheet: {
-      id: string;
-      ect: number;
-      roll_width: number;
-      p1: number;
-      p2: number;
-      p3: number;
-    }
+  production_runs: {}[];
+  week_of_year: number;
+};
+
+export type ProgramPlaning = {
+  processed_boxes: {
+    symbol: string;
+    quantity: number;
+    output: number;
+    arapack_lot: string;
   }[];
-}
+  refile: number;
+  linear_meters: number;
+  speed: number;
+  treatment: number;
+  scheduled_date: string;
+  start_time: string;
+  end_time: string;
+  sheet: {
+    id: string;
+    ect: number;
+    roll_width: number;
+    p1: number;
+    p2: number;
+    p3: number;
+  };
+};

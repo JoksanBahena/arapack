@@ -1,5 +1,5 @@
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import CorrugadoraTable from "@/app/ui/dashboard/programacion-corrugadora";
+import CorrugadoraTable from "@/app/ui/corrugadora/table";
 
 export default function Page() {
   return (

@@ -6,7 +6,6 @@ import Pagination from "../ui/invoices/pagination";
 import { BoxesTableSkeleton, InvoicesTableSkeleton } from "../ui/skeletons";
 import CancelOrderModal from "../ui/order/cancel-order-modal";
 import ChangeDateModal from "../ui/order/change-date-modal";
-import CorrugadoraTable from "../ui/dashboard/programacion-corrugadora";
 import { fetchBoxes, fetchBoxesPages } from "../lib/data";
 import Search from "../ui/search";
 
