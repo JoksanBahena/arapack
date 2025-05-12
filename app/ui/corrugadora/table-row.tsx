@@ -17,8 +17,6 @@ export default function TableRow({
   let currentCorrida = 0;
   let currentSheet: string | null = null;
 
-  const router = useRouter();
-
   const handleClick = () => {
     setIsOpen(true);
   };
@@ -32,6 +30,7 @@ export default function TableRow({
   if (showChangeRolls) {
     currentSheet = item.sheet.id;
   }
+  
   return (
     <Fragment key={idx}>
       <CorrugadoraModal

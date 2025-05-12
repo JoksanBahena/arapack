@@ -570,10 +570,7 @@ export async function fetchProgramPlaning(week: number): Promise<ProgramPlaningT
       },
     });
 
-    if (!response.ok) throw new Error("Failed to fetch program planing.");
-
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch program planing.");

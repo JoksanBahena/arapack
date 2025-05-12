@@ -2,8 +2,12 @@ import { fetchProgramPlaning } from "@/app/lib/data";
 import TableRow from "./table-row";
 import { ProgramPlaning } from "@/app/lib/definitions";
 
-export default async function CorrugadoraTable() {
-  const data = await fetchProgramPlaning(24);
+export default async function CorrugadoraTable({
+  week
+}: {
+  week: number;
+}) {
+  const data = await fetchProgramPlaning(week);
 
   if (!data) {
     return <p>No se encontraron cajas.</p>;
