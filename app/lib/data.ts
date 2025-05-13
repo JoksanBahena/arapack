@@ -484,6 +484,24 @@ export async function createSheet(data: Sheet) {
   }
 }
 
+export async function editSheet(data: Sheet, id: string) {
+  try {
+    const response = await fetch(`${URL_BASE}/sheets/update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Failed to edit sheet.");
+    return await response;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to edit sheet.");
+  }
+}
+
 export async function fetchFilteredPurchases(
   query: string,
   currentPage: number

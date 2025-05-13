@@ -233,12 +233,8 @@ export const updateBoxSchema = object({
 });
 
 export const createSheetSchema = object({
-  boxes: z.array(z.string()).min(1, {
-    message: "Al menos una caja es requerida",
-  }),
-  description: string({
-    required_error: "La descripción es requerida",
-  }).min(1, "La descripción es requerida"),
+  boxes: z.array(z.string()).optional(),
+  description: string().optional(),
   ect: z.array(z.string()).min(1, {
     message: "Ingrese al menos un valor",
   }),

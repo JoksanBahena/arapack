@@ -1,5 +1,6 @@
 import { fetchSheetById } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
+import { EditSheet } from "@/app/ui/laminas/buttons";
 
 export default async function Page(props: {
   params: Promise<{
@@ -20,12 +21,13 @@ export default async function Page(props: {
         breadcrumbs={[
           { href: "/dashboard/laminas", label: "Láminas" },
           {
-            label: `${data.description}`,
+            label: `${data.roll_width}cm x ${data.p1}g. x ${data.p2}g. x ${data.p3}g.`,
             href: `/dashboard/laminas/${params.id}`,
             active: true,
           },
         ]}
       />
+      <EditSheet id={params.id} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
         {/* Columna izquierda: Detalles */}

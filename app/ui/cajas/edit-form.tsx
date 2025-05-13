@@ -129,7 +129,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
           iconLeft={<ScaleOutlined />}
           placeholder="Ingresa el peso"
           type="number"
-          step={0.01}
+          step={0.001}
           {...form.register("weight", { valueAsNumber: true })}
           error={form.formState.errors.weight?.message}
           iconRight={<span className="text-gray-500 text-sm">kg</span>}

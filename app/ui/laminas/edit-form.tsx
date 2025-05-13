@@ -13,38 +13,48 @@ import {
   Looks3Outlined,
 } from "@mui/icons-material";
 import Link from "next/link";
-import { createSheet } from "@/app/lib/data";
+import { editSheet } from "@/app/lib/data";
 import { Toast } from "@/app/lib/alerts";
+import { Sheet } from "@/app/lib/definitions";
+import { useRouter } from "next/navigation";
 
-
-export default function SheetForm({ boxes }: { boxes: string[] }) {
+export default function EditSheetForm({
+  sheet,
+  boxes,
+  _id,
+}: {
+  sheet: Sheet;
+  boxes: string[];
+  _id: string;
+}) {
+  const router = useRouter();
   const form = useForm<z.infer<typeof createSheetSchema>>({
     resolver: zodResolver(createSheetSchema),
     defaultValues: {
-      boxes: [],
-      description: "",
-      ect: [],
-      grams: undefined,
-      p1: undefined,
-      p2: undefined,
-      p3: undefined,
-      roll_width: undefined,
+      boxes: sheet.boxes,
+      description: sheet.description,
+      ect: sheet.ect.map(String),
+      grams: sheet.grams,
+      p1: sheet.p1,
+      p2: sheet.p2,
+      p3: sheet.p3,
+      roll_width: sheet.roll_width,
     },
   });
 
   const handleSubmit = async (data: z.infer<typeof createSheetSchema>) => {
-    const response = await createSheet(data);
+    const response = await editSheet(data, _id);
 
-    if (response.status === 201) {
-      form.reset();
+    if (response.status === 200) {
+      router.push(`/dashboard/laminas/${_id}`);
       Toast.fire({
         icon: "success",
-        title: "Lámina creada correctamente",
+        title: "Lámina editada correctamente",
       });
     } else {
       Toast.fire({
         icon: "error",
-        title: "Error al crear la lámina",
+        title: "Error al editar la lámina",
       });
     }
   };
@@ -90,7 +100,9 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 mb-6">
         <div>
-          <label className="block text-primary mb-1 font-medium">Descripción</label>
+          <label className="block text-primary mb-1 font-medium">
+            Descripción
+          </label>
           <textarea
             rows={4}
             {...form.register("description")}
@@ -178,9 +190,7 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
           placeholder="Gramaje"
           {...form.register("grams", { valueAsNumber: true })}
           error={form.formState.errors.grams?.message}
-          iconRight={
-            <span className="text-sm text-gray-500">g</span>
-          }
+          iconRight={<span className="text-sm text-gray-500">g</span>}
         />
         <TextInput
           label="Ancho de rollo"
@@ -189,9 +199,7 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
           placeholder="Ancho de rollo"
           {...form.register("roll_width", { valueAsNumber: true })}
           error={form.formState.errors.roll_width?.message}
-          iconRight={
-            <span className="text-sm text-gray-500">cm</span>
-          }
+          iconRight={<span className="text-sm text-gray-500">cm</span>}
         />
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
