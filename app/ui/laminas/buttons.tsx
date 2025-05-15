@@ -1,4 +1,4 @@
-import { PencilIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 export function CreateSheet() {
@@ -22,5 +22,16 @@ export function EditSheet({ id }: { id: string }) {
       <span className="hidden md:block">Actualizar Lámina</span>{" "}
       <PencilIcon className="h-5 md:ml-4" />
     </Link>
+  );
+}
+
+export function DeleteSheet({ id }: { id: string }) {
+  return (
+    <>
+      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Delete</span>
+        <TrashIcon className="w-5" />
+      </button>
+    </>
   );
 }

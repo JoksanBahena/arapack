@@ -11,6 +11,13 @@ export default function TableRow({ box }: { box: BoxesTable }) {
       onClick={() => router.push(`/dashboard/cajas/${box.symbol}`)}
       className="hover:bg-gray-100 transition-colors cursor-pointer"
     >
+      <td
+        className={clsx({
+          "bg-green-200": box.status === "APPROVED",
+          "bg-amber-200": box.status === "PENDING",
+          "bg-red-200": box.status === "DISABLED",
+        })}
+      ></td>
       <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
         {box.symbol}
       </td>
@@ -22,19 +29,6 @@ export default function TableRow({ box }: { box: BoxesTable }) {
       <td className="px-4 py-3 text-xs text-gray-900">{box.ect}</td>
       <td className="px-4 py-3 text-xs text-gray-900">
         {box.creases.r1} - {box.creases.r2} - {box.creases.r3}
-      </td>
-      <td className="px-4 py-3">
-        <span
-          className={clsx(
-            "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap",
-            {
-              "bg-green-100 text-green-800": box.status === "approved",
-              "bg-red-100 text-red-800": box.status === "pending",
-            }
-          )}
-        >
-          {box.status}
-        </span>
       </td>
     </tr>
   );

@@ -41,7 +41,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
       width: box.width,
       liner: box.liner,
       pdf_link: [] as File[],
-      status: "pending",
+      status: box.status,
       creases: {
         r1: box.creases.r1,
         r2: box.creases.r2,
@@ -54,7 +54,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
         gcmi_4: box.inks.gcmi_4,
       },
       weight: box.weight,
-      treatment: box.treatment,
+      treatment: box.treatment ? 1 : 0,
       type: box.type,
     },
   });
@@ -373,8 +373,9 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
             {...form.register("status")}
             className="block w-full rounded-md border-gray-300 px-3 py-2"
           >
-            <option value="approved">Aprobada</option>
-            <option value="pending">Pendiente</option>
+            <option value="APPROVED">Aprobada</option>
+            <option value="PENDING">Pendiente</option>
+            <option value="DISABLED">Deshabilitada</option>
           </select>
           {form.formState.errors.status && (
             <p className="text-red-500 text-sm mt-1">

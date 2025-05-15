@@ -37,7 +37,7 @@ export default function BoxForm() {
       width: undefined,
       liner: "",
       pdf_link: [] as File[],
-      status: "approved",
+      status: "APPROVED",
       creases: {
         r1: 0,
         r2: 0,
@@ -366,8 +366,9 @@ export default function BoxForm() {
             {...form.register("status")}
             className="block w-full rounded-md border-gray-300 px-3 py-2"
           >
-            <option value="approved">Aprobada</option>
-            <option value="pending">Pendiente</option>
+            <option value="APPROVED">Aprobada</option>
+            <option value="PENDING">Pendiente</option>
+            <option value="DISABLED">Deshabilitada</option>
           </select>
           {form.formState.errors.status && (
             <p className="text-red-500 text-sm mt-1">

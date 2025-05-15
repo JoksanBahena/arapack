@@ -108,7 +108,7 @@ export type Box = {
     gcmi_4?: string;
   };
   weight: number;
-  status: "approved" | "pending";
+  status: "APPROVED" | "PENDING" | "DISABLED";
   type: string;
   pdf_link: string | File[];
 };
@@ -126,7 +126,7 @@ export type BoxesTable = {
     r2: number;
     r3: number;
   };
-  status: "approved" | "pending";
+  status: "APPROVED" | "PENDING" | "DISABLED";
 };
 
 export type BoxForm = {
@@ -170,6 +170,7 @@ export type SheetsTable = {
   p3: number;
   ect: number[];
   boxes: string[];
+  status: boolean;
 };
 
 export type Purchase = {

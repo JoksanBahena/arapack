@@ -134,7 +134,7 @@ export default function EditSheetForm({
             )}
           >
             <input
-              type="text"
+              type="number"
               placeholder="Escribe y presiona Enter..."
               className="w-full px-3 py-2 border-0 focus:ring-0"
               onKeyDown={(e) => {

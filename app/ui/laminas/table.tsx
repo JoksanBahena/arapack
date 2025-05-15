@@ -9,7 +9,7 @@ export default async function LaminasTable({
   currentPage: number;
 }) {
   const data = await fetchFilteredSheets(query, currentPage);
-  
+
   if (!data) {
     return <p>No se encontraron láminas.</p>;
   }
@@ -19,6 +19,7 @@ export default async function LaminasTable({
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
+            <th className="w-2"></th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
               Asociadas
             </th>
