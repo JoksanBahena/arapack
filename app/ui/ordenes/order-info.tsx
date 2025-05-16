@@ -81,7 +81,16 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                     </span>
                   )}
               </p>
-              {data.missing_quantity > 0 && <DeliveryForm missing_quantity={data.missing_quantity} arapack_lot={data.arapack_lot} />}
+              {data.missing_quantity > 0 ? (
+                <DeliveryForm
+                  missing_quantity={data.missing_quantity}
+                  arapack_lot={data.arapack_lot}
+                />
+              ) : (
+                <span className="items-center rounded bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">
+                  Entrega completa
+                </span>
+              )}
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -95,7 +104,12 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                   className="divide-y divide-gray-100 rounded-md border border-gray-200"
                 >
                   {data.delivery_dates.map((shipp, index) => (
-                    <ShippingRow key={index} shipping={shipp} index_list={index} arapack_lot={data.arapack_lot} />
+                    <ShippingRow
+                      key={index}
+                      shipping={shipp}
+                      index_list={index}
+                      arapack_lot={data.arapack_lot}
+                    />
                   ))}
                 </ul>
               </dd>
@@ -124,7 +138,9 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                 <strong>Subtotal:</strong> $
                 {formatNumberWithCommas(data.subtotal)}{" "}
                 <span className="text-sm">MXN</span>{" "}
-                <span className="text-xs text-gray-500">(antes de IVA)</span>
+                <span className="text-xs text-gray-500 italic">
+                  (antes de IVA)
+                </span>
               </p>
               <p className="text-gray-700">
                 <strong>Total factura:</strong> $
