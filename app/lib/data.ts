@@ -564,7 +564,7 @@ export async function fetchPurchaseById(arapack_lot: string) {
 
 export async function createPurchase(data: PurchaseForm) {
   try {
-    const response = await fetch(`${URL_BASE}/purchases/create`, {
+    const response = await fetch(`${URL_BASE}/purchases/create_with_ai`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
