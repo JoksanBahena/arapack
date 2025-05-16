@@ -192,16 +192,12 @@ export type Purchase = {
   total_invoice: number;
   weight: number;
   total_kilograms: number;
-  delivered_quantity: number;
-  initial_shipping_date: string;
-  final_shipping_date: string;
-  delivery_dates: string[];
+  delivery_dates: Shipping[];
   missing_quantity: number;
   status: string;
   comments: string;
   pending_kilograms: number;
   delivery_delay_days: number;
-  real_delivery_period: number;
   created_at: string;
 };
 
@@ -273,4 +269,11 @@ export type ProgramPlaning = {
     p2: number;
     p3: number;
   };
+};
+
+export type Shipping = {
+  initial_shipping_date: string;
+  quantity: number;
+  comment?: string | undefined;
+  finish_shipping_date?: string | undefined;
 };

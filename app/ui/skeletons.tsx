@@ -420,3 +420,32 @@ export function CorrugadoraSkeletonTable() {
     </div>
   );
 }
+
+export function SkeletonOrderinfo() {
+  const baseClass = "h-4 bg-gray-200 rounded animate-pulse";
+
+  return (
+    <div className="space-y-6">
+      <div className="h-6 w-48 bg-gray-200 rounded animate-pulse" />
+      <div className="space-y-4 border-t border-gray-100 pt-6">
+        {[...Array(6)].map((_, sectionIndex) => (
+          <div
+            key={sectionIndex}
+            className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"
+          >
+            <div className="h-5 w-32 bg-gray-300 rounded animate-pulse" />
+            <div className="space-y-2 col-span-2">
+              {[...Array(4)].map((_, lineIndex) => (
+                <div
+                  key={lineIndex}
+                  className={`${baseClass} w-full max-w-md`}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+

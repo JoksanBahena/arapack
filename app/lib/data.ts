@@ -16,6 +16,7 @@ import {
   Revenue,
   Sheet,
   SheetsTable,
+  Shipping,
 } from "./definitions";
 import { formatCurrency } from "./utils";
 
@@ -576,6 +577,41 @@ export async function createPurchase(data: PurchaseForm) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to create purchase.");
+  }
+}
+
+export async function createShipping(data: Shipping, arapack_lot: string) {
+  try {
+    const response = await fetch(`${URL_BASE}/purchases/createShipping/${arapack_lot}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Failed to create shipping.");
+    return await response;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to create shipping.");
+  }
+}
+
+export async function completeShipping(arapack_lot: string, index: number) {
+  try {
+    const response = await fetch(`${URL_BASE}/purchases/completeShipping/${arapack_lot}?index=${index}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to complete shipping.");
+    return await response;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to complete shipping.");
   }
 }
 

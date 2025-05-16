@@ -1,8 +1,51 @@
 "use client";
 import { useState } from "react";
+import TextInput from "../text-input";
+import { CalendarMonthOutlined, NumbersOutlined } from "@mui/icons-material";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { createShippingSchema } from "@/app/lib/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createShipping } from "@/app/lib/data";
+import { Toast } from "@/app/lib/alerts";
+import { useRouter } from "next/navigation";
 
-export default function DeliveryForm() {
+export default function DeliveryForm({
+  missing_quantity,
+  arapack_lot,
+}: {
+  missing_quantity: number;
+  arapack_lot: string;
+}) {
   const [show, setShow] = useState(false);
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof createShippingSchema>>({
+    resolver: zodResolver(createShippingSchema),
+    defaultValues: {
+      initial_shipping_date: new Date().toISOString().split("T")[0],
+      quantity: 0,
+      comment: "",
+    },
+  });
+
+  const handleSubmit = async (values: z.infer<typeof createShippingSchema>) => {
+    const response = await createShipping(values, arapack_lot);
+
+    if (response.status === 200) {
+      form.reset();
+      router.refresh();
+      Toast.fire({
+        icon: "success",
+        title: "Envío creado correctamente",
+      });
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "Error al crear el envío",
+      });
+    }
+  };
 
   return (
     <>
@@ -19,55 +62,44 @@ export default function DeliveryForm() {
         }`}
         id="shipping-form"
       >
-        <form className="space-y-4">
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <TextInput
+            label="Fecha de envío"
+            placeholder="Ingresa el largo"
+            type="date"
+            {...form.register("initial_shipping_date")}
+            error={form.formState.errors.initial_shipping_date?.message}
+            iconLeft={<CalendarMonthOutlined />}
+          />
+          <TextInput
+            label="Cantidad"
+            placeholder="Ingresa la cantidad"
+            type="number"
+            {...form.register("quantity", {
+              valueAsNumber: true,
+            })}
+            min={1}
+            max={missing_quantity}
+            error={form.formState.errors.quantity?.message}
+            iconLeft={<NumbersOutlined />}
+            iconRight={<span className="text-gray-500 text-sm">pzas.</span>}
+          />
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Fecha de envío real
-            </label>
-            <input
-              type="date"
-              name="real_delivery_date"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 sm:text-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Enviado por
-            </label>
-            <input
-              type="text"
-              name="sent_by"
-              placeholder="Nombre del responsable"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 sm:text-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Método de envío
-            </label>
-            <input
-              type="text"
-              name="delivery_method"
-              placeholder="Ej. Transportadora, Mensajería, etc."
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 sm:text-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Comentarios de envío
+            <label
+              htmlFor="comment"
+              className="block text-primary mb-1 font-medium"
+            >
+              Comentarios
             </label>
             <textarea
-              name="shipping_comments"
+              placeholder="Escribe un comentario"
+              {...form.register("comment")}
+              className="w-full px-3 py-2 border rounded-md"
               rows={3}
-              placeholder="Observaciones o detalles relevantes..."
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 sm:text-sm"
-            ></textarea>
+            />
           </div>
 
-          <div className="text-right">
+          <div className="text-right mt-4">
             <button
               type="submit"
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"

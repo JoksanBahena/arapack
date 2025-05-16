@@ -11,19 +11,22 @@ export const createBoxSchema = object({
       .transform((val) => Number(val))
       .refine((val) => !isNaN(val) && val >= 0, {
         message: "Debe ser un número válido mayor o igual a 0",
-      }).optional(),
+      })
+      .optional(),
     r2: z
       .number()
       .transform((val) => Number(val))
       .refine((val) => !isNaN(val) && val >= 0, {
         message: "Debe ser un número válido mayor o igual a 0",
-      }).optional(),
+      })
+      .optional(),
     r3: z
       .number()
       .transform((val) => Number(val))
       .refine((val) => !isNaN(val) && val >= 0, {
         message: "Debe ser un número válido mayor o igual a 0",
-      }).optional(),
+      })
+      .optional(),
   }),
 
   inks: object({
@@ -72,10 +75,12 @@ export const createBoxSchema = object({
   }).min(1, "Seleccione el tipo de liner"),
 
   // En createBoxSchema
-  pdf_link: z.array(z.instanceof(File), {
-    invalid_type_error: "Debe ser un archivo válido",
-    required_error: "El archivo es requerido",
-  }).nonempty("El archivo es requerido"),
+  pdf_link: z
+    .array(z.instanceof(File), {
+      invalid_type_error: "Debe ser un archivo válido",
+      required_error: "El archivo es requerido",
+    })
+    .nonempty("El archivo es requerido"),
 
   status: z.enum(["APPROVED", "PENDING", "DISABLED"], {
     invalid_type_error: "El estado debe ser 'Pendiente' o 'Aprobado'",
@@ -506,4 +511,32 @@ export const createPurchaseSchema = object({
   //   .refine((val) => !isNaN(val) && val >= 0, {
   //     message: "El periodo de entrega real debe ser un número válido mayor o igual a 0",
   //   }),
+});
+
+export const createShippingSchema = object({
+  initial_shipping_date: string({
+    required_error: "La fecha estimada de entrega es requerida",
+  })
+    .min(1, "La fecha estimada de entrega es requerida")
+    .refine(
+      (value) => {
+        const date = new Date(value);
+        const today = new Date();
+        today.setDate(today.getDate() - 1);
+        return date >= today;
+      },
+      {
+        message: "La fecha estimada de entrega no puede ser menor a hoy",
+      }
+    ),
+  quantity: z
+    .number()
+    .min(1, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "La cantidad debe ser un número válido mayor o igual a 0",
+    }),
+  comment: z.string().optional(),
 });
