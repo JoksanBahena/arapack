@@ -30,6 +30,7 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
       p3: undefined,
       roll_width: undefined,
       speed: undefined,
+      status: "true",
     },
   });
 
