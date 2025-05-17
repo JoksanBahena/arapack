@@ -1,5 +1,5 @@
 "use client";
-import { Toast } from "@/app/lib/alerts";
+import { showConfirmDialog, Toast } from "@/app/lib/alerts";
 import { completeShipping } from "@/app/lib/data";
 import { Shipping } from "@/app/lib/definitions";
 import { formatDateToLocal, formatNumberWithCommas } from "@/app/lib/utils";
@@ -17,21 +17,29 @@ export default function ShippingRow({
 }) {
   const router = useRouter();
   const handleClick = async () => {
-    const response = await completeShipping(arapack_lot, index_list);
-
-    if (response.status === 200) {
-      router.refresh();
-      Toast.fire({
-        icon: "success",
-        title: "Caja creada correctamente",
-      });
-    } else {
-      Toast.fire({
-        icon: "error",
-        title: "Error al crear la caja",
-      });
-    }
+    showConfirmDialog(
+      "¿Está seguro de que desea marcar este envío como entregado?",
+      "Esta acción no se puede deshacer.",
+      "Marcar como entregado",
+      "Cancelar",
+      async () => {
+        const response = await completeShipping(arapack_lot, index_list);
+        if (response.status === 200) {
+          router.refresh();
+          Toast.fire({
+            icon: "success",
+            title: "Envío marcado como entregado",
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "Error al marcar el envío como entregado",
+          });
+        }
+      }
+    );
   };
+  
   return (
     <li className="py-4 pr-5 pl-4 text-sm/6">
       {/* Fila principal */}

@@ -29,6 +29,7 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
       p2: undefined,
       p3: undefined,
       roll_width: undefined,
+      speed: undefined,
     },
   });
 
@@ -170,7 +171,7 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
           )}
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 mb-6">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mb-6">
         <TextInput
           label="Gramaje"
           type="number"
@@ -191,6 +192,17 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
           error={form.formState.errors.roll_width?.message}
           iconRight={
             <span className="text-sm text-gray-500">cm</span>
+          }
+        />
+        <TextInput
+          label="Velocidad"
+          type="number"
+          iconLeft={<StraightenOutlined />}
+          placeholder="Velocidad"
+          {...form.register("speed", { valueAsNumber: true })}
+          error={form.formState.errors.speed?.message}
+          iconRight={
+            <span className="text-sm text-gray-500">m/min</span>
           }
         />
       </div>

@@ -39,6 +39,7 @@ export default function EditSheetForm({
       p2: sheet.p2,
       p3: sheet.p3,
       roll_width: sheet.roll_width,
+      speed: sheet.speed,
     },
   });
 
@@ -182,7 +183,7 @@ export default function EditSheetForm({
           )}
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 mb-6">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mb-6">
         <TextInput
           label="Gramaje"
           type="number"
@@ -200,6 +201,15 @@ export default function EditSheetForm({
           {...form.register("roll_width", { valueAsNumber: true })}
           error={form.formState.errors.roll_width?.message}
           iconRight={<span className="text-sm text-gray-500">cm</span>}
+        />
+        <TextInput
+          label="Velocidad"
+          type="number"
+          iconLeft={<StraightenOutlined />}
+          placeholder="Velocidad"
+          {...form.register("speed", { valueAsNumber: true })}
+          error={form.formState.errors.speed?.message}
+          iconRight={<span className="text-sm text-gray-500">m/min</span>}
         />
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">

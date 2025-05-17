@@ -159,6 +159,7 @@ export type Sheet = {
   p2: number;
   p3: number;
   roll_width: number;
+  speed: number;
 };
 
 export type SheetsTable = {
