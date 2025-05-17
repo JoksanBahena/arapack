@@ -187,7 +187,11 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
           const inkNumber = index + 1;
           const key =
             `gcmi_${inkNumber}` as keyof typeof form.formState.errors.inks;
-          const error = (form.formState.errors.inks as Record<string, { message?: string }> | undefined)?.[key]?.message;
+          const error = (
+            form.formState.errors.inks as
+              | Record<string, { message?: string }>
+              | undefined
+          )?.[key]?.message;
 
           return (
             <div key={key}>
@@ -202,8 +206,7 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
                 {...form.register(`inks.${key}` as const)}
                 className={
                   clsx("block w-full rounded-md border-gray-300 px-3 py-2", {
-                    "border-red-500":
-                      error !== undefined,
+                    "border-red-500": error !== undefined,
                     "border-gray-300 focus:border-primary focus:ring-primary":
                       error === undefined,
                   }) + " focus:outline-none"
@@ -214,13 +217,10 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
                 </option>
                 <option value="">Ninguno</option>
                 <option value="Negro 90">Negro 90</option>
+                <option value="Rojo 3">Rojo 3</option>
                 {/* Agrega más opciones según necesites */}
               </select>
-              {error && (
-                <p className="text-red-500 text-sm mt-1">
-                  {error}
-                </p>
-              )}
+              {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
           );
         })}
@@ -386,7 +386,10 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
       </div>
 
       <div className="mt-12 flex items-center justify-end border-t border-gray-900/10 pt-12">
-        <Link href="/dashboard/cajas" className="text-sm font-semibold">
+        <Link
+          href={`/dashboard/cajas/${box.symbol}`}
+          className="text-sm font-semibold"
+        >
           Cancelar
         </Link>
         <button

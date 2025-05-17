@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createShipping } from "@/app/lib/data";
 import { Toast } from "@/app/lib/alerts";
 import { useRouter } from "next/navigation";
+import { Button } from "../button";
 
 export default function DeliveryForm({
   missing_quantity,
@@ -62,6 +63,7 @@ export default function DeliveryForm({
         }`}
         id="shipping-form"
       >
+        <h3 className="text-lg font-semibold mb-4">Formulario de envío</h3>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <TextInput
             label="Fecha de envío"
@@ -100,12 +102,7 @@ export default function DeliveryForm({
           </div>
 
           <div className="text-right mt-4">
-            <button
-              type="submit"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
-            >
-              Guardar seguimiento
-            </button>
+            <Button type="submit">Guardar seguimiento</Button>
           </div>
         </form>
       </div>

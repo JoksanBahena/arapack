@@ -13,7 +13,7 @@ export function CreateSheet() {
   );
 }
 
-export function EditSheet({ id }: { id: string }) {
+export function UpdateSheet({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/laminas/${id}/editar-lamina`}

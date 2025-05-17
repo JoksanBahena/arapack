@@ -1,15 +1,10 @@
-import { GlobeAltIcon } from '@heroicons/react/24/outline';
-import { inter } from '@/app/ui/fonts';
 import Image from 'next/image';
 
-export default function AcmeLogo() {
+export default function ArapackLogo() {
   return (
     <div
       className={` flex flex-row items-center md:flex-col md:pl-8 leading-none text-black`}
     >
-      {/* <GlobeAltIcon className="h-12 w-12 rotate-[15deg]" /> */}
-      
-      {/* <Image src={"/arapack-logo.png"} alt="Logo" width={100} height={40} /> */}
       <Image
         src="/arapack-logo.png"
         alt="Logo"

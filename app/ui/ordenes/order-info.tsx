@@ -1,9 +1,16 @@
+"use client";
 import { Purchase } from "@/app/lib/definitions";
 import { formatDateToLocal, formatNumberWithCommas } from "@/app/lib/utils";
 import DeliveryForm from "./delivery-form";
 import ShippingRow from "./shipping-row";
+import { useRouter } from "next/navigation";
 
 export default function OrderInfo({ data }: { data: Purchase }) {
+  const router = useRouter();
+
+  const handleGoToBox = () => {
+    router.push(`/dashboard/cajas/${data.symbol}`);
+  };
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -26,7 +33,14 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                 {formatDateToLocal(data.receipt_date)}
               </p>
               <p className="text-gray-700">
-                <strong>Símbolo:</strong> {data.symbol}
+                <strong>Símbolo:</strong>{" "}
+                <button
+                  type="button"
+                  className="text-blue-600 underline hover:text-blue-800 focus:outline-none"
+                  onClick={handleGoToBox}
+                >
+                  {data.symbol}
+                </button>
               </p>
               <p className="text-gray-700">
                 <strong>Número de orden:</strong> {data.order_number}
@@ -150,9 +164,7 @@ export default function OrderInfo({ data }: { data: Purchase }) {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900">
-              Seguimiento
-            </dt>
+            <dt className="text-sm/6 font-medium text-gray-900">Seguimiento</dt>
             <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
               <p className="text-gray-700">
                 <strong>Peso x pieza:</strong> {data.weight}{" "}

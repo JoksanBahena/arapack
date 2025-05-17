@@ -449,3 +449,123 @@ export function SkeletonOrderinfo() {
   );
 }
 
+export function SkeletonBoxInfo() {
+  return (
+    <>
+      <div className="flex justify-between items-start mb-6">
+        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-24 bg-gray-200 rounded animate-pulse" />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Información General */}
+        <SkeletonCard title="Información General" rows={3} />
+
+        {/* Especificaciones Técnicas */}
+        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <SkeletonTitle
+            iconColor="text-purple-600"
+            label="Especificaciones Técnicas"
+          />
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+              >
+                <div className="p-2 bg-white rounded-md shadow-sm w-8 h-8 animate-pulse" />
+                <div>
+                  <div className="h-4 w-20 bg-gray-200 rounded mb-2 animate-pulse" />
+                  <div className="h-5 w-24 bg-gray-300 rounded animate-pulse" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Rayados */}
+        <SkeletonCard title="Rayados" pills={["R1", "R2", "R3"]} />
+
+        {/* Tintas */}
+        <SkeletonCard title="Tintas" rowCount={1} />
+
+        {/* Documento */}
+        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 col-span-full">
+          <SkeletonTitle iconColor="text-red-600" label="Documento" />
+          <div className="aspect-video bg-gray-100 rounded-lg animate-pulse mt-4" />
+        </div>
+      </div>
+    </>
+  );
+}
+
+function SkeletonCard({
+  title,
+  rows,
+  pills,
+  rowCount = 3,
+}: {
+  title: string;
+  rows?: number;
+  pills?: string[];
+  rowCount?: number;
+}) {
+  return (
+    <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <SkeletonTitle label={title} />
+      {rows && (
+        <div className="space-y-4 mt-4">
+          {Array.from({ length: rows }).map((_, idx) => (
+            <div
+              key={idx}
+              className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0"
+            >
+              <div className="w-20 h-4 bg-gray-200 rounded animate-pulse" />
+              <div className="w-24 h-5 bg-gray-300 rounded animate-pulse" />
+            </div>
+          ))}
+        </div>
+      )}
+      {pills && (
+        <div className="flex gap-4 mt-4">
+          {pills.map((pill) => (
+            <div
+              key={pill}
+              className="text-center p-3 bg-gray-50 rounded-lg flex-1"
+            >
+              <div className="text-sm text-gray-400">{pill}</div>
+              <div className="h-6 w-8 mx-auto mt-2 bg-gray-300 rounded animate-pulse" />
+            </div>
+          ))}
+        </div>
+      )}
+      {!rows && !pills && (
+        <div className="flex flex-wrap gap-2 mt-4">
+          {Array.from({ length: rowCount }).map((_, idx) => (
+            <div
+              key={idx}
+              className="px-3 py-1 bg-gray-200 rounded-full w-20 h-6 animate-pulse"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SkeletonTitle({
+  iconColor = "text-gray-400",
+  label,
+}: {
+  iconColor?: string;
+  label: string;
+}) {
+  return (
+    <div className="text-xl font-semibold mb-4 flex items-center gap-2">
+      <div
+        className={`w-5 h-5 rounded-full bg-gray-300 animate-pulse ${iconColor}`}
+      />
+      <div className="w-40 h-6 bg-gray-300 rounded animate-pulse" />
+    </div>
+  );
+}

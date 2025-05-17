@@ -151,15 +151,16 @@ export type BoxForm = {
 export type BoxField = [symbol: string];
 
 export type Sheet = {
-  boxes?: string[];
-  description?: string;
-  ect: string[];
-  grams: number;
+  roll_width: number;
   p1: number;
   p2: number;
   p3: number;
-  roll_width: number;
+  ect: string[];
+  grams: number;
+  description?: string;
+  boxes?: string[];
   speed: number;
+  status: boolean;
 };
 
 export type SheetsTable = {

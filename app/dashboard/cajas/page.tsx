@@ -1,7 +1,7 @@
 import { fetchBoxesPages } from "@/app/lib/data";
 import CajasTable from "@/app/ui/cajas/table";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import Pagination from "@/app/ui/invoices/pagination";
+import Pagination from "@/app/ui/pagination";
 import Search from "@/app/ui/search";
 import { BoxesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";

@@ -1,6 +1,6 @@
 import { fetchPurchasesPages } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import Pagination from "@/app/ui/invoices/pagination";
+import Pagination from "@/app/ui/pagination";
 import { CreatePurchase } from "@/app/ui/ordenes/buttons";
 import OrdenesTable from "@/app/ui/ordenes/table";
 import Search from "@/app/ui/search";

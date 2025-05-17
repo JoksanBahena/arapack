@@ -42,7 +42,6 @@ export default function ShippingRow({
   
   return (
     <li className="py-4 pr-5 pl-4 text-sm/6">
-      {/* Fila principal */}
       <div className="flex items-center justify-between">
         <div className="flex w-0 flex-1 items-center">
           <LocalShippingOutlined
@@ -70,7 +69,7 @@ export default function ShippingRow({
             <button
               type="button"
               onClick={handleClick}
-              className="font-medium text-indigo-600 hover:text-indigo-500 bg-transparent border-none p-0 cursor-pointer"
+              className="font-small text-indigo-600 hover:text-indigo-500 bg-transparent border-none p-0 cursor-pointer"
             >
               Marcar como entregado
             </button>

@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import CajasTable from "../ui/cajas/table";
 import ExcelUploader from "../ui/dashboard/excel-uploader";
 import LaminasTable from "../ui/laminas/table";
-import Pagination from "../ui/invoices/pagination";
+import Pagination from "../ui/pagination";
 import { BoxesTableSkeleton, InvoicesTableSkeleton } from "../ui/skeletons";
 import CancelOrderModal from "../ui/order/cancel-order-modal";
 import ChangeDateModal from "../ui/order/change-date-modal";

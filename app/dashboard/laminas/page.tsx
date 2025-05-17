@@ -1,6 +1,6 @@
 import { fetchSheetsPages } from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import Pagination from "@/app/ui/invoices/pagination";
+import Pagination from "@/app/ui/pagination";
 import { CreateSheet } from "@/app/ui/laminas/buttons";
 import LaminasTable from "@/app/ui/laminas/table";
 import Search from "@/app/ui/search";

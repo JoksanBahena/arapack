@@ -34,7 +34,10 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
   });
 
   const handleSubmit = async (data: z.infer<typeof createSheetSchema>) => {
-    const response = await createSheet(data);
+    const response = await createSheet({ 
+      ...data, 
+      status: typeof data.status === "boolean" ? data.status : true 
+    });
 
     if (response.status === 201) {
       form.reset();

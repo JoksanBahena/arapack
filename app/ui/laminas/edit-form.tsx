@@ -40,11 +40,17 @@ export default function EditSheetForm({
       p3: sheet.p3,
       roll_width: sheet.roll_width,
       speed: sheet.speed,
+      status: sheet.status ? "1" : "0",
     },
   });
 
   const handleSubmit = async (data: z.infer<typeof createSheetSchema>) => {
-    const response = await editSheet(data, _id);
+    // Convert status from number to boolean
+    const sheetData = {
+      ...data,
+      status: Number(data.status) === 1 ? true : false,
+    };
+    const response = await editSheet(sheetData, _id);
 
     if (response.status === 200) {
       router.push(`/dashboard/laminas/${_id}`);
@@ -212,7 +218,7 @@ export default function EditSheetForm({
           iconRight={<span className="text-sm text-gray-500">m/min</span>}
         />
       </div>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
         <TextInput
           label="P1"
           type="number"
@@ -237,6 +243,27 @@ export default function EditSheetForm({
           {...form.register("p3", { valueAsNumber: true })}
           error={form.formState.errors.p3?.message}
         />
+        <div>
+          <label
+            htmlFor="status"
+            className="block text-primary mb-1 font-medium"
+          >
+            Estado
+          </label>
+          <select
+            id="status"
+            {...form.register("status")}
+            className="block w-full rounded-md border-gray-300 px-3 py-2"
+          >
+            <option value={1}>Habilitada</option>
+            <option value={0}>Deshabilitada</option>
+          </select>
+          {form.formState.errors.status && (
+            <p className="text-red-500 text-sm mt-1">
+              {form.formState.errors.status.message}
+            </p>
+          )}
+        </div>
       </div>
       <div className="mt-12 flex items-center justify-end border-t border-gray-900/10 pt-12">
         <Link href="/dashboard/laminas" className="text-sm font-semibold">
