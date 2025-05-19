@@ -196,7 +196,7 @@ export type Purchase = {
   total_kilograms: number;
   delivery_dates: Shipping[];
   missing_quantity: number;
-  status: string;
+  status: "APROBADO" | "PENDIENTE" | "CANCELADA";
   comments: string;
   pending_kilograms: number;
   delivery_delay_days: number;
@@ -241,6 +241,7 @@ export type PurchasesTable = {
   estimated_delivery_date: string;
   arapack_lot: string;
   subtotal: number;
+  status: "APROBADO" | "PENDIENTE" | "CANCELADA";
 };
 
 export type ProgramPlaningTable = {

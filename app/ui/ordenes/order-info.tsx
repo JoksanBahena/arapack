@@ -5,6 +5,14 @@ import DeliveryForm from "./delivery-form";
 import ShippingRow from "./shipping-row";
 import { useRouter } from "next/navigation";
 import UpdateDeliveryInfoForm from "./update-delivery-info-form";
+import {
+  CheckCircleIcon,
+  ClockIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
+import { ChangeStatusPurchase } from "./buttons";
+import { showConfirmDialog, Toast } from "@/app/lib/alerts";
+import { changeStatusPurchase } from "@/app/lib/data";
 
 export default function OrderInfo({ data }: { data: Purchase }) {
   const router = useRouter();
@@ -12,6 +20,33 @@ export default function OrderInfo({ data }: { data: Purchase }) {
   const handleGoToBox = () => {
     router.push(`/dashboard/cajas/${data.symbol}`);
   };
+
+  const handleChangeStatus = async (status: string) => {
+    showConfirmDialog(
+      `¿Está seguro de que desea marcar este pedido como ${status}?`,
+      status === "CANCELADA"
+        ? "Esta acción no se puede deshacer."
+        : "El estado del pedido cambiará a " + status,
+      "Confirmar",
+      "Cancelar",
+      async () => {
+        const response = await changeStatusPurchase(data.arapack_lot, status);
+        if (response.status === 200) {
+          router.refresh();
+          Toast.fire({
+            icon: "success",
+            title: "Pedido marcado como " + status,
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "Error al marcar el pedido como " + status,
+          });
+        }
+      }
+    );
+  };
+
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -194,8 +229,28 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                 <span className="text-sm text-gray-500">kg.</span>
               </p>
               <p className="text-gray-700">
-                <strong>Estado del envío:</strong> {data.status}
+                <strong>Estado del pedido:</strong>{" "}
+                <StatusBadge status={data.status} />
               </p>
+              {data.status !== "CANCELADA" && (
+                <>
+                  {data.status === "PENDIENTE" ? (
+                    <ChangeStatusPurchase
+                      handleAction={handleChangeStatus}
+                      status={"APROBADO"}
+                    />
+                  ) : (
+                    <ChangeStatusPurchase
+                      handleAction={handleChangeStatus}
+                      status={"PENDIENTE"}
+                    />
+                  )}
+                  <ChangeStatusPurchase
+                    handleAction={handleChangeStatus}
+                    status={"CANCELADA"}
+                  />
+                </>
+              )}
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -217,3 +272,24 @@ export default function OrderInfo({ data }: { data: Purchase }) {
     </div>
   );
 }
+
+const StatusBadge = ({ status }: { status: Purchase["status"] }) => {
+  const statusStyles = {
+    APROBADO: "bg-green-100 text-green-800",
+    PENDIENTE: "bg-yellow-100 text-yellow-800",
+    CANCELADA: "bg-red-100 text-red-800",
+  };
+
+  return (
+    <span
+      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusStyles[status]}`}
+    >
+      {status === "APROBADO" && <CheckCircleIcon className="w-4 h-4 mr-1" />}
+      {status === "PENDIENTE" && <ClockIcon className="w-4 h-4 mr-1" />}
+      {status === "CANCELADA" && <XCircleIcon className="w-4 h-4 mr-1" />}
+      {status === "APROBADO" && "Aprobada"}
+      {status === "PENDIENTE" && "Pendiente"}
+      {status === "CANCELADA" && "Cancelada"}
+    </span>
+  );
+};

@@ -648,6 +648,29 @@ export async function updateDeliveryInfo(
   }
 }
 
+export async function changeStatusPurchase(
+  arapack_lot: string,
+  newStatus: string
+) {
+  try {
+    const response = await fetch(
+      `${URL_BASE}/purchases/changeStatus/${arapack_lot}?new_status=${newStatus}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error("Failed to change status.");
+    return await response;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to change status.");
+  }
+}
+
 export async function fetchProgramPlaning(
   week: number
 ): Promise<ProgramPlaningTable> {
@@ -700,15 +723,12 @@ export async function fetchBackorders() {
 
 export async function fetchMonthlyKilograms() {
   try {
-    const response = await fetch(
-      `${URL_BASE}/purchases/getMonthlyKilograms`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${URL_BASE}/purchases/getMonthlyKilograms`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     return await response.json();
   } catch (err) {

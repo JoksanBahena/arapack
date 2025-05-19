@@ -1,6 +1,7 @@
 "use client";
 import { PurchasesTable } from "@/app/lib/definitions";
 import { formatDateToLocal, formatNumberWithCommas } from "@/app/lib/utils";
+import clsx from "clsx";
 import { useRouter } from "next/navigation";
 
 export default function TableRow({ purchase }: { purchase: PurchasesTable }) {
@@ -11,6 +12,13 @@ export default function TableRow({ purchase }: { purchase: PurchasesTable }) {
       onClick={() => router.push(`/dashboard/ordenes/${purchase.arapack_lot}`)}
       className="hover:bg-gray-100 transition-colors cursor-pointer"
     >
+      <td
+        className={clsx({
+          "bg-green-200": purchase.status === "APROBADO",
+          "bg-amber-200": purchase.status === "PENDIENTE",
+          "bg-red-200": purchase.status === "CANCELADA",
+        })}
+      ></td>
       <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
         {formatDateToLocal(purchase.receipt_date)}
       </td>

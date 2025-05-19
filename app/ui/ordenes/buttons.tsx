@@ -1,4 +1,5 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
 import Link from "next/link";
 
 export function CreatePurchase() {
@@ -10,5 +11,37 @@ export function CreatePurchase() {
       <span className="hidden md:block">Crear Orden</span>{" "}
       <PlusIcon className="h-5 md:ml-4" />
     </Link>
+  );
+}
+
+export function ChangeStatusPurchase({
+  handleAction,
+  status,
+}: {
+  handleAction: (action: string) => void;
+  status: string;
+}) {
+  return (
+    <button
+      type="button"
+      className={
+        clsx(
+          "mt-2 mb-2 mr-2 text-blue-700 underline bg-transparent border-none shadow-none px-0 py-0 text-sm font-medium hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600",
+          status === "APROBADO" && "text-green-700",
+          status === "PENDIENTE" && "text-yellow-700",
+          status === "CANCELADA" && "text-red-700",
+          status === "APROBADO" && "hover:text-green-800",
+          status === "PENDIENTE" && "hover:text-yellow-800",
+          status === "CANCELADA" && "hover:text-red-800"
+        ) + " text-sm font-medium"
+      }
+      onClick={() => {
+        handleAction(status);
+      }}
+    >
+      Marcar como {status === "APROBADO" && "Aprobada"}
+      {status === "PENDIENTE" && "Pendiente"}
+      {status === "CANCELADA" && "Cancelada"}
+    </button>
   );
 }
