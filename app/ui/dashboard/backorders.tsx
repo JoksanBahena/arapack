@@ -1,6 +1,6 @@
 "use client";
 import { Backorder } from "@/app/lib/definitions";
-import { formatDateToLocal, formatNumberWithCommas } from "@/app/lib/utils";
+import { formatDateToLocal } from "@/app/lib/utils";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
@@ -55,8 +55,15 @@ export default function Backorders({
                 <div className="text-right">
                   {order.missing_quantity > 0 && (
                     <p className="text-xl font-bold text-red-600">
-                      {formatNumberWithCommas(order.missing_quantity)}{" "}
-                      <span className="text-sm text-red-500">pzas.</span>
+                      {new Intl.NumberFormat("es-MX", {
+                        style: "decimal",
+                        maximumFractionDigits: 0,
+                      }).format(order.missing_quantity)}{" "} de{" "}
+                      {new Intl.NumberFormat("es-MX", {
+                        style: "decimal",
+                        maximumFractionDigits: 0,
+                      }).format(order.quantity)}{" "}
+                      <span className="text-sm text-red-500">pzas. faltantes</span>
                     </p>
                   )}
                   <p className="text-sm text-gray-600">
@@ -71,7 +78,7 @@ export default function Backorders({
                     className="h-full bg-red-600 rounded-full"
                     style={{
                       width: `${Math.min(
-                        (order.missing_quantity / 100) * 100,
+                        (order.missing_quantity / order.quantity) * 100,
                         100
                       )}%`,
                     }}

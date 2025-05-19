@@ -288,6 +288,7 @@ export type DeliveryInfo = {
 export type Backorder = {
   arapack_lot: string;
   estimated_delivery_date: string;
+  quantity: number;
   missing_quantity: number;
   delivery_delay_days: number;
 }
