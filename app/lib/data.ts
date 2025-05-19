@@ -630,7 +630,7 @@ export async function updateDeliveryInfo(
 ) {
   try {
     const response = await fetch(
-      `${URL_BASE}/purchases/updateDeliveryInfo/${arapack_lot}`,
+      `${URL_BASE}/purchases/update_delivery_date/${arapack_lot}`,
       {
         method: "PATCH",
         headers: {
