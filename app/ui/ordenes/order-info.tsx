@@ -4,6 +4,7 @@ import { formatDateToLocal, formatNumberWithCommas } from "@/app/lib/utils";
 import DeliveryForm from "./delivery-form";
 import ShippingRow from "./shipping-row";
 import { useRouter } from "next/navigation";
+import UpdateDeliveryInfo from "./update-delivery-info";
 
 export default function OrderInfo({ data }: { data: Purchase }) {
   const router = useRouter();
@@ -95,6 +96,13 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                     </span>
                   )}
               </p>
+              <UpdateDeliveryInfo
+                arapack_lot={data.arapack_lot}
+                data={{
+                  estimated_delivery_date: data.estimated_delivery_date,
+                  quantity: data.quantity,
+                }}
+              />
               {data.missing_quantity > 0 ? (
                 <DeliveryForm
                   missing_quantity={data.missing_quantity}

@@ -39,16 +39,17 @@ export default function ShippingRow({
       }
     );
   };
-  
+
   return (
     <li className="py-4 pr-5 pl-4 text-sm/6">
-      <div className="flex items-center justify-between">
-        <div className="flex w-0 flex-1 items-center">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
+        {/* Parte izquierda: icono + fecha + cantidad */}
+        <div className="flex w-full md:w-0 flex-1 items-center">
           <LocalShippingOutlined
             aria-hidden="true"
             className="size-5 shrink-0 text-gray-400"
           />
-          <div className="ml-4 flex min-w-0 flex-1 gap-2">
+          <div className="ml-4 flex flex-col md:flex-row md:min-w-0 flex-1 gap-1 md:gap-2">
             <span className="truncate font-medium">
               Se envió: {formatDateToLocal(shipping.initial_shipping_date)}
             </span>
@@ -57,25 +58,26 @@ export default function ShippingRow({
             </span>
           </div>
         </div>
-        {shipping.finish_shipping_date && (
-          <div className="ml-4 shrink-0">
-            <span className="text-green-700">
-              (Entregado: {formatDateToLocal(shipping.finish_shipping_date)})
-            </span>
+
+        {/* Parte derecha: entregado o botón */}
+        {shipping.finish_shipping_date ? (
+          <div className="shrink-0 text-green-700">
+            (Entregado: {formatDateToLocal(shipping.finish_shipping_date)})
           </div>
-        )}
-        {!shipping.finish_shipping_date && (
-          <div className="ml-4 shrink-0">
+        ) : (
+          <div className="shrink-0">
             <button
               type="button"
               onClick={handleClick}
-              className="font-small text-indigo-600 hover:text-indigo-500 bg-transparent border-none p-0 cursor-pointer"
+              className="text-indigo-600 hover:text-indigo-500 text-sm bg-transparent border-none p-0 cursor-pointer"
             >
               Marcar como entregado
             </button>
           </div>
         )}
       </div>
+
+      {/* Comentario */}
       {shipping.comment && (
         <div className="mt-2 ml-9 text-gray-600 text-sm italic">
           {shipping.comment}

@@ -19,7 +19,6 @@ export default function SheetInfo({ data, id }: { data: Sheet; id: string }) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Información General */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             <InformationCircleIcon className="w-5 h-5 text-blue-600" />
@@ -35,7 +34,6 @@ export default function SheetInfo({ data, id }: { data: Sheet; id: string }) {
           </div>
         </div>
 
-        {/* Dimensiones */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             <RectangleGroupIcon className="w-5 h-5 text-purple-600" />
@@ -65,7 +63,6 @@ export default function SheetInfo({ data, id }: { data: Sheet; id: string }) {
           </div>
         </div>
 
-        {/* ECT */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             <DocumentTextIcon className="w-5 h-5 text-green-600" />
@@ -83,14 +80,14 @@ export default function SheetInfo({ data, id }: { data: Sheet; id: string }) {
           </div>
         </div>
 
-        {/* Cajas Relacionadas */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             <LinkIcon className="w-5 h-5 text-orange-600" />
             Cajas Asociadas
           </h2>
-          <div className="space-y-2">
-            {data.boxes?.map((box, index) => (
+            {data.boxes && data.boxes.length > 0 ? (
+            <div className="space-y-2">
+              {data.boxes.map((box, index) => (
               <a
                 key={index}
                 href={`/dashboard/cajas/${box}`}
@@ -98,8 +95,11 @@ export default function SheetInfo({ data, id }: { data: Sheet; id: string }) {
               >
                 {box}
               </a>
-            ))}
-          </div>
+              ))}
+            </div>
+            ) : (
+            <div className="text-gray-500">No se tiene cajas asociadas</div>
+            )}
         </div>
       </div>
     </>

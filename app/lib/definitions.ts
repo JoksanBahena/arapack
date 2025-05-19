@@ -279,3 +279,8 @@ export type Shipping = {
   comment?: string | undefined;
   finish_shipping_date?: string | undefined;
 };
+
+export type DeliveryInfo = {
+  new_delivery_date?: string;
+  new_quantity?: number;
+}

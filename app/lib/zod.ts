@@ -287,7 +287,7 @@ export const createSheetSchema = object({
     .refine((val) => !isNaN(val) && val >= 0, {
       message: "El valor debe ser un número mayor a 0",
     }),
-  status: z.string()
+  status: z.string(),
 });
 
 export const createPurchaseSchema = object({
@@ -540,4 +540,27 @@ export const createShippingSchema = object({
       message: "La cantidad debe ser un número válido mayor o igual a 0",
     }),
   comment: z.string().optional(),
+});
+
+export const updateDeliveryInfoSchema = object({
+  new_delivery_date: string().refine(
+    (value) => {
+      const date = new Date(value);
+      const today = new Date();
+      today.setDate(today.getDate() - 1);
+      return date >= today;
+    },
+    {
+      message: "La fecha estimada de entrega no puede ser menor a hoy",
+    }
+  ),
+  new_quantity: z
+    .number()
+    .min(1, {
+      message: "El valor debe ser mayor a 0",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "La cantidad debe ser un número válido mayor o igual a 0",
+    }),
 });

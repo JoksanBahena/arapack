@@ -6,6 +6,7 @@ import {
   BoxForm,
   CustomerField,
   CustomersTableType,
+  DeliveryInfo,
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
@@ -360,7 +361,6 @@ export async function createBox(data: Box) {
       body: formData,
     });
     console.log("Response:", response);
-    
 
     if (!response.ok) throw new Error("Failed to create box.");
     return await response;
@@ -546,12 +546,15 @@ export async function fetchPurchasesPages(query: string) {
 
 export async function fetchPurchaseById(arapack_lot: string) {
   try {
-    const response = await fetch(`${URL_BASE}/purchases/getByArapackLot?arapack_lot=${arapack_lot}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${URL_BASE}/purchases/getByArapackLot?arapack_lot=${arapack_lot}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) throw new Error("Failed to fetch purchase.");
     const data: Purchase = await response.json();
@@ -582,13 +585,16 @@ export async function createPurchase(data: PurchaseForm) {
 
 export async function createShipping(data: Shipping, arapack_lot: string) {
   try {
-    const response = await fetch(`${URL_BASE}/purchases/createShipping/${arapack_lot}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `${URL_BASE}/purchases/createShipping/${arapack_lot}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     if (!response.ok) throw new Error("Failed to create shipping.");
     return await response;
@@ -600,12 +606,15 @@ export async function createShipping(data: Shipping, arapack_lot: string) {
 
 export async function completeShipping(arapack_lot: string, index: number) {
   try {
-    const response = await fetch(`${URL_BASE}/purchases/completeShipping/${arapack_lot}?index=${index}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${URL_BASE}/purchases/completeShipping/${arapack_lot}?index=${index}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) throw new Error("Failed to complete shipping.");
     return await response;
@@ -615,7 +624,33 @@ export async function completeShipping(arapack_lot: string, index: number) {
   }
 }
 
-export async function fetchProgramPlaning(week: number): Promise<ProgramPlaningTable> {
+export async function updateDeliveryInfo(
+  arapack_lot: string,
+  data: DeliveryInfo
+) {
+  try {
+    const response = await fetch(
+      `${URL_BASE}/purchases/updateDeliveryInfo/${arapack_lot}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (!response.ok) throw new Error("Failed to update delivery info.");
+    return await response;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to update delivery info.");
+  }
+}
+
+export async function fetchProgramPlaning(
+  week: number
+): Promise<ProgramPlaningTable> {
   try {
     const response = await fetch(`${URL_BASE}/program/getByWeek/${week}`, {
       method: "GET",
