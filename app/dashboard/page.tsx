@@ -1,38 +1,20 @@
-import { Suspense } from "react";
-import CajasTable from "../ui/cajas/table";
-import ExcelUploader from "../ui/dashboard/excel-uploader";
-import LaminasTable from "../ui/laminas/table";
-import Pagination from "../ui/pagination";
-import { BoxesTableSkeleton, InvoicesTableSkeleton } from "../ui/skeletons";
-import CancelOrderModal from "../ui/order/cancel-order-modal";
-import ChangeDateModal from "../ui/order/change-date-modal";
-import { fetchBoxes, fetchBoxesPages } from "../lib/data";
-import Search from "../ui/search";
+import { fetchBackorders, fetchMonthlyInvoice } from "../lib/data";
+import Backorders from "../ui/dashboard/backorders";
+import MonthlyIncome from "../ui/dashboard/monthly-income";
 
-export default async function Page(props: {
-  searchParams?: Promise<{
-    query?: string;
-    page?: string;
-  }>;
-}) {
-  const searchParams = await props.searchParams;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  // const totalPages = await fetchBoxesPages(query);
+export default async function Page() {
+  const [monthlyInvoice, backorders] = await Promise.all([
+    await fetchMonthlyInvoice(),
+    await fetchBackorders(),
+  ]);
 
   return (
-    <div>
-      {/* <h1 className="mb-2">Cargar Archivo Excel</h1>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        <ExcelUploader />
-      </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
-      <LaminasTable /> */}
-      {/* <CancelOrderModal />
-      <ChangeDateModal />
-      <CorrugadoraTable /> */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Tarjeta de Facturación Mensual */}
+      <MonthlyIncome monthlyInvoice={monthlyInvoice} />
+
+      {/* Tarjeta de Backorders */}
+      <Backorders backorders={backorders} />
     </div>
   );
 }

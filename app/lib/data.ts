@@ -665,3 +665,35 @@ export async function fetchProgramPlaning(
     throw new Error("Failed to fetch program planing.");
   }
 }
+
+export async function fetchMonthlyInvoice() {
+  try {
+    const response = await fetch(`${URL_BASE}/purchases/getMonthlyInvoice`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch monthly invoince.");
+  }
+}
+
+export async function fetchBackorders() {
+  try {
+    const response = await fetch(`${URL_BASE}/purchases/getBackorders`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch backorders.");
+  }
+}

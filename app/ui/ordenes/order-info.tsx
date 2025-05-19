@@ -149,7 +149,11 @@ export default function OrderInfo({ data }: { data: Purchase }) {
             </dt>
             <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
               <p className="text-gray-700">
-                <strong>Precio unitario:</strong> ${data.unit_cost}{" "}
+                <strong>Precio unitario:</strong>{" "}
+                {new Intl.NumberFormat("es-MX", {
+                  style: "currency",
+                  currency: "MXN",
+                }).format(data.unit_cost)}{" "}
                 <span className="text-sm">MXN</span>{" "}
                 <span className="text-sm text-gray-500">c/pza.</span>
               </p>
@@ -157,16 +161,22 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                 <strong>Lote de Arapack:</strong> {data.arapack_lot}
               </p>
               <p className="text-gray-700">
-                <strong>Subtotal:</strong> $
-                {formatNumberWithCommas(data.subtotal)}{" "}
+                <strong>Subtotal:</strong>{" "}
+                {new Intl.NumberFormat("es-MX", {
+                  style: "currency",
+                  currency: "MXN",
+                }).format(data.subtotal)}{" "}
                 <span className="text-sm">MXN</span>{" "}
                 <span className="text-xs text-gray-500 italic">
                   (antes de IVA)
                 </span>
               </p>
               <p className="text-gray-700">
-                <strong>Total factura:</strong> $
-                {formatNumberWithCommas(data.total_invoice)}{" "}
+                <strong>Total factura:</strong>{" "}
+                {new Intl.NumberFormat("es-MX", {
+                  style: "currency",
+                  currency: "MXN",
+                }).format(data.total_invoice)}{" "}
                 <span className="text-sm">MXN</span>
               </p>
             </dd>
