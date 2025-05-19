@@ -697,3 +697,22 @@ export async function fetchBackorders() {
     throw new Error("Failed to fetch backorders.");
   }
 }
+
+export async function fetchMonthlyKilograms() {
+  try {
+    const response = await fetch(
+      `${URL_BASE}/purchases/getMonthlyKilograms`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return await response.json();
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch monthly kilograms.");
+  }
+}

@@ -1,7 +1,4 @@
-import {
-  ArrowTrendingUpIcon,
-  CurrencyDollarIcon,
-} from "@heroicons/react/24/outline";
+import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
 
 export default function MonthlyIncome({
   monthlyInvoice,
