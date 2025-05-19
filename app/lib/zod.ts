@@ -346,14 +346,7 @@ export const createPurchaseSchema = object({
     }),
 
   number_of_inks: z
-    .number()
-    .min(1, {
-      message: "El valor debe ser mayor a 0",
-    })
-    .transform((val) => Number(val))
-    .refine((val) => !isNaN(val) && val >= 0, {
-      message: "El valor debe ser un número mayor o igual a 0",
-    }),
+    .number(),
 
   quantity: z
     .number()

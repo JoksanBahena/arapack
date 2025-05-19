@@ -10,7 +10,7 @@ import { z } from "zod";
 import TextInput from "../text-input";
 import { CalendarMonthOutlined } from "@mui/icons-material";
 
-export default function UpdateDeliveryInfo({
+export default function UpdateDeliveryInfoForm({
   arapack_lot,
   data,
 }: {
@@ -40,11 +40,11 @@ export default function UpdateDeliveryInfo({
 
     if (response.status === 200) {
       router.refresh();
-      form.reset();
       Toast.fire({
         icon: "success",
         title: "Información de entrega actualizada correctamente",
       });
+      form.reset();
     } else {
       Toast.fire({
         icon: "error",

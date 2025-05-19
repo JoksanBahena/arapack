@@ -22,6 +22,7 @@ import { createBox } from "@/app/lib/data";
 import { Toast } from "@/app/lib/alerts";
 import clsx from "clsx";
 import { useState } from "react";
+import { tintas } from "@/app/lib/placeholder-data";
 
 export default function BoxForm() {
   const [numberOfInks, setNumberOfInks] = useState(1);
@@ -206,7 +207,11 @@ export default function BoxForm() {
                   Selecciona una opción
                 </option>
                 <option value="">Ninguno</option>
-                <option value="Negro 90">Negro 90</option>
+                {tintas.map((tinta) => (
+                  <option key={tinta.value} value={tinta.value}>
+                    {tinta.label}
+                  </option>
+                ))}
                 {/* Agrega más opciones según necesites */}
               </select>
               {error && (

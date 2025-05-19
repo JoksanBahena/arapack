@@ -24,6 +24,7 @@ import { Toast } from "@/app/lib/alerts";
 import { editBox } from "@/app/lib/data";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { tintas } from "@/app/lib/placeholder-data";
 
 export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
   const [numberOfInks, setNumberOfInks] = useState(
@@ -216,8 +217,11 @@ export default function EditBoxForm({ box, _id }: { box: Box; _id: string }) {
                   Selecciona una opción
                 </option>
                 <option value="">Ninguno</option>
-                <option value="Negro 90">Negro 90</option>
-                <option value="Rojo 3">Rojo 3</option>
+                {tintas.map((tinta) => (
+                  <option key={tinta.value} value={tinta.value}>
+                    {tinta.label}
+                  </option>
+                ))}
                 {/* Agrega más opciones según necesites */}
               </select>
               {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
