@@ -1,5 +1,7 @@
+"use client";
 import { ProgramPlaning } from "@/app/lib/definitions";
 import { HomeIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 export default function CorrugadoraModal({
   isOpen,
@@ -11,6 +13,7 @@ export default function CorrugadoraModal({
   item: ProgramPlaning;
 }) {
   if (!item) return null;
+  const router = useRouter();
 
   const boxes = item.processed_boxes.map((box) => ({
     symbol: box.symbol,
@@ -18,6 +21,10 @@ export default function CorrugadoraModal({
     output: box.output,
     arapack_lot: box.arapack_lot,
   }));
+
+  const handleGoToBox = (symbol: string) => {
+    router.push(`/dashboard/cajas/${symbol}`);
+  };
 
   return (
     isOpen && (
@@ -69,7 +76,7 @@ export default function CorrugadoraModal({
               />
               <DetailItem
                 label="Bobina"
-                value={`${item.sheet.roll_width}cm | ${item.sheet.p1}g. × ${item.sheet.p2}g. × ${item.sheet.p3}g.`} 
+                value={`${item.sheet.roll_width}cm | ${item.sheet.p1}g. × ${item.sheet.p2}g. × ${item.sheet.p3}g.`}
               />
             </div>
           </div>
@@ -80,15 +87,19 @@ export default function CorrugadoraModal({
                 key={index}
                 className="border rounded-lg p-4 hover:bg-gray-50"
               >
-                <h4 className="font-medium text-gray-700 mb-1">
-                  Simbolo: {box.symbol}
-                </h4>
+                <button
+                  className="text-blue-600 hover:underline font-medium mb-1"
+                  type="button"
+                  onClick={() => handleGoToBox(box.symbol)}
+                >
+                  {box.symbol}
+                </button>
                 <p className="text-sm text-gray-500">{box.quantity} pzs.</p>
                 <p className="text-sm text-gray-500">Salen: {box.output}</p>
                 <p className="text-sm text-gray-500">
                   Lote Arapack: {box.arapack_lot}
                 </p>
-              </div>  
+              </div>
             ))}
           </div>
         </div>

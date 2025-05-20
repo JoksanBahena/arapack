@@ -246,7 +246,7 @@ export type PurchasesTable = {
 
 export type ProgramPlaningTable = {
   _id: string;
-  production_runs: {}[];
+  production_runs: ProgramPlaning[];
   week_of_year: number;
 };
 

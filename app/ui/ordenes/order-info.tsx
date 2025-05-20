@@ -131,22 +131,26 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                     </span>
                   )}
               </p>
-              <UpdateDeliveryInfoForm
-                arapack_lot={data.arapack_lot}
-                data={{
-                  estimated_delivery_date: data.estimated_delivery_date,
-                  quantity: data.quantity,
-                }}
-              />
-              {data.missing_quantity > 0 ? (
-                <DeliveryForm
-                  missing_quantity={data.missing_quantity}
-                  arapack_lot={data.arapack_lot}
-                />
-              ) : (
-                <span className="items-center rounded bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">
-                  Entrega completa
-                </span>
+              {data.status !== "CANCELADA" && (
+                <>
+                  <UpdateDeliveryInfoForm
+                    arapack_lot={data.arapack_lot}
+                    data={{
+                      estimated_delivery_date: data.estimated_delivery_date,
+                      quantity: data.quantity,
+                    }}
+                  />
+                  {data.missing_quantity > 0 ? (
+                    <DeliveryForm
+                      missing_quantity={data.missing_quantity}
+                      arapack_lot={data.arapack_lot}
+                    />
+                  ) : (
+                    <span className="items-center rounded bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">
+                      Entrega completa
+                    </span>
+                  )}
+                </>
               )}
             </dd>
           </div>

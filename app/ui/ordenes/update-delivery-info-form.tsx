@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import TextInput from "../text-input";
 import { CalendarMonthOutlined } from "@mui/icons-material";
+import { Button } from "../button";
 
 export default function UpdateDeliveryInfoForm({
   arapack_lot,
@@ -65,39 +66,37 @@ export default function UpdateDeliveryInfoForm({
           : "Expandir formulario de actualización"}
       </button>
       <div
-        className={`${
-          show ? "block" : "hidden"
-        } overflow-hidden border border-gray-200 rounded-md`}
+        className={`mt-4 border rounded-lg p-4 bg-gray-50 shadow-sm${
+          show ? "" : " hidden"
+        }`}
+        id="shipping-form"
       >
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="p-4">
-          <div className="grid grid-cols-1 gap-y-4">
-            <TextInput
-              label="Nueva fecha de entrega"
-              placeholder="Ingresa la nueva fecha de entrega"
-              type="date"
-              {...form.register("new_delivery_date")}
-              error={form.formState.errors.new_delivery_date?.message}
-              iconLeft={<CalendarMonthOutlined />}
-            />
-            <TextInput
-              label="Nueva cantidad"
-              placeholder="Ingresa la nueva cantidad"
-              type="number"
-              {...form.register("new_quantity", {
-                valueAsNumber: true,
-              })}
-              min={1}
-              error={form.formState.errors.new_quantity?.message}
-              iconLeft={<CalendarMonthOutlined />}
-              iconRight={<span className="text-gray-500 text-sm">pzas.</span>}
-            />
+        <h3 className="text-lg font-semibold mb-4">Actualizar información de entrega</h3>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <TextInput
+            label="Nueva fecha de entrega"
+            placeholder="Ingresa la nueva fecha de entrega"
+            type="date"
+            {...form.register("new_delivery_date")}
+            error={form.formState.errors.new_delivery_date?.message}
+            iconLeft={<CalendarMonthOutlined />}
+          />
+          <TextInput
+            label="Nueva cantidad"
+            placeholder="Ingresa la nueva cantidad"
+            type="number"
+            {...form.register("new_quantity", {
+              valueAsNumber: true,
+            })}
+            min={1}
+            error={form.formState.errors.new_quantity?.message}
+            iconLeft={<CalendarMonthOutlined />}
+            iconRight={<span className="text-gray-500 text-sm">pzas.</span>}
+          />
+
+          <div className="text-right mt-4">
+            <Button type="submit">Actualizar información de entrega</Button>
           </div>
-          <button
-            type="submit"
-            className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Actualizar información de entrega
-          </button>
         </form>
       </div>
     </>

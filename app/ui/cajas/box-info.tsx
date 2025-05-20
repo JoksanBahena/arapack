@@ -117,16 +117,6 @@ export default function BoxInfo({ data }: { data: Box }) {
                   className="w-full h-full rounded-lg"
                   title="PDF Viewer"
                 />
-                <div className="absolute bottom-4 right-4">
-                  <a
-                    href={`http://localhost:8000/pdf/${data.pdf_link}`}
-                    download
-                    className="bg-white px-4 py-2 rounded-lg shadow-md flex items-center gap-2 hover:bg-gray-50"
-                  >
-                    <ArrowDownTrayIcon className="w-5 h-5" />
-                    Descargar PDF
-                  </a>
-                </div>
               </div>
             </div>
           ) : (

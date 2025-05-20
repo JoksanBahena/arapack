@@ -81,7 +81,7 @@ export default function DeliveryForm({
               valueAsNumber: true,
             })}
             min={1}
-            max={missing_quantity}
+            max={Math.ceil(missing_quantity * 1.1)}
             error={form.formState.errors.quantity?.message}
             iconLeft={<NumbersOutlined />}
             iconRight={<span className="text-gray-500 text-sm">pzas.</span>}
