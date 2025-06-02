@@ -14,7 +14,11 @@ export default function SheetInfo({ data, id }: { data: Sheet; id: string }) {
   return (
     <>
       <div className="flex justify-between items-start mb-6">
-        <div></div>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Metros lineales disponibles: {data.available_meters} m
+          </h1>
+        </div>
         <UpdateSheet id={id} />
       </div>
 
@@ -30,7 +34,7 @@ export default function SheetInfo({ data, id }: { data: Sheet; id: string }) {
             </InfoItem>
             <InfoItem label="Gramaje">{data.grams} gr/m²</InfoItem>
             <InfoItem label="Velocidad">{data.speed} unid/hora</InfoItem>
-            <InfoItem label="Descripción">{data.description}</InfoItem>
+            <InfoItem label="Descripción">{data.description || "N/A"}</InfoItem>
           </div>
         </div>
 
@@ -85,21 +89,21 @@ export default function SheetInfo({ data, id }: { data: Sheet; id: string }) {
             <LinkIcon className="w-5 h-5 text-orange-600" />
             Cajas Asociadas
           </h2>
-            {data.boxes && data.boxes.length > 0 ? (
+          {data.boxes && data.boxes.length > 0 ? (
             <div className="space-y-2">
               {data.boxes.map((box, index) => (
-              <a
-                key={index}
-                href={`/dashboard/cajas/${box}`}
-                className="text-blue-600 hover:text-blue-800 block hover:underline"
-              >
-                {box}
-              </a>
+                <a
+                  key={index}
+                  href={`/dashboard/cajas/${box}`}
+                  className="text-blue-600 hover:text-blue-800 block hover:underline"
+                >
+                  {box}
+                </a>
               ))}
             </div>
-            ) : (
+          ) : (
             <div className="text-gray-500">No se tiene cajas asociadas</div>
-            )}
+          )}
         </div>
       </div>
     </>

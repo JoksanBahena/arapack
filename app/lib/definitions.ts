@@ -157,6 +157,7 @@ export type Sheet = {
   p3: number;
   ect: string[];
   grams: number;
+  available_meters: number;
   description?: string;
   boxes?: string[];
   speed: number;

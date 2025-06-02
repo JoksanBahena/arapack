@@ -1,6 +1,5 @@
 import { Box } from "@/app/lib/definitions";
 import {
-  ArrowDownTrayIcon,
   ChartBarIcon,
   CheckCircleIcon,
   ClockIcon,

@@ -11,6 +11,7 @@ import {
   LooksOneOutlined,
   LooksTwoOutlined,
   Looks3Outlined,
+  SpeedOutlined,
 } from "@mui/icons-material";
 import Link from "next/link";
 import { editSheet } from "@/app/lib/data";
@@ -35,6 +36,7 @@ export default function EditSheetForm({
       description: sheet.description,
       ect: sheet.ect.map(String),
       grams: sheet.grams,
+      available_meters: sheet.available_meters,
       p1: sheet.p1,
       p2: sheet.p2,
       p3: sheet.p3,
@@ -189,7 +191,7 @@ export default function EditSheetForm({
           )}
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mb-6">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4 mb-6">
         <TextInput
           label="Gramaje"
           type="number"
@@ -198,6 +200,15 @@ export default function EditSheetForm({
           {...form.register("grams", { valueAsNumber: true })}
           error={form.formState.errors.grams?.message}
           iconRight={<span className="text-sm text-gray-500">g</span>}
+        />
+        <TextInput
+          label="Metros disponibles"
+          type="number"
+          iconLeft={<StraightenOutlined />}
+          placeholder="Metros disponibles"
+          {...form.register("available_meters", { valueAsNumber: true })}
+          error={form.formState.errors.available_meters?.message}
+          iconRight={<span className="text-sm text-gray-500">m</span>}
         />
         <TextInput
           label="Ancho de rollo"
@@ -211,7 +222,7 @@ export default function EditSheetForm({
         <TextInput
           label="Velocidad"
           type="number"
-          iconLeft={<StraightenOutlined />}
+          iconLeft={<SpeedOutlined />}
           placeholder="Velocidad"
           {...form.register("speed", { valueAsNumber: true })}
           error={form.formState.errors.speed?.message}
@@ -266,7 +277,10 @@ export default function EditSheetForm({
         </div>
       </div>
       <div className="mt-12 flex items-center justify-end border-t border-gray-900/10 pt-12">
-        <Link href="/dashboard/laminas" className="text-sm font-semibold">
+        <Link
+          href={`/dashboard/laminas/${_id}`}
+          className="text-sm font-semibold"
+        >
           Cancelar
         </Link>
         <button

@@ -242,6 +242,12 @@ export const createSheetSchema = object({
     .refine((val) => !isNaN(val) && val >= 0, {
       message: "El valor debe ser un número mayor o igual a 0",
     }),
+  available_meters: z
+    .number()
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "El valor debe ser un número mayor o igual a 0",
+    }),
   p1: z
     .number()
     .min(1, {

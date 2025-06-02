@@ -11,11 +11,11 @@ import {
   LooksOneOutlined,
   LooksTwoOutlined,
   Looks3Outlined,
+  SpeedOutlined,
 } from "@mui/icons-material";
 import Link from "next/link";
 import { createSheet } from "@/app/lib/data";
 import { Toast } from "@/app/lib/alerts";
-
 
 export default function SheetForm({ boxes }: { boxes: string[] }) {
   const form = useForm<z.infer<typeof createSheetSchema>>({
@@ -25,6 +25,7 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
       description: "",
       ect: [],
       grams: undefined,
+      available_meters: undefined,
       p1: undefined,
       p2: undefined,
       p3: undefined,
@@ -35,9 +36,9 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
   });
 
   const handleSubmit = async (data: z.infer<typeof createSheetSchema>) => {
-    const response = await createSheet({ 
-      ...data, 
-      status: typeof data.status === "boolean" ? data.status : true 
+    const response = await createSheet({
+      ...data,
+      status: typeof data.status === "boolean" ? data.status : true,
     });
 
     if (response.status === 201) {
@@ -95,7 +96,9 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 mb-6">
         <div>
-          <label className="block text-primary mb-1 font-medium">Descripción</label>
+          <label className="block text-primary mb-1 font-medium">
+            Descripción
+          </label>
           <textarea
             rows={4}
             {...form.register("description")}
@@ -175,7 +178,7 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
           )}
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 mb-6">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4 mb-6">
         <TextInput
           label="Gramaje"
           type="number"
@@ -183,9 +186,16 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
           placeholder="Gramaje"
           {...form.register("grams", { valueAsNumber: true })}
           error={form.formState.errors.grams?.message}
-          iconRight={
-            <span className="text-sm text-gray-500">g</span>
-          }
+          iconRight={<span className="text-sm text-gray-500">g</span>}
+        />
+        <TextInput
+          label="Metros lineales disponibles"
+          type="number"
+          iconLeft={<StraightenOutlined />}
+          placeholder="Metros lineales disponibles"
+          {...form.register("available_meters", { valueAsNumber: true })}
+          error={form.formState.errors.available_meters?.message}
+          iconRight={<span className="text-sm text-gray-500">m</span>}
         />
         <TextInput
           label="Ancho de rollo"
@@ -194,20 +204,16 @@ export default function SheetForm({ boxes }: { boxes: string[] }) {
           placeholder="Ancho de rollo"
           {...form.register("roll_width", { valueAsNumber: true })}
           error={form.formState.errors.roll_width?.message}
-          iconRight={
-            <span className="text-sm text-gray-500">cm</span>
-          }
+          iconRight={<span className="text-sm text-gray-500">cm</span>}
         />
         <TextInput
           label="Velocidad"
           type="number"
-          iconLeft={<StraightenOutlined />}
+          iconLeft={<SpeedOutlined />}
           placeholder="Velocidad"
           {...form.register("speed", { valueAsNumber: true })}
           error={form.formState.errors.speed?.message}
-          iconRight={
-            <span className="text-sm text-gray-500">m/min</span>
-          }
+          iconRight={<span className="text-sm text-gray-500">m/min</span>}
         />
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
