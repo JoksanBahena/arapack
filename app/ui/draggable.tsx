@@ -1,29 +1,41 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
+import clsx from "clsx";
 
-export default function Draggable(props: {
+type DraggableProps = {
   id: string;
   children: React.ReactNode;
-}) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  });
+  className?: string;
+  style?: React.CSSProperties;
+};
 
-  const style = transform
+export default function Draggable({
+  id,
+  children,
+  className = "",
+  style = {},
+}: DraggableProps) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
+
+  const dragStyle = transform
     ? {
+        ...style,
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
       }
-    : undefined;
+    : style;
+
+  const defaultClassName =
+    "px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 active:scale-95 transition-transform";
 
   return (
     <button
       ref={setNodeRef}
-      style={style}
-      className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 active:scale-95 transition-transform"
+      style={dragStyle}
+      className={clsx(defaultClassName, className)}
       {...listeners}
       {...attributes}
     >
-      {props.children}
+      {children}
     </button>
   );
 }

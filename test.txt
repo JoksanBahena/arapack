@@ -1,0 +1,164 @@
+// app/page.tsx
+'use client';
+
+import Item from '@/app/ui/item';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { createSwapy, utils } from 'swapy';
+
+interface ElementData {
+  id: string;
+  label: string;
+  color: string;
+}
+
+const laminas: ElementData[] = [
+  { id: 'lamina1', label: 'Lámina 1', color: 'bg-blue-500' },
+  { id: 'lamina2', label: 'Lámina 2', color: 'bg-blue-600' },
+  { id: 'lamina3', label: 'Lámina 3', color: 'bg-blue-700' },
+];
+
+const cajas: ElementData[] = [
+  { id: 'caja1', label: 'Caja 1', color: 'bg-green-500' },
+  { id: 'caja2', label: 'Caja 2', color: 'bg-green-600' },
+  { id: 'caja3', label: 'Caja 3', color: 'bg-green-700' },
+];
+
+const pedidos: ElementData[] = [
+  { id: 'pedido1', label: 'Pedido 1', color: 'bg-red-500' },
+  { id: 'pedido2', label: 'Pedido 2', color: 'bg-red-600' },
+  { id: 'pedido3', label: 'Pedido 3', color: 'bg-red-700' },
+];
+
+const allItems = [...laminas, ...cajas, ...pedidos];
+
+const App: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const swapyRef = useRef<any>(null);
+
+  const [slotItemMap, setSlotItemMap] = useState<Record<string, string | null>>({
+    programacion1: null,
+    programacion2: null,
+    programacion3: null,
+    programacion4: null,
+    programacion5: null,
+  });
+
+  const slottedItems = useMemo(() => {
+    const slotItemMapArray = Object.entries(slotItemMap)
+      .filter(([slot, item]) => item !== null)
+      .map(([slot, item]) => ({ slot, item: item as string }));
+    return utils.toSlottedItems(allItems, 'id', slotItemMapArray);
+  }, [slotItemMap]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      swapyRef.current = createSwapy(containerRef.current, {
+        manualSwap: true,
+      });
+
+      swapyRef.current.onSwap(({ newSlotItemMap }: { newSlotItemMap: { asObject: Record<string, string | null> } }) => {
+        setSlotItemMap(newSlotItemMap.asObject);
+      });
+    }
+
+    return () => {
+      swapyRef.current?.destroy();
+    };
+  }, []);
+
+  return (
+    <div className="h-screen p-4">
+      <div className="grid grid-cols-3 gap-4 h-full" ref={containerRef}>
+        {/* Columna 1: Programación */}
+        <div className="bg-white p-4 rounded shadow flex flex-col">
+          <h2 className="text-xl font-bold mb-4">Programación</h2>
+          <div className="flex-1 grid grid-rows-5 gap-2">
+            {['programacion1', 'programacion2', 'programacion3', 'programacion4', 'programacion5'].map((slotId) => {
+              const item = slottedItems.find((si) => si.slotId === slotId);
+              return (
+                <div
+                  key={slotId}
+                  className="flex items-center justify-center"
+                  data-swapy-slot={slotId}
+                >
+                  {item && item.item && (
+                    <Item
+                      id={item.item.id}
+                      label={item.item.label}
+                      color={item.item.color}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Columna 2: Láminas y Cajas */}
+        <div className="flex flex-col gap-4">
+          {/* Láminas */}
+          <div className="bg-white p-4 rounded shadow flex-1">
+            <h2 className="text-xl font-bold mb-4">Láminas</h2>
+            <div className="grid grid-cols-1 gap-2">
+              {laminas.map((lamina) => (
+                <div
+                  key={lamina.id}
+                  className="border border-dashed border-gray-400 rounded p-2 min-h-[60px] flex items-center justify-center"
+                  data-swapy-slot={lamina.id}
+                >
+                  <Item
+                    id={lamina.id}
+                    label={lamina.label}
+                    color={lamina.color}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Cajas */}
+          <div className="bg-white p-4 rounded shadow flex-1">
+            <h2 className="text-xl font-bold mb-4">Cajas</h2>
+            <div className="grid grid-cols-1 gap-2">
+              {cajas.map((caja) => (
+                <div
+                  key={caja.id}
+                  className="border border-dashed border-gray-400 rounded p-2 min-h-[60px] flex items-center justify-center"
+                  data-swapy-slot={caja.id}
+                >
+                  <Item
+                    id={caja.id}
+                    label={caja.label}
+                    color={caja.color}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Columna 3: Pedidos */}
+        <div className="bg-white p-4 rounded shadow flex flex-col">
+          <h2 className="text-xl font-bold mb-4">Pedidos</h2>
+          <div className="flex-1 grid grid-rows-3 gap-2">
+            {pedidos.map((pedido) => (
+              <div
+                key={pedido.id}
+                className="border border-dashed border-gray-400 rounded p-2 min-h-[60px] flex items-center justify-center"
+                data-swapy-slot={pedido.id}
+              >
+                <Item
+                  id={pedido.id}
+                  label={pedido.label}
+                  color={pedido.color}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;

@@ -1,124 +1,145 @@
 "use client";
-import { useState, useEffect } from "react";
-import { DndContext } from "@dnd-kit/core";
+import { useEffect, useState } from "react";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import Droppable from "@/app/ui/droppable";
 import Draggable from "@/app/ui/draggable";
 
-const sheets = [
-  "Box 1",
-  "Box 2",
-  "Box 3",
-  "Box 4",
-  "Box 5",
-  "Box 6",
-  "Box 7",
-  "Box 8",
+const initialCajas = [
+  { id: "caja1", name: "Caja 1" },
+  { id: "caja2", name: "Caja 2" },
+  { id: "caja3", name: "Caja 3" },
 ];
 
-const ect = ["ECT 1", "ECT 2", "ECT 3"];
+const initialLaminas = [
+  { id: "lamina1", name: "Lámina 1" },
+  { id: "lamina2", name: "Lámina 2" },
+  { id: "lamina3", name: "Lámina 3" },
+];
 
-export default function App() {
-  const containers = ["A", "B", "C"];
-  const [parent, setParent] = useState<string | null>(null);
+const initialPedidos = [
+  { id: "pedido1", name: "Pedido 1" },
+  { id: "pedido2", name: "Pedido 2" },
+  { id: "pedido3", name: "Pedido 3" },
+];
+
+export default function ProgramacionPantalla() {
   const [isClient, setIsClient] = useState(false);
+
+  const [programacion, setProgramacion] = useState<any[]>([]);
+  const [cajas, setCajas] = useState(initialCajas);
+  const [laminas, setLaminas] = useState(initialLaminas);
+  const [pedidos, setPedidos] = useState(initialPedidos);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const draggableMarkup = <Draggable id="draggable">Drag me</Draggable>;
-
   if (!isClient) return null;
 
+  const allItems = [...programacion, ...cajas, ...laminas, ...pedidos];
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    const item = allItems.find((i) => i.id === active.id);
+    if (!item) return;
+
+    const sourceContainers = {
+      programacion,
+      cajas,
+      laminas,
+      pedidos,
+    };
+
+    const setFunctions = {
+      programacion: setProgramacion,
+      cajas: setCajas,
+      laminas: setLaminas,
+      pedidos: setPedidos,
+    };
+
+    // Buscar y remover el item de su contenedor original
+    Object.entries(sourceContainers).forEach(([key, value]) => {
+      if (value.find((el) => el.id === item.id)) {
+        setFunctions[key as keyof typeof setFunctions](
+          value.filter((el) => el.id !== item.id)
+        );
+      }
+    });
+
+    // Agregarlo al nuevo contenedor
+    setFunctions[over.id as keyof typeof setFunctions]((prev: any) => [
+      ...prev,
+      item,
+    ]);
+  };
+
+  const renderItems = (items: any[]) =>
+    items.map((item) => (
+      <Draggable
+        key={item.id}
+        id={item.id}
+        className="p-2 rounded border shadow-sm"
+      >
+        {item.name}
+      </Draggable>
+    ));
+
   return (
-    <>
-      <div className="p-8 flex flex-col items-center gap-6">
-        <h1 className="text-2xl font-bold">Drag and Drop Demo</h1>
+    <div className="flex h-screen">
+      <main className="flex-1 grid grid-cols-3 gap-4 p-6">
         <DndContext onDragEnd={handleDragEnd}>
-          {parent === null ? draggableMarkup : null}
-          <div className="grid grid-cols-3 gap-6 mt-6">
-            {containers.map((id) => (
-              <Droppable key={id} id={id}>
-                {parent === id ? draggableMarkup : "Drop here"}
-              </Droppable>
-            ))}
-          </div>
-        </DndContext>
-      </div>
-      <div className="mb-6">
-        <label className="block text-primary mb-1 font-medium">
-          Seleccionar láminas
-        </label>
+          {/* Programación */}
+          <section className="bg-white p-4 rounded-xl shadow border h-full flex flex-col">
+            <h2 className="text-xl font-bold mb-4">Programación</h2>
+            <Droppable
+              id="programacion"
+              className="flex-1 flex flex-col gap-2"
+              activeClassName="bg-blue-100"
+            >
+              {renderItems(programacion)}
+            </Droppable>
+          </section>
 
-        <div className="border rounded-md overflow-hidden">
-          <div className="max-h-64 overflow-y-auto p-2 space-y-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400">
-            {sheets.map((box, index) => (
-              <label
-                key={index}
-                className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-md transition-colors"
+          {/* Láminas y Cajas */}
+          <div className="flex flex-col gap-4 h-full">
+            <section className="bg-white p-4 rounded-xl shadow border flex-1 flex flex-col">
+              <h2 className="text-xl font-bold mb-4">Láminas</h2>
+              <Droppable
+                id="laminas"
+                className="flex-1 flex flex-col gap-2"
+                activeClassName="bg-blue-100"
               >
-                <input
-                  type="checkbox"
-                  value={box}
-                  className="h-4 w-4 text-primary rounded border-gray-300 focus:ring-primary"
-                />
-                <span className="text-sm text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis">
-                  {box}
-                </span>
-              </label>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div>
-        <label className="block text-primary mb-1 font-medium">Comodines</label>
+                {renderItems(laminas)}
+              </Droppable>
+            </section>
 
-        <div className="border rounded-md focus-within:ring-1 focus-within:border-primary">
-          <input
-            type="number"
-            placeholder="Escribe y presiona Enter..."
-            className="w-full px-3 py-2 border-0 focus:ring-0"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                const value = (e.target as HTMLInputElement).value.trim();
-                if (value) {
-                  ect.push(value);
-                  (e.target as HTMLInputElement).value = "";
-                }
-              }
-            }}
-          />
-
-          <div className="p-2 border-t">
-            <div className="flex flex-wrap gap-2">
-              {ect.map((tag, index) => (
-                <div
-                  key={index}
-                  className="flex items-center bg-gray-100 px-2 py-1 rounded-md"
-                >
-                  <span className="text-sm mr-2">{tag}</span>
-                  <button
-                    type="button"
-                    className="text-gray-400 hover:text-red-500"
-                    onClick={() => {
-                      const newTags = ect.filter((_, i) => i !== index);
-                      ect.pop();
-                    }}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
+            <section className="bg-white p-4 rounded-xl shadow border flex-1 flex flex-col">
+              <h2 className="text-xl font-bold mb-4">Cajas</h2>
+              <Droppable
+                id="cajas"
+                className="flex-1 flex flex-col gap-2"
+                activeClassName="bg-blue-100"
+              >
+                {renderItems(cajas)}
+              </Droppable>
+            </section>
           </div>
-        </div>
-      </div>
-    </>
+
+          {/* Pedidos */}
+          <section className="bg-white p-4 rounded-xl shadow border h-full flex flex-col">
+            <h2 className="text-xl font-bold mb-4">Pedidos</h2>
+            <Droppable
+              id="pedidos"
+              className="flex-1 flex flex-col gap-2"
+              activeClassName="bg-blue-100"
+            >
+              {renderItems(pedidos)}
+            </Droppable>
+          </section>
+        </DndContext>
+      </main>
+    </div>
   );
-
-  function handleDragEnd(event: any) {
-    const { over } = event;
-    setParent(over ? over.id : null);
-  }
 }
