@@ -186,7 +186,7 @@ export default function PurchaseStepperForm({
             )}
             {activeStep === steps.length - 1 ? (
               <button
-                type="submit" // Corregido aquí
+                type="submit"
                 className="ml-4 rounded-md bg-indigo-600 px-4 py-2 text-white"
               >
                 Guardar
@@ -376,7 +376,7 @@ const TrackingStep = () => (
       name="status"
       label="Estado"
       type="select"
-      options={["Aprobado", "Pendiente", "Cancelada"]}
+      options={["ABIERTO", "PARCIAL", "COMPLETADO", "CANCELADO"]}
     />
     <InputField
       name="comments"

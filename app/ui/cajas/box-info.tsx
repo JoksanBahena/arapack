@@ -134,7 +134,7 @@ const StatusBadge = ({ status }: { status: Box["status"] }) => {
   const statusStyles = {
     APPROVED: "bg-green-100 text-green-800",
     PENDING: "bg-yellow-100 text-yellow-800",
-    DISABLED: "bg-red-100 text-red-800",
+    OBSOLETE: "bg-red-100 text-red-800",
   };
 
   return (
@@ -143,10 +143,10 @@ const StatusBadge = ({ status }: { status: Box["status"] }) => {
     >
       {status === "APPROVED" && <CheckCircleIcon className="w-4 h-4 mr-1" />}
       {status === "PENDING" && <ClockIcon className="w-4 h-4 mr-1" />}
-      {status === "DISABLED" && <XCircleIcon className="w-4 h-4 mr-1" />}
+      {status === "OBSOLETE" && <XCircleIcon className="w-4 h-4 mr-1" />}
       {status === "APPROVED" && "Aprobada"}
       {status === "PENDING" && "Pendiente"}
-      {status === "DISABLED" && "Deshabilitada"}
+      {status === "OBSOLETE" && "Obsoleta"}
     </span>
   );
 };

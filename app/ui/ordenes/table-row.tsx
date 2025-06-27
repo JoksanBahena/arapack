@@ -14,9 +14,10 @@ export default function TableRow({ purchase }: { purchase: PurchasesTable }) {
     >
       <td
         className={clsx({
-          "bg-green-200": purchase.status === "APROBADO",
-          "bg-amber-200": purchase.status === "PENDIENTE",
-          "bg-red-200": purchase.status === "CANCELADA",
+          "bg-green-200": purchase.status === "ABIERTO",
+          "bg-amber-200": purchase.status === "PARCIAL",
+          "bg-red-200": purchase.status === "CANCELADO",
+          "bg-blue-100": purchase.status === "COMPLETADO",
         })}
       ></td>
       <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">
@@ -31,7 +32,10 @@ export default function TableRow({ purchase }: { purchase: PurchasesTable }) {
         {purchase.repetition_new}
       </td>
       <td className="px-4 py-3 text-xs text-gray-900">
-        {formatNumberWithCommas(purchase.quantity)}{" "}
+        {new Intl.NumberFormat("es-MX", {
+          style: "decimal",
+          maximumFractionDigits: 0,
+        }).format(purchase.quantity)}{" "}
         <span className="text-xs text-gray-500">pzas.</span>
       </td>
       <td className="px-4 py-3 text-xs text-gray-900">
@@ -41,7 +45,10 @@ export default function TableRow({ purchase }: { purchase: PurchasesTable }) {
         {purchase.arapack_lot}
       </td>
       <td className="px-4 py-3 text-xs text-gray-900">
-        ${formatNumberWithCommas(purchase.subtotal)}{" "}
+        {new Intl.NumberFormat("es-MX", {
+          style: "currency",
+          currency: "MXN",
+        }).format(purchase.subtotal)}{" "}
         <span className="text-xs text-gray-500">MXN</span>
       </td>
     </tr>

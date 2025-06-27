@@ -373,7 +373,7 @@ export default function BoxForm() {
           >
             <option value="APPROVED">Aprobada</option>
             <option value="PENDING">Pendiente</option>
-            <option value="DISABLED">Deshabilitada</option>
+            <option value="OBSOLETE">Obsoleto</option>
           </select>
           {form.formState.errors.status && (
             <p className="text-red-500 text-sm mt-1">

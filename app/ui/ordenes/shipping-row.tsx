@@ -2,7 +2,7 @@
 import { showConfirmDialog, Toast } from "@/app/lib/alerts";
 import { completeShipping } from "@/app/lib/data";
 import { Shipping } from "@/app/lib/definitions";
-import { formatDateToLocal, formatNumberWithCommas } from "@/app/lib/utils";
+import { formatDateToLocal } from "@/app/lib/utils";
 import { LocalShippingOutlined } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 
@@ -54,7 +54,11 @@ export default function ShippingRow({
               Se envió: {formatDateToLocal(shipping.initial_shipping_date)}
             </span>
             <span className="shrink-0 text-gray-400">
-              {formatNumberWithCommas(shipping.quantity)} pzas.
+              {new Intl.NumberFormat("es-MX", {
+                style: "decimal",
+                maximumFractionDigits: 0,
+              }).format(shipping.quantity)}{" "}
+              pzas.
             </span>
           </div>
         </div>

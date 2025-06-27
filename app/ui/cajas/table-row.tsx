@@ -15,7 +15,7 @@ export default function TableRow({ box }: { box: BoxesTable }) {
         className={clsx({
           "bg-green-200": box.status === "APPROVED",
           "bg-amber-200": box.status === "PENDING",
-          "bg-red-200": box.status === "DISABLED",
+          "bg-red-200": box.status === "OBSOLETE",
         })}
       ></td>
       <td className="px-4 py-3 text-xs text-gray-900 max-w-xs whitespace-normal">

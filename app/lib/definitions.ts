@@ -108,7 +108,7 @@ export type Box = {
     gcmi_4?: string;
   };
   weight: number;
-  status: "APPROVED" | "PENDING" | "DISABLED";
+  status: "APPROVED" | "PENDING" | "OBSOLETE";
   type: string;
   pdf_link: string | File[];
 };
@@ -126,7 +126,7 @@ export type BoxesTable = {
     r2: number;
     r3: number;
   };
-  status: "APPROVED" | "PENDING" | "DISABLED";
+  status: "APPROVED" | "PENDING" | "OBSOLETE";
 };
 
 export type BoxForm = {
@@ -197,7 +197,7 @@ export type Purchase = {
   total_kilograms: number;
   delivery_dates: Shipping[];
   missing_quantity: number;
-  status: "APROBADO" | "PENDIENTE" | "CANCELADA";
+  status: "ABIERTO" | "PARCIAL" | "COMPLETADO" | "CANCELADO";
   comments: string;
   pending_kilograms: number;
   delivery_delay_days: number;
@@ -242,7 +242,7 @@ export type PurchasesTable = {
   estimated_delivery_date: string;
   arapack_lot: string;
   subtotal: number;
-  status: "APROBADO" | "PENDIENTE" | "CANCELADA";
+  status: "ABIERTO" | "PARCIAL" | "COMPLETADO" | "CANCELADO";
 };
 
 export type ProgramPlaningTable = {

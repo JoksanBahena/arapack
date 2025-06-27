@@ -27,21 +27,21 @@ export function ChangeStatusPurchase({
       className={
         clsx(
           "mt-2 mb-2 mr-2 text-blue-700 underline bg-transparent border-none shadow-none px-0 py-0 text-sm font-medium hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600",
-          status === "APROBADO" && "text-green-700",
-          status === "PENDIENTE" && "text-yellow-700",
-          status === "CANCELADA" && "text-red-700",
-          status === "APROBADO" && "hover:text-green-800",
-          status === "PENDIENTE" && "hover:text-yellow-800",
-          status === "CANCELADA" && "hover:text-red-800"
+          status === "ABIERTO" && "text-green-700",
+          status === "PARCIAL" && "text-yellow-700",
+          status === "CANCELADO" && "text-red-700",
+          status === "ABIERTO" && "hover:text-green-800",
+          status === "PARCIAL" && "hover:text-yellow-800",
+          status === "CANCELADO" && "hover:text-red-800"
         ) + " text-sm font-medium"
       }
       onClick={() => {
         handleAction(status);
       }}
     >
-      Marcar como {status === "APROBADO" && "Aprobada"}
-      {status === "PENDIENTE" && "Pendiente"}
-      {status === "CANCELADA" && "Cancelada"}
+      Marcar como {status === "ABIERTO" && "Abierto"}
+      {status === "PARCIAL" && "Parcial"}
+      {status === "CANCELADO" && "Cancelado"}
     </button>
   );
 }

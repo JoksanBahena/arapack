@@ -1,6 +1,6 @@
 "use client";
 import { Purchase } from "@/app/lib/definitions";
-import { formatDateToLocal, formatNumberWithCommas } from "@/app/lib/utils";
+import { formatDateToLocal } from "@/app/lib/utils";
 import DeliveryForm from "./delivery-form";
 import ShippingRow from "./shipping-row";
 import { useRouter } from "next/navigation";
@@ -118,7 +118,10 @@ export default function OrderInfo({ data }: { data: Purchase }) {
             <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
               <p className="text-gray-700">
                 <strong>Cantidad:</strong>{" "}
-                {formatNumberWithCommas(data.quantity)}{" "}
+                {new Intl.NumberFormat("es-MX", {
+                  style: "decimal",
+                  maximumFractionDigits: 0,
+                }).format(data.quantity)}{" "}
                 <span className="text-sm text-gray-500">pzas.</span>
               </p>
               <p className="text-gray-700">
@@ -131,15 +134,17 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                     </span>
                   )}
               </p>
-              {data.status !== "CANCELADA" && (
+              {data.status !== "CANCELADO" && (
                 <>
-                  <UpdateDeliveryInfoForm
-                    arapack_lot={data.arapack_lot}
-                    data={{
-                      estimated_delivery_date: data.estimated_delivery_date,
-                      quantity: data.quantity,
-                    }}
-                  />
+                  {data.status !== "COMPLETADO" && (
+                    <UpdateDeliveryInfoForm
+                      arapack_lot={data.arapack_lot}
+                      data={{
+                        estimated_delivery_date: data.estimated_delivery_date,
+                        quantity: data.quantity,
+                      }}
+                    />
+                  )}
                   {data.missing_quantity > 0 ? (
                     <DeliveryForm
                       missing_quantity={data.missing_quantity}
@@ -147,7 +152,7 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                     />
                   ) : (
                     <span className="items-center rounded bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">
-                      Entrega completa
+                      Se enviaron todas las piezas
                     </span>
                   )}
                 </>
@@ -229,16 +234,19 @@ export default function OrderInfo({ data }: { data: Purchase }) {
               </p>
               <p className="text-gray-700">
                 <strong>Total peso:</strong>{" "}
-                {formatNumberWithCommas(data.total_kilograms)}{" "}
+                {new Intl.NumberFormat("es-MX", {
+                  style: "decimal",
+                  maximumFractionDigits: 2,
+                }).format(data.total_kilograms)}{" "}
                 <span className="text-sm text-gray-500">kg.</span>
               </p>
               <p className="text-gray-700">
                 <strong>Estado del pedido:</strong>{" "}
                 <StatusBadge status={data.status} />
               </p>
-              {data.status !== "CANCELADA" && (
+              {data.status !== "CANCELADO" && data.status !== "COMPLETADO" && (
                 <>
-                  {data.status === "PENDIENTE" ? (
+                  {data.status === "PARCIAL" ? (
                     <ChangeStatusPurchase
                       handleAction={handleChangeStatus}
                       status={"APROBADO"}
@@ -246,12 +254,12 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                   ) : (
                     <ChangeStatusPurchase
                       handleAction={handleChangeStatus}
-                      status={"PENDIENTE"}
+                      status={"PARCIAL"}
                     />
                   )}
                   <ChangeStatusPurchase
                     handleAction={handleChangeStatus}
-                    status={"CANCELADA"}
+                    status={"CANCELADO"}
                   />
                 </>
               )}
@@ -279,21 +287,24 @@ export default function OrderInfo({ data }: { data: Purchase }) {
 
 const StatusBadge = ({ status }: { status: Purchase["status"] }) => {
   const statusStyles = {
-    APROBADO: "bg-green-100 text-green-800",
-    PENDIENTE: "bg-yellow-100 text-yellow-800",
-    CANCELADA: "bg-red-100 text-red-800",
+    ABIERTO: "bg-green-100 text-green-800",
+    PARCIAL: "bg-yellow-100 text-yellow-800",
+    CANCELADO: "bg-red-100 text-red-800",
+    COMPLETADO: "bg-blue-100 text-blue-800",
   };
 
   return (
     <span
       className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusStyles[status]}`}
     >
-      {status === "APROBADO" && <CheckCircleIcon className="w-4 h-4 mr-1" />}
-      {status === "PENDIENTE" && <ClockIcon className="w-4 h-4 mr-1" />}
-      {status === "CANCELADA" && <XCircleIcon className="w-4 h-4 mr-1" />}
-      {status === "APROBADO" && "Aprobada"}
-      {status === "PENDIENTE" && "Pendiente"}
-      {status === "CANCELADA" && "Cancelada"}
+      {status === "ABIERTO" && <CheckCircleIcon className="w-4 h-4 mr-1" />}
+      {status === "PARCIAL" && <ClockIcon className="w-4 h-4 mr-1" />}
+      {status === "COMPLETADO" && <CheckCircleIcon className="w-4 h-4 mr-1" />}
+      {status === "CANCELADO" && <XCircleIcon className="w-4 h-4 mr-1" />}
+      {status === "ABIERTO" && "Abierto"}
+      {status === "PARCIAL" && "Parcial"}
+      {status === "COMPLETADO" && "Completado"}
+      {status === "CANCELADO" && "Cancelado"}
     </span>
   );
 };

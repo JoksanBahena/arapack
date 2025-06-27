@@ -82,7 +82,7 @@ export const createBoxSchema = object({
     })
     .nonempty("El archivo es requerido"),
 
-  status: z.enum(["APPROVED", "PENDING", "DISABLED"], {
+  status: z.enum(["APPROVED", "PENDING", "OBSOLETE"], {
     invalid_type_error: "El estado debe ser 'Pendiente' o 'Aprobado'",
   }),
 
@@ -195,7 +195,7 @@ export const updateBoxSchema = object({
     })
     .optional(),
 
-  status: z.enum(["APPROVED", "PENDING", "DISABLED"], {
+  status: z.enum(["APPROVED", "PENDING", "OBSOLETE"], {
     invalid_type_error: "El estado debe ser 'Pendiente' o 'Aprobado'",
   }),
 
