@@ -503,6 +503,23 @@ export async function editSheet(data: Sheet, id: string) {
   }
 }
 
+export async function fetchFilteredPurchasesByStatus(): Promise<Purchase[]> {
+  try {
+    const response = await fetch(`${URL_BASE}/purchases/getFilterPurchasesByStatus`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch purchases by status.");
+    return await response.json();
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch purchases by status.");
+  }
+}
+
 export async function fetchFilteredPurchases(
   query: string,
   currentPage: number

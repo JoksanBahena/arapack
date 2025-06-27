@@ -36,7 +36,7 @@ export const users: User[] = [
   { id: 7, name: "Grace Lee", initials: "GL" },
   { id: 8, name: "Hannah White", initials: "HW" },
   { id: 9, name: "Ian Green", initials: "IG" },
-  { id: 10, name: "Jack Black", initials: "JB" },
+  { id: 10, name: "Joksan Bahena", initials: "JB" },
 ];
 
 export default function ProgramList() {
@@ -67,7 +67,7 @@ export default function ProgramList() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">User List</h2>
+      <h2 className="text-2xl font-bold mb-4">Programación</h2>
       <ul className="bg-white shadow-md rounded-lg">
         <DndContext
           collisionDetection={closestCenter}
@@ -78,9 +78,6 @@ export default function ProgramList() {
             items={programList}
             strategy={verticalListSortingStrategy}
           >
-            {/* {programList.map((user: User) => (
-              <SortableProgram key={user.id} user={user} />
-            ))} */}
             {programList.length > 0 ? (
               programList.map((user: User) => (
                 <SortableProgram key={user.id} user={user} />
