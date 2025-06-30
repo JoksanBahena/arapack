@@ -569,3 +569,23 @@ function SkeletonTitle({
     </div>
   );
 }
+
+// app/ui/corrugadora/sheets-list-skeleton.tsx
+export function SheetsListSkeleton() {
+  return (
+    <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+      <ul
+        role="list"
+        className="divide-y divide-gray-100 rounded-md border border-gray-200 max-h-96 overflow-y-auto"
+      >
+        {Array.from({ length: 4 }).map((_, i) => (
+          <li key={i} className="py-4 pr-5 pl-4 animate-pulse">
+            <div className="h-4 bg-gray-300 rounded w-3/4" />
+            <div className="mt-2 h-3 bg-gray-200 rounded w-1/2" />
+          </li>
+        ))}
+      </ul>
+    </dd>
+  );
+}
+

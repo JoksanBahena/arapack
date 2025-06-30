@@ -434,6 +434,24 @@ export async function fetchFilteredSheets(
   }
 }
 
+export async function fetchSheetsBySymbol(symbol: string) {
+  try {
+    const response = await fetch(`${URL_BASE}/selections/filter/${symbol}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch sheets.");
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch sheets.");
+  }
+}
+
 export async function fetchSheetsPages(query: string) {
   try {
     const response = await fetch(`${URL_BASE}/sheets/getPages?query=${query}`, {

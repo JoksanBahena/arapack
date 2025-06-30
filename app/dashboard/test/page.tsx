@@ -1,16 +1,27 @@
+import { Suspense } from "react";
 import { fetchFilteredPurchasesByStatus } from "@/app/lib/data";
-import {
-  OrdenCompraInfo,
-  PedidoCard,
-  ResumenCorrida,
-  RolloDisponibleCard,
-} from "@/app/ui/corrugadora/cards";
-import ProgramList from "@/app/ui/corrugadora/program-list";
-import PurchaseRow from "@/app/ui/corrugadora/purchase-row";
 import PurchasesList from "@/app/ui/corrugadora/purchases-list";
+import SheetsList from "@/app/ui/corrugadora/sheets-list";
+import { SheetsListSkeleton } from "@/app/ui/skeletons";
+import { ResumenCorrida } from "@/app/ui/corrugadora/cards";
+import PurchaseCardInfo from "@/app/ui/corrugadora/purchase-card-info";
 
-export default async function TestPage() {
-  const data = await fetchFilteredPurchasesByStatus();
+export default async function TestPage(props: {
+  searchParams?: Promise<{
+    symbol?: string | null;
+    arapack_lot?: string | null;
+  }>;
+}) {
+  const symbol = await props.searchParams?.then(
+    (params) => params?.symbol ?? null
+  );
+  const arapack_lot = await props.searchParams?.then(
+    (params) => params?.arapack_lot ?? null
+  );
+  const purchases = await fetchFilteredPurchasesByStatus();
+  const selectedPurchase = purchases.find(
+    (purchase) => purchase.symbol === symbol && purchase.arapack_lot === arapack_lot
+  );
   // return (
   //   <div className="flex">
   //     <div className="flex-1 grid grid-cols-3 gap-4">
@@ -36,16 +47,7 @@ export default async function TestPage() {
         {/* Pedidos */}
         <div className="w-1/5">
           <h2 className="text-blue-400 font-bold text-xl mb-2">Pedidos</h2>
-          <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-            <ul
-              role="list"
-              className="divide-y divide-gray-100 rounded-md border border-gray-200"
-            >
-              {data.map((purchase) => (
-                <PurchaseRow purchase={purchase} key={purchase.arapack_lot} />
-              ))}
-            </ul>
-          </dd>
+          <PurchasesList purchases={purchases} />
         </div>
 
         {/* Panel central */}
@@ -65,14 +67,7 @@ export default async function TestPage() {
             <div className="border border-gray-600 h-12 rounded"></div>
           </div>
 
-          <OrdenCompraInfo
-            pedido={{
-              nombre: "galletera",
-              fecha: "13/06/25",
-              medidas: "30x35",
-            }}
-            rollo={{ ancho: 110, ect: [19, 21], disp: 10000 }}
-          />
+          {selectedPurchase && <PurchaseCardInfo purchase={selectedPurchase} />}
           <ResumenCorrida />
         </div>
 
@@ -89,11 +84,15 @@ export default async function TestPage() {
           </div>
 
           <div>
-            <h2 className="text-blue-400">Rollos seleccionados</h2>
-            <RolloDisponibleCard ancho="110" ect="21" disponibles="2100" />
-            <RolloDisponibleCard ancho="110" ect="19" disponibles="10000" />
-            <RolloDisponibleCard ancho="75" ect="21" disponibles="1500" />
-            <RolloDisponibleCard ancho="115" ect="26" disponibles="7600" />
+            <h2 className="text-blue-400 font-bold text-xl mb-2">
+              Rollos seleccionados
+            </h2>
+            <Suspense
+              key={symbol ?? "no-symbol"}
+              fallback={<SheetsListSkeleton />}
+            >
+              <SheetsList symbol={symbol ?? ""} />
+            </Suspense>
           </div>
         </div>
       </div>

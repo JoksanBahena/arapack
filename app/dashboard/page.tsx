@@ -12,6 +12,7 @@ export default async function Page() {
     await fetchMonthlyInvoice(),
     await fetchBackorders(),
     await fetchMonthlyKilograms(),
+    
   ]);
 
   return (
