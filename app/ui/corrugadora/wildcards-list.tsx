@@ -1,8 +1,8 @@
-import SheetRow from "./sheet-row";
-import { Sheet } from "@/app/lib/definitions";
+import { Box } from "@/app/lib/definitions";
+import WildcardRow from "./wildcard-row";
 
-export default function SheetsList({ sheets }: { sheets: Sheet[] }) {
-  if (!sheets) {
+export default function WildcardsList({ wildcards }: { wildcards: Box[] }) {
+  if (!wildcards) {
     return (
       <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
         <ul
@@ -10,14 +10,14 @@ export default function SheetsList({ sheets }: { sheets: Sheet[] }) {
           className="divide-y divide-gray-100 rounded-md border border-gray-200 max-h-96 overflow-y-auto"
         >
           <li className="py-4 px-5 text-sm text-gray-500">
-            Seleccione un pedido para ver los rollos compatibles.
+            Seleccione un pedido para ver los comodines disponibles.
           </li>
         </ul>
       </dd>
     );
-  }  
+  }
 
-  if (!sheets?.length) {
+  if (!wildcards?.length) {
     return (
       <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
         <ul
@@ -25,7 +25,7 @@ export default function SheetsList({ sheets }: { sheets: Sheet[] }) {
           className="divide-y divide-gray-100 rounded-md border border-gray-200 max-h-96 overflow-y-auto"
         >
           <li className="py-4 px-5 text-sm text-gray-500">
-            No hay láminas disponibles para este pedido.
+            No hay comodines disponibles para este pedido.
           </li>
         </ul>
       </dd>
@@ -38,8 +38,8 @@ export default function SheetsList({ sheets }: { sheets: Sheet[] }) {
         role="list"
         className="divide-y divide-gray-100 rounded-md border border-gray-200 max-h-96 overflow-y-auto"
       >
-        {sheets.map((sheet: Sheet, i: number) => (
-          <SheetRow key={i} sheet={sheet} />
+        {wildcards.map((wildcard: Box, i: number) => (
+          <WildcardRow key={i} wildcard={wildcard} />
         ))}
       </ul>
     </dd>

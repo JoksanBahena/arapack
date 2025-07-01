@@ -434,7 +434,7 @@ export async function fetchFilteredSheets(
   }
 }
 
-export async function fetchSheetsBySymbol(symbol: string) {
+export async function fetchWildcardsSheetsBySymbol(symbol: string) {
   try {
     const response = await fetch(`${URL_BASE}/selections/filter/${symbol}`, {
       method: "GET",
@@ -443,7 +443,7 @@ export async function fetchSheetsBySymbol(symbol: string) {
       },
     });
 
-    if (!response.ok) throw new Error("Failed to fetch sheets.");
+    if (!response.ok) throw new Error("Failed to fetch wildcards sheets.");
     const data = await response.json();
     return data;
   } catch (err) {

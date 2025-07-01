@@ -571,7 +571,7 @@ function SkeletonTitle({
 }
 
 // app/ui/corrugadora/sheets-list-skeleton.tsx
-export function SheetsListSkeleton() {
+export function ListSkeleton() {
   return (
     <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
       <ul
@@ -589,3 +589,20 @@ export function SheetsListSkeleton() {
   );
 }
 
+export function WildcardsSheetsColumnSkeleton() {
+  return (
+    <>
+      <div>
+        <h2 className="text-blue-400 font-bold text-xl mb-2">Comodines</h2>
+        <ListSkeleton />
+      </div>
+
+      <div>
+        <h2 className="text-blue-400 font-bold text-xl mb-2">
+          Rollos seleccionados
+        </h2>
+        <ListSkeleton />
+      </div>
+    </>
+  );
+}

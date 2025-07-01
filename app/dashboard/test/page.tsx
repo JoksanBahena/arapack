@@ -1,10 +1,10 @@
-import { Suspense } from "react";
 import { fetchFilteredPurchasesByStatus } from "@/app/lib/data";
 import PurchasesList from "@/app/ui/corrugadora/purchases-list";
-import SheetsList from "@/app/ui/corrugadora/sheets-list";
-import { SheetsListSkeleton } from "@/app/ui/skeletons";
 import { ResumenCorrida } from "@/app/ui/corrugadora/cards";
 import PurchaseCardInfo from "@/app/ui/corrugadora/purchase-card-info";
+import WildcardsSheetsColumn from "@/app/ui/corrugadora/wildcard-sheets-column";
+import { Suspense } from "react";
+import { WildcardsSheetsColumnSkeleton } from "@/app/ui/skeletons";
 
 export default async function TestPage(props: {
   searchParams?: Promise<{
@@ -44,23 +44,18 @@ export default async function TestPage(props: {
   return (
     <div>
       <div className="flex gap-4">
-        {/* Pedidos */}
         <div className="w-1/5">
           <h2 className="text-blue-400 font-bold text-xl mb-2">Pedidos</h2>
           <PurchasesList purchases={purchases} />
         </div>
 
-        {/* Panel central */}
         <div className="w-3/5 flex flex-col gap-4">
-          {/* Rollo actual seleccionado */}
           <div className="bg-gray-300 p-2 rounded text-white flex justify-between">
             <span className="text-green-600">110cm</span>
             <span className="text-pink-600">21</span>
           </div>
 
-          {/* Slots de rollos en la corrida */}
           <div className="grid grid-cols-1 gap-2">
-            {/* Vacíos por ahora */}
             <div className="border border-gray-600 h-12 rounded"></div>
             <div className="border border-gray-600 h-12 rounded"></div>
             <div className="border border-gray-600 h-12 rounded"></div>
@@ -71,29 +66,10 @@ export default async function TestPage(props: {
           <ResumenCorrida />
         </div>
 
-        {/* Rollos y comodines */}
         <div className="w-1/5 flex flex-col gap-4">
-          <div>
-            <h2 className="text-blue-400">comodines</h2>
-            <div className="text-orange-400 border border-black p-2 rounded-md">
-              degasa09 30x35 <span className="text-red-400">19</span>
-            </div>
-            <div className="text-orange-400 border border-black p-2 rounded-md">
-              gerbera 25x42 <span className="text-red-400">21</span>
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-blue-400 font-bold text-xl mb-2">
-              Rollos seleccionados
-            </h2>
-            <Suspense
-              key={symbol ?? "no-symbol"}
-              fallback={<SheetsListSkeleton />}
-            >
-              <SheetsList symbol={symbol ?? ""} />
-            </Suspense>
-          </div>
+        <Suspense key={symbol ?? ""} fallback={<WildcardsSheetsColumnSkeleton />}>
+          <WildcardsSheetsColumn symbol={symbol ?? ""} />
+        </Suspense>
         </div>
       </div>
     </div>
