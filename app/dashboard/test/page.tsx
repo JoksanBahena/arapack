@@ -5,6 +5,7 @@ import PurchaseCardInfo from "@/app/ui/corrugadora/purchase-card-info";
 import WildcardsSheetsColumn from "@/app/ui/corrugadora/wildcard-sheets-column";
 import { Suspense } from "react";
 import { WildcardsSheetsColumnSkeleton } from "@/app/ui/skeletons";
+import ProgramList from "@/app/ui/corrugadora/program-list";
 
 export default async function TestPage(props: {
   searchParams?: Promise<{
@@ -20,7 +21,8 @@ export default async function TestPage(props: {
   );
   const purchases = await fetchFilteredPurchasesByStatus();
   const selectedPurchase = purchases.find(
-    (purchase) => purchase.symbol === symbol && purchase.arapack_lot === arapack_lot
+    (purchase) =>
+      purchase.symbol === symbol && purchase.arapack_lot === arapack_lot
   );
   // return (
   //   <div className="flex">
@@ -50,26 +52,19 @@ export default async function TestPage(props: {
         </div>
 
         <div className="w-3/5 flex flex-col gap-4">
-          <div className="bg-gray-300 p-2 rounded text-white flex justify-between">
-            <span className="text-green-600">110cm</span>
-            <span className="text-pink-600">21</span>
-          </div>
-
-          <div className="grid grid-cols-1 gap-2">
-            <div className="border border-gray-600 h-12 rounded"></div>
-            <div className="border border-gray-600 h-12 rounded"></div>
-            <div className="border border-gray-600 h-12 rounded"></div>
-            <div className="border border-gray-600 h-12 rounded"></div>
-          </div>
+          <ProgramList />
 
           {selectedPurchase && <PurchaseCardInfo purchase={selectedPurchase} />}
-          <ResumenCorrida />
+          {/* <ResumenCorrida /> */}
         </div>
 
         <div className="w-1/5 flex flex-col gap-4">
-        <Suspense key={symbol ?? ""} fallback={<WildcardsSheetsColumnSkeleton />}>
-          <WildcardsSheetsColumn symbol={symbol ?? ""} />
-        </Suspense>
+          <Suspense
+            key={symbol ?? ""}
+            fallback={<WildcardsSheetsColumnSkeleton />}
+          >
+            <WildcardsSheetsColumn symbol={symbol ?? ""} />
+          </Suspense>
         </div>
       </div>
     </div>

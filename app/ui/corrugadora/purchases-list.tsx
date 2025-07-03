@@ -37,7 +37,7 @@ export default function PurchasesList({ purchases }: { purchases: Purchase[] }) 
       >
         {purchases.map(purchase => (
           <PurchaseRow
-            key={purchase.symbol}               // o usa un id único
+            key={purchase.symbol}
             purchase={purchase}
             selected={purchase.symbol === selectedSymbol}
             onSelect={handleSelect}
