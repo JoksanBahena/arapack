@@ -434,6 +434,24 @@ export async function fetchFilteredSheets(
   }
 }
 
+export async function fetchWildcardsSheetsBySymbol(symbol: string) {
+  try {
+    const response = await fetch(`${URL_BASE}/selections/filter/${symbol}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch wildcards sheets.");
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch sheets.");
+  }
+}
+
 export async function fetchSheetsPages(query: string) {
   try {
     const response = await fetch(`${URL_BASE}/sheets/getPages?query=${query}`, {
@@ -500,6 +518,23 @@ export async function editSheet(data: Sheet, id: string) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to edit sheet.");
+  }
+}
+
+export async function fetchFilteredPurchasesByStatus(): Promise<Purchase[]> {
+  try {
+    const response = await fetch(`${URL_BASE}/purchases/getFilterPurchasesByStatus`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch purchases by status.");
+    return await response.json();
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch purchases by status.");
   }
 }
 

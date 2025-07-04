@@ -18,12 +18,21 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { SortableProgram } from "./sortable-program";
+import { useSearchParams } from "next/navigation";
+import { Button } from "../button";
+import ProgramRow from "./program-row";
 
 // data/users.ts
 export interface User {
   id: number;
   name: string;
   initials: string;
+}
+
+interface Program {
+  id: number;
+  arapack_lot: string;
+  symbol: string;
 }
 
 export const users: User[] = [
@@ -36,26 +45,27 @@ export const users: User[] = [
   { id: 7, name: "Grace Lee", initials: "GL" },
   { id: 8, name: "Hannah White", initials: "HW" },
   { id: 9, name: "Ian Green", initials: "IG" },
-  { id: 10, name: "Jack Black", initials: "JB" },
+  { id: 10, name: "Joksan Bahena", initials: "JB" },
 ];
 
 export default function ProgramList() {
-  const [programList, setProgramList] = useState(users);
+  const searchParams = useSearchParams();
+  const [programList, setProgramList] = useState<Program[]>([]);
 
-  function onDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
+  // function onDragEnd(event: DragEndEvent) {
+  //   const { active, over } = event;
 
-    if (active.id === over?.id) {
-      return;
-    }
+  //   if (active.id === over?.id) {
+  //     return;
+  //   }
 
-    setProgramList((users) => {
-      const activeIndex = users.findIndex((item) => item.id === active.id);
-      const overIndex = users.findIndex((item) => item.id === over?.id);
+  //   setProgramList((users) => {
+  //     const activeIndex = users.findIndex((item) => item.id === active.id);
+  //     const overIndex = users.findIndex((item) => item.id === over?.id);
 
-      return arrayMove(users, activeIndex, overIndex);
-    });
-  }
+  //     return arrayMove(users, activeIndex, overIndex);
+  //   });
+  // }
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -66,8 +76,42 @@ export default function ProgramList() {
   );
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">User List</h2>
+    <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+      <ul
+        role="list"
+        className="divide-y divide-gray-100 rounded-md border border-gray-200 max-h-96 overflow-y-auto"
+      >
+        {programList.length > 0 ? (
+          programList.map((program, index) => (
+            <ProgramRow purchase={program} key={index} />
+          ))
+        ) : (
+          <li className="py-4 px-5 text-sm text-gray-500">
+            No hay programas agregados.
+          </li>
+        )}
+      </ul>
+      <Button
+        className="mt-4"
+        onClick={() => {
+          const newProgram = {
+            id: programList.length + 1,
+            arapack_lot: searchParams.get("arapack_lot") || "Lote Desconocido",
+            symbol: searchParams.get("symbol") || "Símbolo Desconocido",
+          };
+          console.log("Adding new program:", newProgram);
+
+          setProgramList((prev) => [...prev, newProgram]);
+        }}
+      >
+        Agregar al programa
+      </Button>
+    </dd>
+  );
+}
+
+{
+  /* <h2 className="text-2xl font-bold mb-4">Programación</h2>
       <ul className="bg-white shadow-md rounded-lg">
         <DndContext
           collisionDetection={closestCenter}
@@ -78,9 +122,6 @@ export default function ProgramList() {
             items={programList}
             strategy={verticalListSortingStrategy}
           >
-            {/* {programList.map((user: User) => (
-              <SortableProgram key={user.id} user={user} />
-            ))} */}
             {programList.length > 0 ? (
               programList.map((user: User) => (
                 <SortableProgram key={user.id} user={user} />
@@ -90,7 +131,5 @@ export default function ProgramList() {
             )}
           </SortableContext>
         </DndContext>
-      </ul>
-    </div>
-  );
+      </ul> */
 }

@@ -6,7 +6,8 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
+      // const isLoggedIn = !!auth?.user;
+      const isLoggedIn = true; // Simulating a logged-in user for this example
       const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
       if (isOnDashboard) {
         if (isLoggedIn) return true;
