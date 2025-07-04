@@ -24,7 +24,7 @@ export default function OrderInfo({ data }: { data: Purchase }) {
   const handleChangeStatus = async (status: string) => {
     showConfirmDialog(
       `¿Está seguro de que desea marcar este pedido como ${status}?`,
-      status === "CANCELADA"
+      status === "CANCELADO"
         ? "Esta acción no se puede deshacer."
         : "El estado del pedido cambiará a " + status,
       "Confirmar",
@@ -249,7 +249,7 @@ export default function OrderInfo({ data }: { data: Purchase }) {
                   {data.status === "PARCIAL" ? (
                     <ChangeStatusPurchase
                       handleAction={handleChangeStatus}
-                      status={"APROBADO"}
+                      status={"ABIERTO"}
                     />
                   ) : (
                     <ChangeStatusPurchase
